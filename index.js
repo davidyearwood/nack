@@ -9,20 +9,32 @@ let currentId = channels.length;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+function getChannel(id) {
+  return channels.find(channel => (
+    parseInt(channel.id, 10) === parseInt(id, 10)
+  ));
+}
+
 app.get('/channel', (req, res) => {
   res.json(channels);
 });
 
 app.get('/channel/:id', (req, res) => {
-  const getChannel = channels.find(channel => (
-    parseInt(channel.id, 10) === parseInt(req.params.id, 10)
-  ));
-
-  if (!getChannel) {
-    res.status(404).json({ error: 'Channel not found' });
+  if (!getChannel(req.params.id)) {
+    return res.status(404).json({ error: 'Channel not found' });
   }
 
-  res.json(getChannel);
+  return res.json(getChannel);
+});
+
+app.get('/channel/:channelId/msg', (req, res) => {
+  const channel = getChannel(req.params.channelId);
+
+  if (!channel) {
+    return res.status(404).json({ error: 'Channel not found' });
+  }
+
+  return res.json(channel.msg);
 });
 
 app.post('/channel', (req, res) => {
