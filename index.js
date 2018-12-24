@@ -34,10 +34,28 @@ app.get('/channel/:channelId/msg', (req, res) => {
     return res.status(404).json({ error: 'Channel not found' });
   }
 
-  return res.json(channel.msg);
+  return res.json(channel.msgs);
+});
+
+app.get('/channel/:channelId/msg/:msgId', (req, res) => {
+  const { msgId, channelId } = req.params;
+  const channel = getChannel(channelId);
+
+  if (!channel) {
+    return res.status(404).json({ error: 'Channel not found' });
+  }
+
+  const message = channel.msgs.find(msg => parseInt(msg.id, 10) === parseInt(msgId, 10));
+
+  if (!message) {
+    return res.status(404).json({ error: 'Message not found' });
+  }
+
+  return res.json(message);
 });
 
 app.post('/channel', (req, res) => {
+  const { name, creator } = req.body;
   if (!req.body.name && !req.body.creator) {
     return res.status(500).json({ error: 'Internal Server Error.' });
   }
@@ -54,9 +72,9 @@ app.post('/channel', (req, res) => {
 
   const newChannel = {
     id: currentId + 1,
-    name: req.body.name,
+    name,
     msg: [],
-    creator: req.body.creator,
+    creator,
     msgCount: 0,
   };
 

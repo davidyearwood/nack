@@ -1,7 +1,7 @@
 module.exports = [{
   id: 1,
   name: 'JavaScript',
-  msg: [{
+  msgs: [{
     id: 1,
     timestamp: '2018-20-12T13:37:27+00:00',
     sender: 'Jaxson',
@@ -20,7 +20,7 @@ module.exports = [{
 {
   id: 2,
   name: 'Misc',
-  msg: [{
+  msgs: [{
     id: 3,
     timestamp: '2018-20-12T13:37:27+00:00',
     sender: 'Jaxson',
