@@ -21,13 +21,13 @@ module.exports = [{
   id: 2,
   name: 'Misc',
   msgs: [{
-    id: 3,
+    id: 1,
     timestamp: '2018-20-12T13:37:27+00:00',
     sender: 'Jaxson',
     channelId: 2,
     msg: 'Donald who?',
   }, {
-    id: 4,
+    id: 2,
     timestamp: '2018-20-12T13:38:27+00:00',
     sender: 'Pax',
     channelId: 2,

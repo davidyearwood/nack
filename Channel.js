@@ -8,16 +8,18 @@ const get = function get(cb) {
   });
 };
 
+// Manages Channel Data 
+// Get the data
+// Update the data 
+// Add the data 
 class Channel {
-  static find(err, cb) {
-    fs.readFile(`${__dirname}/db/channel.json`, 'utf-8', (err, data) => {
+  static find(name, cb) {
+    get((err, data) => {
       if (err) {
-        res.status(500).json({ error: 'Internal Server Error' });
-        // eslint-disable-next-line no-console
-        console.log(err);
+        cb(err);
+      } else {
+        cb(err, data.find(item => item.name === name));
       }
-      const parsedData = JSON.parse(data);
-      res.json(parsedData);
     });
   }
 

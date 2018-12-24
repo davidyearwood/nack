@@ -1,8 +1,9 @@
-const express = require('express');
+const app = require('express')();
+const server = require('http').Server(app);
 const bodyParser = require('body-parser');
+const io = require('socket.io')(server);
 const channels = require('./db/ChannelData');
 
-const app = express();
 const port = 3000;
 let currentId = channels.length;
 
@@ -83,6 +84,27 @@ app.post('/channel', (req, res) => {
   return res.status(201).json(newChannel);
 });
 
-// app.post('/channel/:channelId/msg', (req, res) => { });
+
+app.post('/channel/:channelId/msg', (req, res) => {
+  const { channelId } = req.params;
+  const channel = getChannel(channelId);
+  const { timestamp, sender, msg } = req.body;
+
+  if (!channel) {
+    return res.status(404).json({ error: 'Channel doesn\'t exist' });
+  }
+
+  const messageId = channel.msgs.length + 1;
+  const payload = {
+    id: messageId,
+    timestamp,
+    sender,
+    channelId,
+    msg,
+  };
+
+  channel.msgs.push(payload);
+  return res.status(201).json(payload);
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
