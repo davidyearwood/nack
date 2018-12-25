@@ -1,39 +1,43 @@
-const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: "development",
+  devtool: "inline-source-map",
   module: {
-    rules: [{
-      test: /\.(js|jsx)$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader"
+        }
       },
-    },
-    {
-      test: /\.html$/,
-      use: {
-        loader: 'html-loader',
-      },
-    },
-    ],
+      {
+        test: /\.html$/,
+        use: {
+          loader: "html-loader"
+        }
+      }
+    ]
   },
   devServer: {
-    contentBase: './dist',
+    contentBase: "./dist",
+    proxy: {
+      "/api": "http://localhost:3000"
+    }
   },
   resolve: {
     alias: {
-      Presentational: path.resolve(__dirname, 'src/components/presentational'),
-      Container: path.resolve(__dirname, 'src/components/container'),
+      Presentational: path.resolve(__dirname, "src/components/presentational"),
+      Container: path.resolve(__dirname, "src/components/container")
     },
-    extensions: ['.wasm', '.mjs', '.js', '.json', '.jsx'],
+    extensions: [".wasm", ".mjs", ".js", ".json", ".jsx"]
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: './src/index.html',
-      filename: './index.html',
-    }),
-  ],
+      template: "./src/index.html",
+      filename: "./index.html"
+    })
+  ]
 };

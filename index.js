@@ -1,8 +1,8 @@
-const app = require('express')();
-const server = require('http').Server(app);
-const bodyParser = require('body-parser');
-const io = require('socket.io')(server);
-const channels = require('./db/ChannelData');
+const app = require("express")();
+const server = require("http").Server(app);
+const bodyParser = require("body-parser");
+const io = require("socket.io")(server);
+const channels = require("./db/ChannelData");
 
 const port = 3000;
 let currentId = channels.length;
@@ -11,63 +11,65 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 function getChannel(id) {
-  return channels.find(channel => (
-    parseInt(channel.id, 10) === parseInt(id, 10)
-  ));
+  return channels.find(
+    channel => parseInt(channel.id, 10) === parseInt(id, 10)
+  );
 }
 
-app.get('/channel', (req, res) => {
+app.get("/channel", (req, res) => {
   res.json(channels);
 });
 
-app.get('/channel/:id', (req, res) => {
+app.get("/channel/:id", (req, res) => {
   if (!getChannel(req.params.id)) {
-    return res.status(404).json({ error: 'Channel not found' });
+    return res.status(404).json({ error: "Channel not found" });
   }
 
   return res.json(getChannel);
 });
 
-app.get('/channel/:channelId/msg', (req, res) => {
+app.get("/channel/:channelId/msg", (req, res) => {
   const channel = getChannel(req.params.channelId);
 
   if (!channel) {
-    return res.status(404).json({ error: 'Channel not found' });
+    return res.status(404).json({ error: "Channel not found" });
   }
 
   return res.json(channel.msgs);
 });
 
-app.get('/channel/:channelId/msg/:msgId', (req, res) => {
+app.get("/channel/:channelId/msg/:msgId", (req, res) => {
   const { msgId, channelId } = req.params;
   const channel = getChannel(channelId);
 
   if (!channel) {
-    return res.status(404).json({ error: 'Channel not found' });
+    return res.status(404).json({ error: "Channel not found" });
   }
 
-  const message = channel.msgs.find(msg => parseInt(msg.id, 10) === parseInt(msgId, 10));
+  const message = channel.msgs.find(
+    msg => parseInt(msg.id, 10) === parseInt(msgId, 10)
+  );
 
   if (!message) {
-    return res.status(404).json({ error: 'Message not found' });
+    return res.status(404).json({ error: "Message not found" });
   }
 
   return res.json(message);
 });
 
-app.post('/channel', (req, res) => {
+app.post("/channel", (req, res) => {
   const { name, creator } = req.body;
   if (!req.body.name && !req.body.creator) {
-    return res.status(500).json({ error: 'Internal Server Error.' });
+    return res.status(500).json({ error: "Internal Server Error." });
   }
 
-  const hasChannel = channels.find(channel => (
-    channel.name.toLowerCase() === req.body.name.toLowerCase()
-  ));
+  const hasChannel = channels.find(
+    channel => channel.name.toLowerCase() === req.body.name.toLowerCase()
+  );
 
   if (hasChannel) {
     return res.status(409).json({
-      error: 'The channel you attempted to create already exists.',
+      error: "The channel you attempted to create already exists."
     });
   }
 
@@ -76,7 +78,7 @@ app.post('/channel', (req, res) => {
     name,
     msg: [],
     creator,
-    msgCount: 0,
+    msgCount: 0
   };
 
   channels.push(newChannel);
@@ -84,14 +86,13 @@ app.post('/channel', (req, res) => {
   return res.status(201).json(newChannel);
 });
 
-
-app.post('/channel/:channelId/msg', (req, res) => {
+app.post("/channel/:channelId/msg", (req, res) => {
   const { channelId } = req.params;
   const channel = getChannel(channelId);
   const { timestamp, sender, msg } = req.body;
 
   if (!channel) {
-    return res.status(404).json({ error: 'Channel doesn\'t exist' });
+    return res.status(404).json({ error: "Channel doesn't exist" });
   }
 
   const messageId = channel.msgs.length + 1;
@@ -100,7 +101,7 @@ app.post('/channel/:channelId/msg', (req, res) => {
     timestamp,
     sender,
     channelId,
-    msg,
+    msg
   };
 
   channel.msgs.push(payload);

@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import Input from '../presentational/Input';
+import React, { Component } from "react";
+import Input from "../presentational/Input";
 
 class FormContainer extends Component {
   constructor() {
     super();
     this.state = {
-      seoTitle: '',
+      seoTitle: ""
     };
     this.handleChange = this.handleChange.bind(this);
   }
