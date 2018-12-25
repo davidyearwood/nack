@@ -107,4 +107,4 @@ app.post('/channel/:channelId/msg', (req, res) => {
   return res.status(201).json(payload);
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Chat app listening on port ${port}!`));
