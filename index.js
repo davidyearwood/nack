@@ -108,4 +108,8 @@ app.post("/channel/:channelId/msg", (req, res) => {
   return res.status(201).json(payload);
 });
 
-app.listen(port, () => console.log(`Chat app listening on port ${port}!`));
+io.on("connection", socket => {
+  console.log("a user is connected");
+});
+
+server.listen(port, () => console.log(`Chat app listening on port ${port}!`));
