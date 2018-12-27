@@ -8,9 +8,9 @@ class Chat extends Component {
     this.state = {
       error: null,
       isLoaded: false,
-      channels: [],
-      endpoint: "http://localhost:3000"
+      channels: []
     };
+    this.endpoint = "http://localhost:3000";
   }
 
   componentDidMount() {
@@ -36,7 +36,6 @@ class Chat extends Component {
   }
 
   render() {
-    console.log(io(this.state.endpoint));
     return (
       <div className="chat-app">
         <ul id="messages" />
