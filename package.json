@@ -9,7 +9,8 @@
     "start": "node index.js",
     "build": "webpack --mode production",
     "dev-client": "webpack-dev-server --open --port 8080",
-    "dev-server": "node index.js"
+    "dev-server": "node index.js",
+    "create-component": "node scripts/createComponent/createComponent.js"
   },
   "author": "",
   "license": "ISC",
