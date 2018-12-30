@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./input.css";
 
-const Input = ({ text, id, type, value, ...attr }) => (
+const Input = ({ label, id, type, value, ...attr }) => (
   <input
-    aria-label={text}
+    aria-label={label}
     type={type}
     className={styles.inputField}
     id={id}
@@ -15,9 +15,10 @@ const Input = ({ text, id, type, value, ...attr }) => (
 );
 
 Input.propTypes = {
-  text: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired
 };
 
 export default Input;

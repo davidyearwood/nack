@@ -41,7 +41,13 @@ class Chat extends Component {
       <div className="chat-app">
         <ul id="messages" />
         <form action="">
-          <Input id="m" autoComplete="off" placeholder="Type a message" />
+          <Input
+            id="m"
+            autoComplete="off"
+            placeholder="Type a message"
+            label="Send message"
+            value=""
+          />
           <button>Send</button>
         </form>
       </div>
