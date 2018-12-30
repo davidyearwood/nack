@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import io from "socket.io-client";
-import Input from "../presentational/Input/Input.jsx";
+import Message from "../presentational/Message/Message";
+import Input from "../presentational/Input/Input";
 
 class Chat extends Component {
   constructor(props) {
@@ -39,10 +40,17 @@ class Chat extends Component {
   render() {
     return (
       <div className="chat-app">
-        <ul id="messages" />
+        <Message
+          src="https://via.placeholder.com/75"
+          text="What's up!"
+          time="2:30 pm"
+          sender="David Yearwood"
+          alt=""
+        />
         <form action="">
           <Input
             id="m"
+            type="text"
             autoComplete="off"
             placeholder="Type a message"
             label="Send message"
