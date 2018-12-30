@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import io from "socket.io-client";
+import Input from "../presentational/Input/Input.jsx";
 
 class Chat extends Component {
   constructor(props) {
@@ -40,7 +41,7 @@ class Chat extends Component {
       <div className="chat-app">
         <ul id="messages" />
         <form action="">
-          <input id="m" autoComplete="off" />
+          <Input id="m" autoComplete="off" placeholder="Type a message" />
           <button>Send</button>
         </form>
       </div>

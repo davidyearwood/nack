@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.10.1/libexec/bin/yarn.js add --dev prettier eslint-plugin-prettier
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.10.1/libexec/bin/yarn.js add css-loader --dev
 
 PATH: 
   /Users/dayvod/.rvm/gems/ruby-2.4.2/bin:/Users/dayvod/.rvm/gems/ruby-2.4.2@global/bin:/Users/dayvod/.rvm/rubies/ruby-2.4.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/dayvod/.rvm/gems/ruby-2.4.2/bin:/Users/dayvod/.rvm/gems/ruby-2.4.2@global/bin:/Users/dayvod/.rvm/rubies/ruby-2.4.2/bin:/Users/dayvod/.rvm/bin:/Users/dayvod/.rvm/bin
@@ -23,12 +23,13 @@ npm manifest:
     "description": "",
     "main": "index.js",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
+      "test": "jest",
       "eslint": "eslint",
       "start": "node index.js",
       "build": "webpack --mode production",
       "dev-client": "webpack-dev-server --open --port 8080",
-      "dev-server": "node index.js"
+      "dev-server": "node index.js",
+      "create-component": "node scripts/createComponent/createComponent.js"
     },
     "author": "",
     "license": "ISC",
@@ -38,6 +39,7 @@ npm manifest:
       "prop-types": "^15.6.2",
       "react": "^16.7.0",
       "react-dom": "^16.7.0",
+      "react-router-dom": "^4.3.1",
       "socket.io": "^2.2.0",
       "socket.io-client": "^2.2.0"
     },
@@ -49,12 +51,15 @@ npm manifest:
       "css-loader": "^2.0.2",
       "eslint": "^5.10.0",
       "eslint-config-airbnb": "^17.1.0",
+      "eslint-config-prettier": "^3.3.0",
       "eslint-plugin-import": "^2.14.0",
       "eslint-plugin-jsx-a11y": "^6.1.2",
+      "eslint-plugin-prettier": "^3.0.0",
       "eslint-plugin-react": "^7.11.1",
       "html-loader": "^0.5.5",
       "html-webpack-plugin": "^3.2.0",
       "jest": "^23.6.0",
+      "prettier": "^1.15.3",
       "webpack": "^4.28.2",
       "webpack-cli": "^3.1.2",
       "webpack-dev-server": "^3.1.14"
@@ -2677,6 +2682,13 @@ Lockfile:
       object.assign "^4.1.0"
       object.entries "^1.0.4"
   
+  eslint-config-prettier@^3.3.0:
+    version "3.3.0"
+    resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-3.3.0.tgz#41afc8d3b852e757f06274ed6c44ca16f939a57d"
+    integrity sha512-Bc3bh5bAcKNvs3HOpSi6EfGA2IIp7EzWcg2tS4vP7stnXu/J1opihHDM7jI9JCIckyIDTgZLSWn7J3HY0j2JfA==
+    dependencies:
+      get-stdin "^6.0.0"
+  
   eslint-import-resolver-node@^0.3.1:
     version "0.3.2"
     resolved "https://registry.yarnpkg.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.2.tgz#58f15fb839b8d0576ca980413476aab2472db66a"
@@ -2722,6 +2734,13 @@ Lockfile:
       emoji-regex "^6.5.1"
       has "^1.0.3"
       jsx-ast-utils "^2.0.1"
+  
+  eslint-plugin-prettier@^3.0.0:
+    version "3.0.0"
+    resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-3.0.0.tgz#f6b823e065f8c36529918cdb766d7a0e975ec30c"
+    integrity sha512-4g11opzhqq/8+AMmo5Vc2Gn7z9alZ4JqrbZ+D4i8KlSyxeQhZHlmIrY8U9Akf514MoEhogPa87Jgkq87aZ2Ohw==
+    dependencies:
+      prettier-linter-helpers "^1.0.0"
   
   eslint-plugin-react@^7.11.1:
     version "7.11.1"
@@ -3051,6 +3070,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
     integrity sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk=
   
+  fast-diff@^1.1.2:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/fast-diff/-/fast-diff-1.2.0.tgz#73ee11982d86caaf7959828d519cfe927fac5f03"
+    integrity sha512-xJuoT5+L99XlZ8twedaRf6Ax2TgQVxvgZOYoPKqZufmJib0tL2tegPBOZb1pVNgIhlqDlA0eO0c3wBvQcmzx4w==
+  
   fast-json-stable-stringify@^2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.0.0.tgz#d5142c0caee6b1189f87d3a76111064f86c8bbf2"
@@ -3329,6 +3353,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.3.tgz#f978fa4c90d1dfe7ff2d6beda2a515e713bdcf4a"
     integrity sha512-3t6rVToeoZfYSGd8YoLFR2DJkiQrIiUrGcjvFX2mDw3bn6k2OtwHN0TNCLbBO+w8qTvimhDkv+LSscbJY1vE6w==
   
+  get-stdin@^6.0.0:
+    version "6.0.0"
+    resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-6.0.0.tgz#9e09bf712b360ab9225e812048f71fde9c89657b"
+    integrity sha512-jp4tHawyV7+fkkSKyvjuLZswblUtz+SQKzSWnBbii16BuZksJlU1wuBYXY75r+duh/llF1ur6oNwi+2ZzjKZ7g==
+  
   get-stream@^3.0.0:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
@@ -3544,6 +3573,17 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
     integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
   
+  history@^4.7.2:
+    version "4.7.2"
+    resolved "https://registry.yarnpkg.com/history/-/history-4.7.2.tgz#22b5c7f31633c5b8021c7f4a8a954ac139ee8d5b"
+    integrity sha512-1zkBRWW6XweO0NBcjiphtVJVsIQ+SXF29z9DVkceeaSLVMFXHool+fdCZD4spDCfZJCILPILc3bm7Bc+HRi0nA==
+    dependencies:
+      invariant "^2.2.1"
+      loose-envify "^1.2.0"
+      resolve-pathname "^2.2.0"
+      value-equal "^0.4.0"
+      warning "^3.0.0"
+  
   hmac-drbg@^1.0.0:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -3552,6 +3592,11 @@ Lockfile:
       hash.js "^1.0.3"
       minimalistic-assert "^1.0.0"
       minimalistic-crypto-utils "^1.0.1"
+  
+  hoist-non-react-statics@^2.5.0:
+    version "2.5.5"
+    resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
+    integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
   
   home-or-tmp@^2.0.0:
     version "2.0.0"
@@ -3817,7 +3862,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.1.0.tgz#7ed1b1410c6a0e0f78cf95d3b8440c63f78b8614"
     integrity sha1-ftGxQQxqDg94z5XTuEQMY/eLhhQ=
   
-  invariant@^2.2.2, invariant@^2.2.4:
+  invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.4:
     version "2.2.4"
     resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
     integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -4831,7 +4876,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.1.tgz#e0fc95133b6ef276cdc8887cdaf24aa6f156f8fa"
     integrity sha1-4PyVEztu8nbNyIh82vJKpvFW+Po=
   
-  loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1:
+  loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.1:
     version "1.4.0"
     resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
     integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -5717,6 +5762,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
     integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
   
+  path-to-regexp@^1.7.0:
+    version "1.7.0"
+    resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.7.0.tgz#59fde0f435badacba103a84e9d3bc64e96b9937d"
+    integrity sha1-Wf3g9DW62suhA6hOnTvGTpa5k30=
+    dependencies:
+      isarray "0.0.1"
+  
   path-type@^1.0.0:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/path-type/-/path-type-1.1.0.tgz#59c44f7ee491da704da415da5a4070ba4f8fe441"
@@ -5872,6 +5924,18 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
     integrity sha1-gV7R9uvGWSb4ZbMQwHE7yzMVzks=
   
+  prettier-linter-helpers@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/prettier-linter-helpers/-/prettier-linter-helpers-1.0.0.tgz#d23d41fe1375646de2d0104d3454a3008802cf7b"
+    integrity sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==
+    dependencies:
+      fast-diff "^1.1.2"
+  
+  prettier@^1.15.3:
+    version "1.15.3"
+    resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.15.3.tgz#1feaac5bdd181237b54dbe65d874e02a1472786a"
+    integrity sha512-gAU9AGAPMaKb3NNSUUuhhFAS7SCO4ALTN4nRIn6PJ075Qd28Yn2Ig2ahEJWdJwJmlEBTUfC7mMUSFy8MwsOCfg==
+  
   pretty-error@^2.0.2:
     version "2.1.1"
     resolved "https://registry.yarnpkg.com/pretty-error/-/pretty-error-2.1.1.tgz#5f4f87c8f91e5ae3f3ba87ab4cf5e03b1a17f1a3"
@@ -5921,7 +5985,7 @@ Lockfile:
       kleur "^2.0.1"
       sisteransi "^0.1.1"
   
-  prop-types@^15.6.2:
+  prop-types@^15.6.1, prop-types@^15.6.2:
     version "15.6.2"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
     integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
@@ -6082,6 +6146,31 @@ Lockfile:
       object-assign "^4.1.1"
       prop-types "^15.6.2"
       scheduler "^0.12.0"
+  
+  react-router-dom@^4.3.1:
+    version "4.3.1"
+    resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.3.1.tgz#4c2619fc24c4fa87c9fd18f4fb4a43fe63fbd5c6"
+    integrity sha512-c/MlywfxDdCp7EnB7YfPMOfMD3tOtIjrQlj/CKfNMBxdmpJP8xcz5P/UAFn3JbnQCNUxsHyVVqllF9LhgVyFCA==
+    dependencies:
+      history "^4.7.2"
+      invariant "^2.2.4"
+      loose-envify "^1.3.1"
+      prop-types "^15.6.1"
+      react-router "^4.3.1"
+      warning "^4.0.1"
+  
+  react-router@^4.3.1:
+    version "4.3.1"
+    resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.3.1.tgz#aada4aef14c809cb2e686b05cee4742234506c4e"
+    integrity sha512-yrvL8AogDh2X42Dt9iknk4wF4V8bWREPirFfS9gLU1huk6qK41sg7Z/1S81jjTrGHxa3B8R3J6xIkDAA6CVarg==
+    dependencies:
+      history "^4.7.2"
+      hoist-non-react-statics "^2.5.0"
+      invariant "^2.2.4"
+      loose-envify "^1.3.1"
+      path-to-regexp "^1.7.0"
+      prop-types "^15.6.1"
+      warning "^4.0.1"
   
   react@^16.7.0:
     version "16.7.0"
@@ -6393,6 +6482,11 @@ Lockfile:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-3.0.0.tgz#b22c7af7d9d6881bc8b6e653335eebcb0a188748"
     integrity sha1-six699nWiBvItuZTM17rywoYh0g=
+  
+  resolve-pathname@^2.2.0:
+    version "2.2.0"
+    resolved "https://registry.yarnpkg.com/resolve-pathname/-/resolve-pathname-2.2.0.tgz#7e9ae21ed815fd63ab189adeee64dc831eefa879"
+    integrity sha512-bAFz9ld18RzJfddgrO2e/0S2O81710++chRMUxHjXOYKF6jTAMrUNZrEZ1PvV0zlhfjidm08iRPdTLPno1FuRg==
   
   resolve-url@^0.2.1:
     version "0.2.1"
@@ -7467,6 +7561,11 @@ Lockfile:
       spdx-correct "^3.0.0"
       spdx-expression-parse "^3.0.0"
   
+  value-equal@^0.4.0:
+    version "0.4.0"
+    resolved "https://registry.yarnpkg.com/value-equal/-/value-equal-0.4.0.tgz#c5bdd2f54ee093c04839d71ce2e4758a6890abc7"
+    integrity sha512-x+cYdNnaA3CxvMaTX0INdTCN8m8aF2uY9BvEqmxuYp8bL09cs/kWVQPVGcA35fMktdOsP69IgU7wFj/61dJHEw==
+  
   vary@~1.1.2:
     version "1.1.2"
     resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
@@ -7501,6 +7600,20 @@ Lockfile:
     integrity sha1-L3+bj9ENZ3JisYqITijRlhjgKPs=
     dependencies:
       makeerror "1.0.x"
+  
+  warning@^3.0.0:
+    version "3.0.0"
+    resolved "https://registry.yarnpkg.com/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
+    integrity sha1-MuU3fLVy3kqwR1O9+IIcAe1gW3w=
+    dependencies:
+      loose-envify "^1.0.0"
+  
+  warning@^4.0.1:
+    version "4.0.2"
+    resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.2.tgz#aa6876480872116fa3e11d434b0d0d8d91e44607"
+    integrity sha512-wbTp09q/9C+jJn4KKJfJfoS6VleK/Dti0yqWSm6KMvJ4MRCXFQNapHuJXutJIrWV0Cf4AhTdeIe4qdKHR1+Hug==
+    dependencies:
+      loose-envify "^1.0.0"
   
   watch@~0.18.0:
     version "0.18.0"
