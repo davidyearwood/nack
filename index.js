@@ -109,7 +109,9 @@ app.post("/channel/:channelId/msg", (req, res) => {
 });
 
 io.on("connection", socket => {
-  console.log("a user is connected");
+  socket.on("chat message", msg => {
+    io.emit("chat message", msg);
+  });
 });
 
 server.listen(port, () => console.log(`Chat app listening on port ${port}!`));

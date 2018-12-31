@@ -7,12 +7,18 @@ import Input from "../presentational/Input/Input";
 class Chat extends Component {
   constructor(props) {
     super(props);
+    this.endpoint = "http://localhost:3000";
+    this.socket = io(this.endpoint);
     this.state = {
       error: null,
       isLoaded: false,
-      channels: []
+      channels: [],
+      messageInput: "",
+      messages: []
     };
-    this.endpoint = "http://localhost:3000";
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -35,26 +41,71 @@ class Chat extends Component {
           });
         }
       );
+
+    this.socket.on("chat message", msg => {
+      const { messages } = this.state;
+
+      const m = {
+        text: msg,
+        time: new Date().toString(),
+        sender: "david"
+      };
+      messages.push(m);
+
+      this.setState({
+        messages
+      });
+
+      console.log("component did mount");
+    });
+  }
+
+  handleChange(e) {
+    this.setState({
+      messageInput: e.target.value
+    });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const { messageInput } = this.state;
+    this.socket.emit("chat message", messageInput);
+    this.setState({
+      messageInput: ""
+    });
   }
 
   render() {
+    const { messageInput } = this.state;
+    const { messages } = this.state;
     return (
       <div className="chat-app">
-        <Message
-          src="https://via.placeholder.com/75"
-          text="What's up!"
-          time="2:30 pm"
-          sender="David Yearwood"
-          alt=""
-        />
-        <form action="">
+        {messages.map(msg => (
+          <Message
+            key={
+              Math.random()
+                .toString(36)
+                .substring(2, 15) +
+              Math.random()
+                .toString(36)
+                .substring(2, 15)
+            }
+            src="https://via.placeholder.com/75"
+            text={msg.text}
+            time={msg.time}
+            sender={msg.sender}
+            alt=""
+          />
+        ))}
+        <form action="" onSubmit={this.handleSubmit}>
           <Input
             id="m"
             type="text"
             autoComplete="off"
             placeholder="Type a message"
             label="Send message"
-            value=""
+            value={messageInput}
+            onChange={this.handleChange}
           />
           <button>Send</button>
         </form>
