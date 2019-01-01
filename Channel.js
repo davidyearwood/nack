@@ -1,17 +1,17 @@
-const fs = require('fs');
+const fs = require("fs");
 
 const path = `${__dirname}/db`;
 
 const get = function get(cb) {
-  fs.readFile(`${path}/channel.json`, 'utf-8', (err, data) => {
+  fs.readFile(`${path}/channel.json`, "utf-8", (err, data) => {
     cb(err, data);
   });
 };
 
-// Manages Channel Data 
+// Manages Channel Data
 // Get the data
-// Update the data 
-// Add the data 
+// Update the data
+// Add the data
 class Channel {
   static find(name, cb) {
     get((err, data) => {
@@ -24,8 +24,10 @@ class Channel {
   }
 
   static all(cb) {
-    fs.readFile(`${__dirname}/db/channel.json`, 'utf-')
+    fs.readFile(`${__dirname}/db/channel.json`, "utf-");
   }
+
+  static add(channel, cb) {}
 }
 
 module.exports = Channel;

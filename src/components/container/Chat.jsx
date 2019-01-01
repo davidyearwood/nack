@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import io from "socket.io-client";
+import uniqid from "uniqid";
 import Message from "../presentational/Message/Message";
 import Input from "../presentational/Input/Input";
 
@@ -11,10 +12,12 @@ class Chat extends Component {
     this.socket = io(this.endpoint);
     this.state = {
       error: null,
-      isLoaded: false,
-      channels: [],
-      messageInput: "",
-      messages: []
+      isLoaded: false, // let you know if the data has been fetched
+      channels: [], // all the channels data is stored here
+      messageInput: "", // user message input is stored here
+      messages: [], // messages of the current channel
+      displayName: "David",
+      currentChannel: 1
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -46,10 +49,11 @@ class Chat extends Component {
       const { messages } = this.state;
 
       const m = {
-        text: msg,
+        msg: msg.msg,
         time: new Date().toString(),
         sender: "david"
       };
+
       messages.push(m);
 
       this.setState({
@@ -68,8 +72,17 @@ class Chat extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { messageInput } = this.state;
-    this.socket.emit("chat message", messageInput);
+    const { messageInput, currentChannel, displayName } = this.state;
+
+    const payload = {
+      id: uniqid(),
+      msg: messageInput,
+      channelId: currentChannel,
+      timestamp: new Date().toString(),
+      sender: displayName
+    };
+
+    this.socket.emit("chat message", payload);
     this.setState({
       messageInput: ""
     });
@@ -82,16 +95,9 @@ class Chat extends Component {
       <div className="chat-app">
         {messages.map(msg => (
           <Message
-            key={
-              Math.random()
-                .toString(36)
-                .substring(2, 15) +
-              Math.random()
-                .toString(36)
-                .substring(2, 15)
-            }
+            key={uniqid()}
             src="https://via.placeholder.com/75"
-            text={msg.text}
+            text={msg.msg}
             time={msg.time}
             sender={msg.sender}
             alt=""
@@ -107,7 +113,6 @@ class Chat extends Component {
             value={messageInput}
             onChange={this.handleChange}
           />
-          <button>Send</button>
         </form>
       </div>
     );

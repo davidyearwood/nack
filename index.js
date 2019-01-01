@@ -108,9 +108,15 @@ app.post("/channel/:channelId/msg", (req, res) => {
   return res.status(201).json(payload);
 });
 
+// a message is sent
+// get the channel
+// store the message into the channel
 io.on("connection", socket => {
   socket.on("chat message", msg => {
     io.emit("chat message", msg);
+    const channel = getChannel(msg.channelId);
+
+    channel.msgs.push(msg);
   });
 });
 
