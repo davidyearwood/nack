@@ -5,6 +5,7 @@ import uniqid from "uniqid";
 import { format } from "date-fns";
 import Message from "../presentational/Message/Message";
 import Input from "../presentational/Input/Input";
+import createMessage from "../../../helper/createMessage";
 
 class Chat extends Component {
   constructor(props) {
@@ -77,16 +78,8 @@ class Chat extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { messageInput, currentChannel, displayName } = this.state;
-
-    const payload = {
-      id: uniqid(),
-      msg: messageInput,
-      channelId: currentChannel.id,
-      timestamp: new Date().toString(),
-      sender: displayName
-    };
-
-    this.socket.emit("chat message", payload);
+    const message = createMessage(displayName, messageInput, currentChannel.id);
+    this.socket.emit("chat message", message);
     this.setState({
       messageInput: ""
     });
