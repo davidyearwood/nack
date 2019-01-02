@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import io from "socket.io-client";
-import uniqid from "uniqid";
-import { format } from "date-fns";
-import Message from "../presentational/Message/Message";
+import Messages from "../presentational/Message/Messages";
 import Input from "../presentational/Input/Input";
 import createMessage from "../../../helper/createMessage";
 
@@ -60,7 +58,6 @@ class Chat extends Component {
     // the currentChannel state
     this.socket.on("chat message", msg => {
       const { currentChannel } = this.state;
-
       currentChannel.msgs.push(msg);
 
       this.setState({
@@ -79,35 +76,18 @@ class Chat extends Component {
     e.preventDefault();
     const { messageInput, currentChannel, displayName } = this.state;
     const message = createMessage(displayName, messageInput, currentChannel.id);
+
     this.socket.emit("chat message", message);
     this.setState({
       messageInput: ""
     });
   }
 
-  renderMessages() {
-    const { currentChannel } = this.state;
-
-    if (currentChannel.msgs) {
-      return currentChannel.msgs.map(msg => (
-        <Message
-          key={uniqid()}
-          src="https://via.placeholder.com/75"
-          text={msg.msg}
-          time={format(msg.timestamp, "MMM D, YYYY HH:mm A")}
-          sender={msg.sender}
-          alt=""
-        />
-      ));
-    }
-    return null;
-  }
-
   render() {
-    const { messageInput } = this.state;
+    const { messageInput, currentChannel } = this.state;
     return (
       <div className="chat-app">
-        {this.renderMessages()}
+        {<Messages msgs={currentChannel.msgs} />}
         <form action="" onSubmit={this.handleSubmit}>
           <Input
             id="m"

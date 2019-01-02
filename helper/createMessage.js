@@ -5,8 +5,8 @@ function createMessage(sender, msg, channelId) {
     id: uniqid(),
     sender,
     msg,
-    channelId
-    timestamp: new Date.toString(),
+    channelId,
+    timestamp: new Date().toString()
   };
 }
 
