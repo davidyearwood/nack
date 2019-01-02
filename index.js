@@ -113,8 +113,11 @@ app.post("/channel/:channelId/msg", (req, res) => {
 // store the message into the channel
 
 io.on("connection", socket => {
+  // listens to client messages
   socket.on("chat message", msg => {
+    // sends an emit message when it receives a msg
     io.emit("chat message", msg);
+    // adds to the db
     const channel = getChannel(msg.channelId);
     channel.msgs.push(msg);
   });

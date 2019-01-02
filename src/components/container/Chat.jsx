@@ -50,22 +50,19 @@ class Chat extends Component {
         });
       });
 
+    // listening for a chat message to be sent
+    // if a message is sent, the message is added to
+    // the currentChannel state
     this.socket.on("chat message", msg => {
       const { currentChannel } = this.state;
 
-      const m = {
-        msg: msg.msg,
-        time: new Date().toString(),
-        sender: "david"
-      };
+      // the message as a payload that was emitted from the server
 
-      currentChannel.msgs.push(m);
-
+      currentChannel.msgs.push(msg);
+      console.log(msg);
       this.setState({
         currentChannel
       });
-
-      console.log("component did mount");
     });
   }
 
