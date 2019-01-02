@@ -15,9 +15,8 @@ class Chat extends Component {
       isLoaded: false, // let you know if the data has been fetched
       channels: [], // all the channels data is stored here
       messageInput: "", // user message input is stored here
-      messages: [], // messages of the current channel
       displayName: "David",
-      currentChannel: 1
+      currentChannel: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -43,10 +42,16 @@ class Chat extends Component {
             error
           });
         }
-      );
+      )
+      .then(() => {
+        const { channels } = this.state;
+        this.setState({
+          currentChannel: channels.find(channel => channel.id === 1)
+        });
+      });
 
     this.socket.on("chat message", msg => {
-      const { messages } = this.state;
+      const { currentChannel } = this.state;
 
       const m = {
         msg: msg.msg,
@@ -54,10 +59,10 @@ class Chat extends Component {
         sender: "david"
       };
 
-      messages.push(m);
+      currentChannel.msgs.push(m);
 
       this.setState({
-        messages
+        currentChannel
       });
 
       console.log("component did mount");
@@ -77,7 +82,7 @@ class Chat extends Component {
     const payload = {
       id: uniqid(),
       msg: messageInput,
-      channelId: currentChannel,
+      channelId: currentChannel.id,
       timestamp: new Date().toString(),
       sender: displayName
     };
@@ -88,21 +93,29 @@ class Chat extends Component {
     });
   }
 
+  renderMessages() {
+    const { currentChannel } = this.state;
+
+    if (currentChannel.msgs) {
+      return currentChannel.msgs.map(msg => (
+        <Message
+          key={uniqid()}
+          src="https://via.placeholder.com/75"
+          text={msg.msg}
+          time={msg.time}
+          sender={msg.sender}
+          alt=""
+        />
+      ));
+    }
+    return null;
+  }
+
   render() {
     const { messageInput } = this.state;
-    const { messages } = this.state;
     return (
       <div className="chat-app">
-        {messages.map(msg => (
-          <Message
-            key={uniqid()}
-            src="https://via.placeholder.com/75"
-            text={msg.msg}
-            time={msg.time}
-            sender={msg.sender}
-            alt=""
-          />
-        ))}
+        {this.renderMessages()}
         <form action="" onSubmit={this.handleSubmit}>
           <Input
             id="m"
