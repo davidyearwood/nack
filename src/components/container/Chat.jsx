@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import io from "socket.io-client";
 import uniqid from "uniqid";
+import { format } from "date-fns";
 import Message from "../presentational/Message/Message";
 import Input from "../presentational/Input/Input";
 
@@ -23,6 +24,9 @@ class Chat extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  // Optional: TODO
+  // Instead of fetching channels the data from the resource
+  // only get data for the channel the user wants to see
   componentDidMount() {
     fetch("/api/channel")
       .then(res => res.json())
@@ -56,10 +60,8 @@ class Chat extends Component {
     this.socket.on("chat message", msg => {
       const { currentChannel } = this.state;
 
-      // the message as a payload that was emitted from the server
-
       currentChannel.msgs.push(msg);
-      console.log(msg);
+
       this.setState({
         currentChannel
       });
@@ -99,7 +101,7 @@ class Chat extends Component {
           key={uniqid()}
           src="https://via.placeholder.com/75"
           text={msg.msg}
-          time={msg.time}
+          time={format(msg.timestamp, "MMM D, YYYY HH:mm A")}
           sender={msg.sender}
           alt=""
         />
