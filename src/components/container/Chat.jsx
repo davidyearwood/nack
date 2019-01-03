@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import Messages from "../presentational/Message/Messages";
 import Input from "../presentational/Input/Input";
 import createMessage from "../../../helper/createMessage";
+import Modal from "../presentational/Modal/Modal";
 
 class Chat extends Component {
   constructor(props) {
@@ -86,6 +87,12 @@ class Chat extends Component {
   render() {
     const { messageInput, currentChannel } = this.state;
     return (
+      <Modal>
+        <h2>What’s your display name?</h2>
+        <input type="text" />
+        <p>This could be your first name, or a nickname — however you’d like people to refer to you in Nack.</p>
+        <button className="btn">Use Display Name</button>
+      </Modal>
       <div className="chat-app">
         {<Messages msgs={currentChannel.msgs} />}
         <form action="" onSubmit={this.handleSubmit}>
