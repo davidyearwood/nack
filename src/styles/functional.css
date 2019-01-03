@@ -1,0 +1,25 @@
+.centerText {
+  text-align: center;
+}
+
+.boldText {
+  font-weight: 600;
+}
+
+.semiboldText {
+  font-weight: 500;
+}
+
+.resetMargin {
+  margin: 0;
+}
+
+/* Needs to be moved to its own space */
+.input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: .579em;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-top: 1.728rem;
+}

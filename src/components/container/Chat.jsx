@@ -7,6 +7,8 @@ import createMessage from "../../../helper/createMessage";
 import Modal from "../presentational/Modal/Modal";
 import Button from "../presentational/Button/Button";
 import "../../styles/typography.css";
+import styles from "../../styles/functional.css";
+import SvgUser from "../presentational/Svg/SvgUser";
 
 class Chat extends Component {
   constructor(props) {
@@ -91,13 +93,28 @@ class Chat extends Component {
     return (
       <div className="chat-app">
         <Modal>
-          <h2>What’s your display name?</h2>
-          <input type="text" />
-          <p>
+          <div className={`displayName__header ${styles.centerText}`}>
+            <SvgUser height="4em" width="4em" />
+            <h2
+              className={`displayName__title ${styles.centerText} ${
+                styles.boldText
+              } ${styles.resetMargin}`}
+            >
+              What’s your display name?
+            </h2>
+          </div>
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="e.g., David, n00bKing, etc..."
+          />
+          <p className={styles.centerText}>
             This could be your first name, or a nickname — however you’d like
             people to refer to you in Nack.
           </p>
-          <Button text="Use Display Name" />
+          <div className={styles.centerText}>
+            <Button text="Use Display Name" />
+          </div>
         </Modal>
         {/* {<Messages msgs={currentChannel.msgs} />}
         <form action="" onSubmit={this.handleSubmit}>
