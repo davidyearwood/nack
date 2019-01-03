@@ -5,6 +5,8 @@ import Messages from "../presentational/Message/Messages";
 import Input from "../presentational/Input/Input";
 import createMessage from "../../../helper/createMessage";
 import Modal from "../presentational/Modal/Modal";
+import Button from "../presentational/Button/Button";
+import "../../styles/typography.css";
 
 class Chat extends Component {
   constructor(props) {
@@ -95,7 +97,7 @@ class Chat extends Component {
             This could be your first name, or a nickname — however you’d like
             people to refer to you in Nack.
           </p>
-          <button className="btn">Use Display Name</button>
+          <Button text="Use Display Name" />
         </Modal>
         {/* {<Messages msgs={currentChannel.msgs} />}
         <form action="" onSubmit={this.handleSubmit}>
