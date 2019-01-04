@@ -2,13 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import io from "socket.io-client";
 import Messages from "../presentational/Message/Messages";
-import Input from "../presentational/Input/Input";
 import createMessage from "../../../helper/createMessage";
-import Modal from "../presentational/Modal/Modal";
-import Button from "../presentational/Button/Button";
 import "../../styles/typography.css";
-import styles from "../../styles/functional.css";
-import SvgUser from "../presentational/Svg/SvgUser";
+import DisplayNameForm from "../presentational/DisplayNameForm/DisplayNameForm";
+import Input from "../presentational/Input/Input";
 
 class Chat extends Component {
   constructor(props) {
@@ -21,11 +18,19 @@ class Chat extends Component {
       channels: [], // all the channels data is stored here
       messageInput: "", // user message input is stored here
       displayName: "David",
-      currentChannel: {}
+      currentChannel: {},
+      displayNameInput: "",
+      isDisplayNameOpen: true
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDisplayNameInputChange = this.handleDisplayNameInputChange.bind(
+      this
+    );
+    this.handleDisplayNameButtonClick = this.handleDisplayNameButtonClick.bind(
+      this
+    );
   }
 
   // Optional: TODO
@@ -69,11 +74,19 @@ class Chat extends Component {
         currentChannel
       });
     });
+
+    // check to see if local storage has a display name already
   }
 
   handleChange(e) {
     this.setState({
       messageInput: e.target.value
+    });
+  }
+
+  handleDisplayNameInputChange(e) {
+    this.setState({
+      displayNameInput: e.target.value
     });
   }
 
@@ -88,35 +101,38 @@ class Chat extends Component {
     });
   }
 
+  handleDisplayNameButtonClick() {
+    const { displayNameInput } = this.state;
+    this.setState({
+      displayName: displayNameInput,
+      isDisplayNameOpen: false
+    });
+    // set in local storage
+  }
+
   render() {
-    const { messageInput, currentChannel } = this.state;
+    const {
+      messageInput,
+      currentChannel,
+      displayNameInput,
+      isDisplayNameOpen
+    } = this.state;
+    let displayNameForm = (
+      <DisplayNameForm
+        onClick={this.handleDisplayNameButtonClick}
+        onChange={this.handleDisplayNameInputChange}
+        value={displayNameInput}
+      />
+    );
+
+    if (!isDisplayNameOpen) {
+      displayNameForm = null;
+    }
+
     return (
       <div className="chat-app">
-        <Modal>
-          <div className={`displayName__header ${styles.centerText}`}>
-            <SvgUser height="4em" width="4em" />
-            <h2
-              className={`displayName__title ${styles.centerText} ${
-                styles.boldText
-              } ${styles.resetMargin}`}
-            >
-              What’s your display name?
-            </h2>
-          </div>
-          <input
-            type="text"
-            className={styles.input}
-            placeholder="e.g., David, n00bKing, etc..."
-          />
-          <p className={styles.centerText}>
-            This could be your first name, or a nickname — however you’d like
-            people to refer to you in Nack.
-          </p>
-          <div className={styles.centerText}>
-            <Button text="Use Display Name" />
-          </div>
-        </Modal>
-        {/* {<Messages msgs={currentChannel.msgs} />}
+        {displayNameForm}
+        {<Messages msgs={currentChannel.msgs} />}
         <form action="" onSubmit={this.handleSubmit}>
           <Input
             id="m"
@@ -127,7 +143,7 @@ class Chat extends Component {
             value={messageInput}
             onChange={this.handleChange}
           />
-        </form> */}
+        </form>
       </div>
     );
   }

@@ -1,0 +1,21 @@
+.displayName__header {
+  text-align: center;
+}
+
+.displayName__title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.displayName__input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: .579em;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-top: 1.728rem;
+}
+
+.displayName__text {
+  text-align: center;
+}
