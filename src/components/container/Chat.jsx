@@ -17,7 +17,7 @@ class Chat extends Component {
       isLoaded: false, // let you know if the data has been fetched
       channels: [], // all the channels data is stored here
       messageInput: "", // user message input is stored here
-      displayName: "David",
+      displayName: "",
       currentChannel: {},
       displayNameInput: "",
       isDisplayNameOpen: true
@@ -76,18 +76,28 @@ class Chat extends Component {
     });
 
     // check to see if local storage has a display name already
+    const displayName = localStorage.getItem("displayName");
+    if (displayName) {
+      this.setState({
+        displayName,
+        isDisplayNameOpen: false
+      });
+    }
+  }
+
+  // this can be refactor
+  hc(e, key) {
+    this.setState({
+      [key]: e.target.value
+    });
   }
 
   handleChange(e) {
-    this.setState({
-      messageInput: e.target.value
-    });
+    this.hc(e, "messageInput");
   }
 
   handleDisplayNameInputChange(e) {
-    this.setState({
-      displayNameInput: e.target.value
-    });
+    this.hc(e, "displayNameInput");
   }
 
   handleSubmit(e) {
@@ -107,31 +117,32 @@ class Chat extends Component {
       displayName: displayNameInput,
       isDisplayNameOpen: false
     });
-    // set in local storage
+
+    localStorage.setItem("displayName", displayNameInput);
+  }
+
+  renderDisplayNameForm() {
+    const { isDisplayNameOpen, displayNameInput } = this.state;
+
+    if (isDisplayNameOpen) {
+      return (
+        <DisplayNameForm
+          onClick={this.handleDisplayNameButtonClick}
+          onChange={this.handleDisplayNameInputChange}
+          value={displayNameInput}
+        />
+      );
+    }
+
+    return null;
   }
 
   render() {
-    const {
-      messageInput,
-      currentChannel,
-      displayNameInput,
-      isDisplayNameOpen
-    } = this.state;
-    let displayNameForm = (
-      <DisplayNameForm
-        onClick={this.handleDisplayNameButtonClick}
-        onChange={this.handleDisplayNameInputChange}
-        value={displayNameInput}
-      />
-    );
-
-    if (!isDisplayNameOpen) {
-      displayNameForm = null;
-    }
+    const { messageInput, currentChannel } = this.state;
 
     return (
       <div className="chat-app">
-        {displayNameForm}
+        {this.renderDisplayNameForm()}
         {<Messages msgs={currentChannel.msgs} />}
         <form action="" onSubmit={this.handleSubmit}>
           <Input
