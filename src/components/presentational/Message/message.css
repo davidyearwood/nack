@@ -7,6 +7,7 @@
   font-size: 1rem;
   display: inline-block;
   margin-right: .402em;
+  margin-top: 0;
 }
 
 .msg__text {
