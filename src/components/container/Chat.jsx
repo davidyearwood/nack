@@ -7,6 +7,7 @@ import "../../styles/typography.css";
 import DisplayNameForm from "../presentational/DisplayNameForm/DisplayNameForm";
 import Input from "../presentational/Input/Input";
 import Channels from "../presentational/Channels/Channels";
+import Sidebar from "../presentational/Sidebar/Sidebar";
 
 class Chat extends Component {
   constructor(props) {
@@ -144,8 +145,8 @@ class Chat extends Component {
     return (
       <div className="chat-app">
         {this.renderDisplayNameForm()}
-        {<Channels title="Channels" items={channels} />}
-        {<Messages msgs={currentChannel.msgs} />}
+        <Sidebar>{<Channels title="Channels" items={channels} />}</Sidebar>
+        {/* {<Messages msgs={currentChannel.msgs} />}
         <form action="" onSubmit={this.handleSubmit}>
           <Input
             id="m"
@@ -156,7 +157,7 @@ class Chat extends Component {
             value={messageInput}
             onChange={this.handleChange}
           />
-        </form>
+        </form> */}
       </div>
     );
   }

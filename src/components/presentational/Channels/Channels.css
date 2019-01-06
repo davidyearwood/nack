@@ -1,7 +1,10 @@
-.channels {}
+.channels {
+  padding-top: 1.2rem;
+}
 
 .channels-list {
   padding-left: 0;
+  margin: 0;
 }
 
 .channels-list__item {
@@ -9,12 +12,14 @@
   list-style-type: none;
   font-size: 1rem;
   display: block;
+  margin-top: .482rem;
 }
 
 .channels-list__item:before {
   content: "#";
   margin-right: .579em;
   margin-left: 1em;
+  color: #D7D7DB;
 }
 
 .channels-list__item.is-active {
@@ -27,13 +32,16 @@
 }
 
 .channels-list__link {
-  color: #878793;
+  color: #D7D7DB;
   text-decoration: none;
 }
 
-.channels-header {}
+.channels-header {
+  color: #D7D7DB;
+}
 
 .channels-header__title {
   font-size: 1rem;
-  text-transform: uppercase;
+  margin-bottom: 0;
+  margin-left: 1.2rem;
 }
