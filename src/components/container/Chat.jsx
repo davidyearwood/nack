@@ -6,6 +6,7 @@ import createMessage from "../../../helper/createMessage";
 import "../../styles/typography.css";
 import DisplayNameForm from "../presentational/DisplayNameForm/DisplayNameForm";
 import Input from "../presentational/Input/Input";
+import Channels from "../presentational/Channels/Channels";
 
 class Chat extends Component {
   constructor(props) {
@@ -138,11 +139,12 @@ class Chat extends Component {
   }
 
   render() {
-    const { messageInput, currentChannel } = this.state;
+    const { messageInput, currentChannel, channels } = this.state;
 
     return (
       <div className="chat-app">
         {this.renderDisplayNameForm()}
+        {<Channels title="Channels" items={channels} />}
         {<Messages msgs={currentChannel.msgs} />}
         <form action="" onSubmit={this.handleSubmit}>
           <Input
