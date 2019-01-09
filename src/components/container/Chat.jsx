@@ -8,6 +8,7 @@ import DisplayNameForm from "../presentational/DisplayNameForm/DisplayNameForm";
 import Input from "../presentational/Input/Input";
 import Channels from "../presentational/Channels/Channels";
 import Sidebar from "../presentational/Sidebar/Sidebar";
+import DisplayName from "../presentational/DisplayName/DisplayName";
 
 class Chat extends Component {
   constructor(props) {
@@ -140,12 +141,15 @@ class Chat extends Component {
   }
 
   render() {
-    const { messageInput, currentChannel, channels } = this.state;
+    const { messageInput, currentChannel, channels, displayName } = this.state;
 
     return (
       <div className="chat-app">
         {this.renderDisplayNameForm()}
-        <Sidebar>{<Channels title="Channels" items={channels} />}</Sidebar>
+        <Sidebar>
+          <DisplayName userName={displayName} />
+          {<Channels title="Channels" items={channels} />}
+        </Sidebar>
         {/* {<Messages msgs={currentChannel.msgs} />}
         <form action="" onSubmit={this.handleSubmit}>
           <Input

@@ -1,0 +1,22 @@
+.display-name {
+  border-bottom: 2px solid #262635;
+  padding-bottom: 1.2rem;
+  padding-top: 1.2rem;
+}
+
+.display-name__user-name {
+  display: flex;
+  align-items: flex-end;
+  color: #d7d7db;
+  margin: 0;
+  margin-left: 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.display-name__logo {
+  font-size: 1.44rem;
+  color: #fff;
+  margin-left: 1.2rem;
+  margin-bottom: 0.482em;
+}

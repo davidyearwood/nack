@@ -1,18 +1,26 @@
-html {font-size: 16px;}
+html {
+  font-size: 16px;
+}
 
 body {
   background-color: white;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   line-height: 1.5;
   color: #333;
 }
 
-p {margin-bottom: 1.250em;}
+p {
+  margin-bottom: 1.25em;
+}
 
-h1, h2, h3, h4, h5 {
-  margin: 1.250em 0 0.64em;
-  font-family: 'Open Sans', sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 1.25em 0 0.64em;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   line-height: 1.2;
 }
@@ -22,12 +30,23 @@ h1 {
   font-size: 2.488em;
 }
 
-h2 {font-size: 2.074em;}
+h2 {
+  font-size: 2.074em;
+}
 
-h3 {font-size: 1.728em;}
+h3 {
+  font-size: 1.728em;
+}
 
-h4 {font-size: 1.44em;}
+h4 {
+  font-size: 1.44em;
+}
 
-h5 {font-size: 1.2em;}
+h5 {
+  font-size: 1.2em;
+}
 
-small, .font_small {font-size: 0.833em;}
+small,
+.font_small {
+  font-size: 0.833em;
+}
