@@ -1,9 +1,10 @@
 .inputField {
-  border: solid 2px #C4C4C4;
+  border: solid 2px #c4c4c4;
   border-radius: 4px;
-  width: 100%;
+  width: 90%;
   font-size: 1.2em;
-  padding: .694em;
+  padding: 0.694em;
+  box-sizing: border-box;
 }
 
 .inputField:focus {

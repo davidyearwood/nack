@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import Messages from "../presentational/Message/Messages";
 import createMessage from "../../../helper/createMessage";
 import "../../styles/typography.css";
+import stylesLayout from "../../styles/layout.css";
 import DisplayNameForm from "../presentational/DisplayNameForm/DisplayNameForm";
 import Input from "../presentational/Input/Input";
 import Channels from "../presentational/Channels/Channels";
@@ -144,24 +145,30 @@ class Chat extends Component {
     const { messageInput, currentChannel, channels, displayName } = this.state;
 
     return (
-      <div className="chat-app">
+      <div className={stylesLayout["chat-app"]}>
         {this.renderDisplayNameForm()}
         <Sidebar>
           <DisplayName userName={displayName} />
           {<Channels title="Channels" items={channels} />}
         </Sidebar>
-        {/* {<Messages msgs={currentChannel.msgs} />}
-        <form action="" onSubmit={this.handleSubmit}>
-          <Input
-            id="m"
-            type="text"
-            autoComplete="off"
-            placeholder="Type a message"
-            label="Send message"
-            value={messageInput}
-            onChange={this.handleChange}
-          />
-        </form> */}
+        <main className={stylesLayout.main}>
+          {<Messages msgs={currentChannel.msgs} />}
+          <form
+            action=""
+            onSubmit={this.handleSubmit}
+            className={stylesLayout["chat-form"]}
+          >
+            <Input
+              id="m"
+              type="text"
+              autoComplete="off"
+              placeholder="Type a message"
+              label="Send message"
+              value={messageInput}
+              onChange={this.handleChange}
+            />
+          </form>
+        </main>
       </div>
     );
   }

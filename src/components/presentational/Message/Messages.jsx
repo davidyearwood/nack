@@ -2,10 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
 import Message from "./Message";
+import styles from "./message.css";
 
 function Messages({ msgs }) {
   return (
-    <div className="messages">
+    <div className={styles.msgs}>
       {msgs.map(msg => (
         <Message
           key={msg.id}

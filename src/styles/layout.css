@@ -1,0 +1,24 @@
+.chat-app {
+  display: flex;
+  background-color: gray;
+}
+
+.main {
+  display: flex;
+  box-sizing: border-box;
+  width: auto;
+  flex-basis: 75%;
+  flex-grow: 1;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background: #fff;
+  flex-direction: column;
+}
+
+.chat-form {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: #fff;
+}
