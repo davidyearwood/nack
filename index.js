@@ -16,11 +16,31 @@ function getChannel(id) {
   );
 }
 
-app.get("/channel", (req, res) => {
-  res.json(channels);
+app.get("/channels", (req, res) => {
+  const { query } = req;
+
+  let data = channels;
+
+  // must refactor
+  if ("fields" in query) {
+    const fields = query.fields.split(","); // [name, id]
+
+    data = data.map(channel => {
+      const obj = {};
+      for (let i = 0; i < fields.length; i++) {
+        if (channel.hasOwnProperty(fields[i])) {
+          obj[fields[i]] = channel[fields[i]];
+        }
+      }
+
+      return obj;
+    });
+  }
+
+  res.json(data);
 });
 
-app.get("/channel/:id", (req, res) => {
+app.get("/channels/:id", (req, res) => {
   if (!getChannel(req.params.id)) {
     return res.status(404).json({ error: "Channel not found" });
   }
@@ -28,7 +48,7 @@ app.get("/channel/:id", (req, res) => {
   return res.json(getChannel);
 });
 
-app.get("/channel/:channelId/msg", (req, res) => {
+app.get("/channels/:channelId/msg", (req, res) => {
   const channel = getChannel(req.params.channelId);
 
   if (!channel) {
@@ -38,7 +58,7 @@ app.get("/channel/:channelId/msg", (req, res) => {
   return res.json(channel.msgs);
 });
 
-app.get("/channel/:channelId/msg/:msgId", (req, res) => {
+app.get("/channels/:channelId/msg/:msgId", (req, res) => {
   const { msgId, channelId } = req.params;
   const channel = getChannel(channelId);
 
@@ -57,7 +77,7 @@ app.get("/channel/:channelId/msg/:msgId", (req, res) => {
   return res.json(message);
 });
 
-app.post("/channel", (req, res) => {
+app.post("/channels", (req, res) => {
   const { name, creator } = req.body;
   if (!req.body.name && !req.body.creator) {
     return res.status(500).json({ error: "Internal Server Error." });

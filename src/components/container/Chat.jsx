@@ -17,12 +17,13 @@ class Chat extends Component {
     this.endpoint = "http://localhost:3000";
     this.socket = io(this.endpoint);
     this.state = {
-      error: null,
-      isLoaded: false, // let you know if the data has been fetched
-      channels: [], // all the channels data is stored here
+      selectedChannel: "",
+      isFetching: false,
+      hasError: null,
+      isLoaded: false,
+      channels: [],
       messageInput: "", // user message input is stored here
       displayName: "",
-      currentChannel: {},
       displayNameInput: "",
       isDisplayNameOpen: true
     };
@@ -41,31 +42,27 @@ class Chat extends Component {
   // Instead of fetching channels the data from the resource
   // only get data for the channel the user wants to see
   componentDidMount() {
-    fetch("/api/channel")
+    // I am fetching for channels
+    this.setState({ isFetching: true });
+    fetch("/api/channels?fields=id,name")
       .then(res => res.json())
       .then(
         result => {
+          const channels = result.map(channel => ({
+            isFetching: false,
+            isStale: false,
+            hasError: null,
+            ...channel
+          }));
+
           this.setState({
+            isFetching: false,
             isLoaded: true,
-            channels: result
+            channels
           });
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        error => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-      .then(() => {
-        const { channels } = this.state;
-        this.setState({
-          currentChannel: channels.find(channel => channel.id === 1)
-        });
-      });
+        error => console.log(error)
+      );
 
     // listening for a chat message to be sent
     // if a message is sent, the message is added to
@@ -142,7 +139,7 @@ class Chat extends Component {
   }
 
   render() {
-    const { messageInput, currentChannel, channels, displayName } = this.state;
+    const { messageInput, channels, displayName } = this.state;
 
     return (
       <div className={stylesLayout["chat-app"]}>
@@ -152,7 +149,7 @@ class Chat extends Component {
           {<Channels title="Channels" items={channels} />}
         </Sidebar>
         <main className={stylesLayout.main}>
-          {<Messages msgs={currentChannel.msgs} />}
+          {/* {<Messages msgs={currentChannel.msgs} />} */}
           <form
             action=""
             onSubmit={this.handleSubmit}
