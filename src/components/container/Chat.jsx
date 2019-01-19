@@ -10,6 +10,7 @@ import Input from "../presentational/Input/Input";
 import Channels from "../presentational/Channels/Channels";
 import Sidebar from "../presentational/Sidebar/Sidebar";
 import DisplayName from "../presentational/DisplayName/DisplayName";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 class Chat extends Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class Chat extends Component {
     this.handleDisplayNameButtonClick = this.handleDisplayNameButtonClick.bind(
       this
     );
+    this.renderMessages = this.renderMessages.bind(this);
   }
 
   // Optional: TODO
@@ -144,6 +146,12 @@ class Chat extends Component {
     return null;
   }
 
+  renderMessages({ match }) {
+    const { channels } = this.state;
+
+    return <Messages msgs={channels[match.params.id].msgs} />;
+  }
+
   render() {
     const {
       messageInput,
@@ -154,33 +162,41 @@ class Chat extends Component {
     } = this.state;
 
     return (
-      <div className={stylesLayout["chat-app"]}>
-        {this.renderDisplayNameForm()}
-        <Sidebar>
-          <DisplayName userName={displayName} />
-          {<Channels title="Channels" items={Object.keys(channels)} />}
-        </Sidebar>
-        <main className={stylesLayout.main}>
-          {isLoaded ? (
-            <Messages msgs={channels[selectedChannel.name].msgs} />
-          ) : null}
-          <form
-            action=""
-            onSubmit={this.handleSubmit}
-            className={stylesLayout["chat-form"]}
-          >
-            <Input
-              id="m"
-              type="text"
-              autoComplete="off"
-              placeholder="Type a message"
-              label="Send message"
-              value={messageInput}
-              onChange={this.handleChange}
-            />
-          </form>
-        </main>
-      </div>
+      <Router>
+        <div className={stylesLayout["chat-app"]}>
+          {this.renderDisplayNameForm()}
+          <Sidebar>
+            <DisplayName userName={displayName} />
+            {
+              <Channels
+                title="Channels"
+                items={Object.keys(channels)}
+                onClick={() => console.log("you click me")}
+              />
+            }
+          </Sidebar>
+          <main className={stylesLayout.main}>
+            {isLoaded ? (
+              <Route path="/channels/:id" component={this.renderMessages} />
+            ) : null}
+            <form
+              action=""
+              onSubmit={this.handleSubmit}
+              className={stylesLayout["chat-form"]}
+            >
+              <Input
+                id="m"
+                type="text"
+                autoComplete="off"
+                placeholder="Type a message"
+                label="Send message"
+                value={messageInput}
+                onChange={this.handleChange}
+              />
+            </form>
+          </main>
+        </div>
+      </Router>
     );
   }
 }

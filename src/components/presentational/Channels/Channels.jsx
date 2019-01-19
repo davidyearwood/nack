@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import styles from "./channels.css";
-// import { Link } from "react-router-dom";
 
 const ChannelHeader = ({ title }) => (
   <header className={styles["channels-header"]}>
@@ -12,20 +12,20 @@ const ChannelHeader = ({ title }) => (
 function ChannelList({ items }) {
   const $items = items.map(item => (
     <li key={item} className={styles["channels-list__item"]}>
-      <a className={styles["channels-list__link"]} href={item}>
+      <Link to={`/channels/${item}`} className={styles["channels-list__link"]}>
         {item}
-      </a>
+      </Link>
     </li>
   ));
 
   return <ul className={styles["channels-list"]}>{$items}</ul>;
 }
 
-function Channels({ title, items }) {
+function Channels({ title, items, ...attr }) {
   return (
     <div className={styles.channels}>
       <ChannelHeader title={title} />
-      <ChannelList items={items} />
+      <ChannelList items={items} {...attr} />
     </div>
   );
 }
