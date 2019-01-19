@@ -17,11 +17,11 @@ class Chat extends Component {
     this.endpoint = "http://localhost:3000";
     this.socket = io(this.endpoint);
     this.state = {
-      selectedChannel: "",
+      selectedChannel: { name: "JavaScript", id: "1" },
       isFetching: false,
       hasError: null,
       isLoaded: false,
-      channels: [],
+      channels: {},
       messageInput: "", // user message input is stored here
       displayName: "",
       displayNameInput: "",
@@ -44,16 +44,22 @@ class Chat extends Component {
   componentDidMount() {
     // I am fetching for channels
     this.setState({ isFetching: true });
-    fetch("/api/channels?fields=id,name")
+    fetch("/api/channels")
       .then(res => res.json())
       .then(
         result => {
-          const channels = result.map(channel => ({
-            isFetching: false,
-            isStale: false,
-            hasError: null,
-            ...channel
-          }));
+          const channels = result.reduce(
+            (acc, cv) =>
+              Object.assign(acc, {
+                [cv.name]: {
+                  ...cv,
+                  isFetching: false,
+                  isStale: false,
+                  hasError: null
+                }
+              }),
+            {}
+          );
 
           this.setState({
             isFetching: false,
@@ -139,17 +145,25 @@ class Chat extends Component {
   }
 
   render() {
-    const { messageInput, channels, displayName } = this.state;
+    const {
+      messageInput,
+      channels,
+      displayName,
+      isLoaded,
+      selectedChannel
+    } = this.state;
 
     return (
       <div className={stylesLayout["chat-app"]}>
         {this.renderDisplayNameForm()}
         <Sidebar>
           <DisplayName userName={displayName} />
-          {<Channels title="Channels" items={channels} />}
+          {<Channels title="Channels" items={Object.keys(channels)} />}
         </Sidebar>
         <main className={stylesLayout.main}>
-          {/* {<Messages msgs={currentChannel.msgs} />} */}
+          {isLoaded ? (
+            <Messages msgs={channels[selectedChannel.name].msgs} />
+          ) : null}
           <form
             action=""
             onSubmit={this.handleSubmit}
