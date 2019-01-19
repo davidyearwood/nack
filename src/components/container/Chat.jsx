@@ -38,6 +38,7 @@ class Chat extends Component {
       this
     );
     this.renderMessages = this.renderMessages.bind(this);
+    this.handleLinkClick = this.handleLinkClick.bind(this);
   }
 
   // Optional: TODO
@@ -130,6 +131,10 @@ class Chat extends Component {
     localStorage.setItem("displayName", displayNameInput);
   }
 
+  handleLinkClick(e) {
+    console.log(e.target);
+  }
+
   renderDisplayNameForm() {
     const { isDisplayNameOpen, displayNameInput } = this.state;
 
@@ -147,9 +152,15 @@ class Chat extends Component {
   }
 
   renderMessages({ match }) {
-    const { channels } = this.state;
+    const { channels, isLoaded, selectedChannel } = this.state;
 
-    return <Messages msgs={channels[match.params.id].msgs} />;
+    if (match.path === "/") {
+      return isLoaded ? (
+        <Messages msgs={channels[selectedChannel.name].msgs} />
+      ) : null;
+    }
+
+    return isLoaded ? <Messages msgs={channels[match.params.id].msgs} /> : null;
   }
 
   render() {
@@ -171,14 +182,13 @@ class Chat extends Component {
               <Channels
                 title="Channels"
                 items={Object.keys(channels)}
-                onClick={() => console.log("you click me")}
+                onClick={this.handleLinkClick}
               />
             }
           </Sidebar>
           <main className={stylesLayout.main}>
-            {isLoaded ? (
-              <Route path="/channels/:id" component={this.renderMessages} />
-            ) : null}
+            <Route path="/" exact component={this.renderMessages} />
+            <Route path="/channels/:id" component={this.renderMessages} />
             <form
               action=""
               onSubmit={this.handleSubmit}

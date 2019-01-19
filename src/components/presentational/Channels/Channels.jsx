@@ -9,10 +9,14 @@ const ChannelHeader = ({ title }) => (
   </header>
 );
 
-function ChannelList({ items }) {
+function ChannelList({ items, ...attr }) {
   const $items = items.map(item => (
     <li key={item} className={styles["channels-list__item"]}>
-      <Link to={`/channels/${item}`} className={styles["channels-list__link"]}>
+      <Link
+        to={`/channels/${item}`}
+        className={styles["channels-list__link"]}
+        {...attr}
+      >
         {item}
       </Link>
     </li>
