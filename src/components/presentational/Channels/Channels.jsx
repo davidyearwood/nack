@@ -9,15 +9,23 @@ const ChannelHeader = ({ title }) => (
   </header>
 );
 
-function ChannelList({ items, ...attr }) {
-  const $items = items.map(item => (
-    <li key={item} className={styles["channels-list__item"]}>
+function ChannelList({ channels, ...attr }) {
+  const channelsNames = Object.keys(channels);
+
+  const $items = channelsNames.map(channelName => (
+    <li
+      key={channels[channelName].id}
+      className={styles["channels-list__item"]}
+    >
       <Link
-        to={`/channels/${item}`}
+        to={{
+          pathname: `/channels/${channelName}`,
+          state: { id: channels[channelName].id, name: channelName }
+        }}
         className={styles["channels-list__link"]}
         {...attr}
       >
-        {item}
+        {channelName}
       </Link>
     </li>
   ));
@@ -29,35 +37,9 @@ function Channels({ title, items, ...attr }) {
   return (
     <div className={styles.channels}>
       <ChannelHeader title={title} />
-      <ChannelList items={items} {...attr} />
+      <ChannelList channels={items} {...attr} />
     </div>
   );
 }
-
-ChannelHeader.propTypes = {
-  title: PropTypes.string
-};
-
-ChannelHeader.defaultProps = {
-  title: ""
-};
-
-ChannelList.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object)
-};
-
-ChannelList.defaultProps = {
-  items: []
-};
-
-Channels.defaultProps = {
-  title: "",
-  items: []
-};
-
-Channels.propTypes = {
-  title: PropTypes.string,
-  items: PropTypes.arrayOf(PropTypes.object)
-};
 
 export default Channels;

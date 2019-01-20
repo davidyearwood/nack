@@ -140,6 +140,8 @@ io.on("connection", socket => {
     // adds to the db
     const channel = getChannel(msg.channelId);
     channel.msgs.push(msg);
+
+    console.log(msg);
   });
 });
 

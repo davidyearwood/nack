@@ -77,11 +77,17 @@ class Chat extends Component {
     // if a message is sent, the message is added to
     // the currentChannel state
     this.socket.on("chat message", msg => {
-      const { currentChannel } = this.state;
-      currentChannel.msgs.push(msg);
+      const { channels } = this.state;
+      const channel = channels[msg.name];
+      channel.msgs.push(msg);
 
       this.setState({
-        currentChannel
+        channels: {
+          ...channels,
+          [channel.name]: {
+            ...channel
+          }
+        }
       });
     });
 
@@ -94,8 +100,15 @@ class Chat extends Component {
       });
     }
 
-    this.unlisten = this.props.history.listen((location, action) => {
-      console.log(location);
+    const { history } = this.props;
+    this.unlisten = history.listen((location, action) => {
+      const { id, name } = location.state;
+      this.setState({
+        selectedChannel: {
+          id,
+          name
+        }
+      });
     });
   }
 
@@ -120,9 +133,13 @@ class Chat extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { messageInput, currentChannel, displayName } = this.state;
-    const message = createMessage(displayName, messageInput, currentChannel.id);
-
+    const { messageInput, selectedChannel, displayName } = this.state;
+    const message = createMessage(
+      displayName,
+      messageInput,
+      selectedChannel.id,
+      selectedChannel.name
+    );
     this.socket.emit("chat message", message);
     this.setState({
       messageInput: ""
@@ -157,7 +174,6 @@ class Chat extends Component {
 
   renderMessages({ match }) {
     const { channels, isLoaded, selectedChannel } = this.state;
-
     if (match.path === "/") {
       return isLoaded ? (
         <Messages msgs={channels[selectedChannel.name].msgs} />
@@ -181,7 +197,7 @@ class Chat extends Component {
         {this.renderDisplayNameForm()}
         <Sidebar>
           <DisplayName userName={displayName} />
-          {<Channels title="Channels" items={Object.keys(channels)} />}
+          {<Channels title="Channels" items={channels} />}
         </Sidebar>
         <main className={stylesLayout.main}>
           <Switch>
