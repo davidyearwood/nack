@@ -18,9 +18,9 @@ class Chat extends Component {
     super(props);
     this.endpoint = "http://localhost:3000";
     this.socket = io(this.endpoint);
-    const selected = JSON.parse(localStorage.getItem("lastChannel"));
+
     this.state = {
-      selectedChannel: selected || {
+      selectedChannel: JSON.parse(localStorage.getItem("lastChannel")) || {
         name: "JavaScript",
         id: "1"
       },
@@ -49,6 +49,8 @@ class Chat extends Component {
   // Instead of fetching channels the data from the resource
   // only get data for the channel the user wants to see
   componentDidMount() {
+    // replace original path
+
     // I am fetching for channels
     this.setState({ isFetching: true });
     fetch("/api/channels")
@@ -105,6 +107,11 @@ class Chat extends Component {
     }
 
     const { history } = this.props;
+    history.replace(`/channels/${this.state.selectedChannel.name}`, {
+      id: this.state.selectedChannel.id,
+      name: this.state.selectedChannel.name
+    });
+
     this.unlisten = history.listen((location, action) => {
       const { id, name } = location.state;
       this.setState({
