@@ -10,7 +10,8 @@ import Input from "../presentational/Input/Input";
 import Channels from "../presentational/Channels/Channels";
 import Sidebar from "../presentational/Sidebar/Sidebar";
 import DisplayName from "../presentational/DisplayName/DisplayName";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
+import { withRouter, Switch } from "react-router";
 
 class Chat extends Component {
   constructor(props) {
@@ -38,7 +39,6 @@ class Chat extends Component {
       this
     );
     this.renderMessages = this.renderMessages.bind(this);
-    this.handleLinkClick = this.handleLinkClick.bind(this);
   }
 
   // Optional: TODO
@@ -93,6 +93,14 @@ class Chat extends Component {
         isDisplayNameOpen: false
       });
     }
+
+    this.unlisten = this.props.history.listen((location, action) => {
+      console.log(location);
+    });
+  }
+
+  componentWillUnmount() {
+    this.unlisten();
   }
 
   // this can be refactor
@@ -129,10 +137,6 @@ class Chat extends Component {
     });
 
     localStorage.setItem("displayName", displayNameInput);
-  }
-
-  handleLinkClick(e) {
-    console.log(e.target);
   }
 
   renderDisplayNameForm() {
@@ -173,42 +177,36 @@ class Chat extends Component {
     } = this.state;
 
     return (
-      <Router>
-        <div className={stylesLayout["chat-app"]}>
-          {this.renderDisplayNameForm()}
-          <Sidebar>
-            <DisplayName userName={displayName} />
-            {
-              <Channels
-                title="Channels"
-                items={Object.keys(channels)}
-                onClick={this.handleLinkClick}
-              />
-            }
-          </Sidebar>
-          <main className={stylesLayout.main}>
+      <div className={stylesLayout["chat-app"]}>
+        {this.renderDisplayNameForm()}
+        <Sidebar>
+          <DisplayName userName={displayName} />
+          {<Channels title="Channels" items={Object.keys(channels)} />}
+        </Sidebar>
+        <main className={stylesLayout.main}>
+          <Switch>
             <Route path="/" exact component={this.renderMessages} />
             <Route path="/channels/:id" component={this.renderMessages} />
-            <form
-              action=""
-              onSubmit={this.handleSubmit}
-              className={stylesLayout["chat-form"]}
-            >
-              <Input
-                id="m"
-                type="text"
-                autoComplete="off"
-                placeholder="Type a message"
-                label="Send message"
-                value={messageInput}
-                onChange={this.handleChange}
-              />
-            </form>
-          </main>
-        </div>
-      </Router>
+          </Switch>
+          <form
+            action=""
+            onSubmit={this.handleSubmit}
+            className={stylesLayout["chat-form"]}
+          >
+            <Input
+              id="m"
+              type="text"
+              autoComplete="off"
+              placeholder="Type a message"
+              label="Send message"
+              value={messageInput}
+              onChange={this.handleChange}
+            />
+          </form>
+        </main>
+      </div>
     );
   }
 }
 
-export default Chat;
+export default withRouter(Chat);
