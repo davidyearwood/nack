@@ -18,12 +18,14 @@ class Chat extends Component {
     super(props);
     this.endpoint = "http://localhost:3000";
     this.socket = io(this.endpoint);
-
+    const lastChannelSelected = JSON.parse(
+      localStorage.getItem("lastChannelSelected")
+    ) || {
+      name: "JavaScript",
+      id: "1"
+    };
     this.state = {
-      selectedChannel: JSON.parse(localStorage.getItem("lastChannel")) || {
-        name: "JavaScript",
-        id: "1"
-      },
+      selectedChannel: lastChannelSelected,
       isFetching: false,
       hasError: null,
       isLoaded: false,
@@ -123,8 +125,7 @@ class Chat extends Component {
           name
         }
       });
-
-      localStorage.setItem("lastChannel", JSON.stringify({ id, name }));
+      localStorage.setItem("lastChannelSelected", JSON.stringify({ id, name }));
     });
   }
 
