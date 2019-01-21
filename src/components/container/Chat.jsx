@@ -47,13 +47,8 @@ class Chat extends Component {
     this.renderMessages = this.renderMessages.bind(this);
   }
 
-  // Optional: TODO
-  // Instead of fetching channels the data from the resource
-  // only get data for the channel the user wants to see
   componentDidMount() {
-    // replace original path
-
-    // I am fetching for channels
+    // Fetch all channels
     this.setState({ isFetching: true });
     fetch("/api/channels")
       .then(res => res.json())
@@ -80,9 +75,7 @@ class Chat extends Component {
         error => console.log(error)
       );
 
-    // listening for a chat message to be sent
-    // if a message is sent, the message is added to
-    // the currentChannel state
+    // Add messages to the state
     this.socket.on("chat message", msg => {
       const { channels } = this.state;
       const channel = channels[msg.name];
@@ -107,15 +100,15 @@ class Chat extends Component {
       });
     }
 
-    const { history } = this.props;
+    // Change Url path
     const { selectedChannel } = this.state;
-
     this.changeUrlPath(`/channels/${selectedChannel.name}`, {
       id: selectedChannel.id,
       name: selectedChannel.name
     });
 
-    // changeSelectedChannel
+    // update selected channel when the route changes
+    const { history } = this.props;
     this.unlistenToHistory = history.listen(location => {
       const { id, name } = location.state;
       this.setState({
