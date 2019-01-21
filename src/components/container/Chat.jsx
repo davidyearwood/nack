@@ -107,12 +107,15 @@ class Chat extends Component {
     }
 
     const { history } = this.props;
-    history.replace(`/channels/${this.state.selectedChannel.name}`, {
-      id: this.state.selectedChannel.id,
-      name: this.state.selectedChannel.name
+    const { selectedChannel } = this.state;
+
+    this.changeUrlPath(`/channels/${selectedChannel}`, {
+      id: selectedChannel.id,
+      name: selectedChannel.name
     });
 
-    this.unlisten = history.listen((location, action) => {
+    // changeSelectedChannel
+    this.unlistenToHistory = history.listen(location => {
       const { id, name } = location.state;
       this.setState({
         selectedChannel: {
@@ -120,12 +123,18 @@ class Chat extends Component {
           name
         }
       });
+
       localStorage.setItem("lastChannel", JSON.stringify({ id, name }));
     });
   }
 
   componentWillUnmount() {
-    this.unlisten();
+    this.unlistenToHistoryToHistory();
+  }
+
+  changeUrlPath(path, state = {}) {
+    const { history } = this.props;
+    history.replace(path, state);
   }
 
   // this can be refactor
