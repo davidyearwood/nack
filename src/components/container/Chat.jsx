@@ -65,7 +65,6 @@ class Chat extends Component {
                 [cv.name]: {
                   ...cv,
                   isFetching: false,
-                  isStale: false,
                   hasError: null
                 }
               }),
@@ -111,7 +110,7 @@ class Chat extends Component {
     const { history } = this.props;
     const { selectedChannel } = this.state;
 
-    this.changeUrlPath(`/channels/${selectedChannel}`, {
+    this.changeUrlPath(`/channels/${selectedChannel.name}`, {
       id: selectedChannel.id,
       name: selectedChannel.name
     });
