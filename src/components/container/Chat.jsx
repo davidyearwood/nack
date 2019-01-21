@@ -65,7 +65,6 @@ class Chat extends Component {
               }),
             {}
           );
-
           this.setState({
             isFetching: false,
             isLoaded: true,
@@ -79,7 +78,12 @@ class Chat extends Component {
     this.socket.on("chat message", msg => {
       const { channels } = this.state;
       const channel = channels[msg.name];
+      const LIMIT = 100;
       channel.msgs.push(msg);
+
+      while (channel.msgs.length >= LIMIT) {
+        channel.msgs = channel.msgs.slice(1);
+      }
 
       this.setState({
         channels: {

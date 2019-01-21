@@ -2,6 +2,7 @@ const app = require("express")();
 const server = require("http").Server(app);
 const bodyParser = require("body-parser");
 const io = require("socket.io")(server);
+const compareAsc = require("date-fns/compare_asc");
 const channels = require("./db/ChannelData");
 
 const port = 3000;
@@ -14,6 +15,15 @@ function getChannel(id) {
   return channels.find(
     channel => parseInt(channel.id, 10) === parseInt(id, 10)
   );
+}
+
+function addMessageToChannel(channel, msg) {
+  channel.msgs.push(msg);
+  const LIMIT = 100;
+
+  while (channel.msgs.length >= LIMIT) {
+    channel.msgs = channel.msgs.slice(1);
+  }
 }
 
 app.get("/channels", (req, res) => {
@@ -139,9 +149,7 @@ io.on("connection", socket => {
     io.emit("chat message", msg);
     // adds to the db
     const channel = getChannel(msg.channelId);
-    channel.msgs.push(msg);
-
-    console.log(msg);
+    addMessageToChannel(channel, msg);
   });
 });
 
