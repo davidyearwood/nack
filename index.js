@@ -21,8 +21,8 @@ function addMessageToChannel(channel, msg) {
   channel.msgs.push(msg);
   const LIMIT = 100;
 
-  while (channel.msgs.length >= LIMIT) {
-    channel.msgs = channel.msgs.slice(1);
+  if (channel.msgs.length > LIMIT) {
+    channel.msgs = channel.msgs.slice(channel.msgs.length - LIMIT);
   }
 }
 

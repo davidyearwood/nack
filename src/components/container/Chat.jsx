@@ -45,6 +45,7 @@ class Chat extends Component {
       this
     );
     this.renderMessages = this.renderMessages.bind(this);
+    this.addMessageToChannel = this.addMessageToChannel.bind(this);
   }
 
   componentDidMount() {
@@ -76,23 +77,7 @@ class Chat extends Component {
 
     // Add messages to the state
     this.socket.on("chat message", msg => {
-      const { channels } = this.state;
-      const channel = channels[msg.name];
-      const LIMIT = 100;
-      channel.msgs.push(msg);
-
-      while (channel.msgs.length >= LIMIT) {
-        channel.msgs = channel.msgs.slice(1);
-      }
-
-      this.setState({
-        channels: {
-          ...channels,
-          [channel.name]: {
-            ...channel
-          }
-        }
-      });
+      this.addMessageToChannel(msg);
     });
 
     // check to see if local storage has a display name already
@@ -127,6 +112,32 @@ class Chat extends Component {
 
   componentWillUnmount() {
     this.unlistenToHistoryToHistory();
+  }
+
+  addMessageToChannel(msg) {
+    const LIMIT = 100;
+    const { channels } = this.state;
+    const channel = channels[msg.name];
+
+    if (!channel) {
+      return this.setState({
+        hasError: true
+      });
+    }
+
+    channel.msgs.push(msg);
+    if (channel.msgs.length > LIMIT) {
+      channel.msgs = channel.msgs.slice(channel.msgs.length - LIMIT);
+    }
+
+    this.setState({
+      channels: {
+        ...channels,
+        [channel.name]: {
+          ...channel
+        }
+      }
+    });
   }
 
   changeUrlPath(path, state = {}) {
