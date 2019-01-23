@@ -213,13 +213,7 @@ class Chat extends Component {
   }
 
   render() {
-    const {
-      messageInput,
-      channels,
-      displayName,
-      isLoaded,
-      selectedChannel
-    } = this.state;
+    const { messageInput, channels, displayName } = this.state;
 
     return (
       <div className={stylesLayout["chat-app"]}>

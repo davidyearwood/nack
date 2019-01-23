@@ -5,8 +5,15 @@ import Message from "./Message";
 import styles from "./message.css";
 
 function Messages({ msgs }) {
+  const msgContainer = React.createRef();
   return (
-    <div className={styles.msgs}>
+    <div
+      className={styles.msgs}
+      ref={msgContainer}
+      onLoad={() =>
+        msgContainer.current.scrollTo(0, msgContainer.current.scrollHeight)
+      }
+    >
       {msgs.map(msg => (
         <Message
           key={msg.id}
