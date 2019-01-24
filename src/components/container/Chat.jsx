@@ -12,6 +12,7 @@ import Sidebar from "../presentational/Sidebar/Sidebar";
 import DisplayName from "../presentational/DisplayName/DisplayName";
 import { Route } from "react-router-dom";
 import { withRouter, Switch } from "react-router";
+import ChannelForm from "../presentational/ChannelForm/ChannelForm";
 
 class Chat extends Component {
   constructor(props) {
@@ -33,7 +34,8 @@ class Chat extends Component {
       messageInput: "", // user message input is stored here
       displayName: "",
       displayNameInput: "",
-      isDisplayNameOpen: true
+      isDisplayNameOpen: true,
+      channelInput: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -45,7 +47,9 @@ class Chat extends Component {
       this
     );
     this.renderMessages = this.renderMessages.bind(this);
+    this.createChannel = this.createChannel.bind(this);
     this.addMessageToChannel = this.addMessageToChannel.bind(this);
+    this.handleChannelInput = this.handleChannelInput.bind(this);
   }
 
   componentDidMount() {
@@ -114,6 +118,22 @@ class Chat extends Component {
     this.unlistenToHistoryToHistory();
   }
 
+  createChannel() {
+    const { displayName, channelInput, channels } = this.state;
+
+    if (!channels[channelInput]) {
+      fetch("/api/channels", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name: channelInput, creator: displayName })
+      })
+        .then(res => res.json())
+        .then(res => console.log(res));
+    }
+  }
+
   addMessageToChannel(msg) {
     const LIMIT = 100;
     const { channels } = this.state;
@@ -149,6 +169,12 @@ class Chat extends Component {
   hc(e, key) {
     this.setState({
       [key]: e.target.value
+    });
+  }
+
+  handleChannelInput(e) {
+    this.setState({
+      channelInput: e.target.value
     });
   }
 
@@ -213,10 +239,14 @@ class Chat extends Component {
   }
 
   render() {
-    const { messageInput, channels, displayName } = this.state;
-
+    const { messageInput, channels, displayName, channelInput } = this.state;
     return (
       <div className={stylesLayout["chat-app"]}>
+        <ChannelForm
+          value={channelInput}
+          onCreateBtnClick={this.createChannel}
+          onChange={this.handleChannelInput}
+        />
         {this.renderDisplayNameForm()}
         <Sidebar>
           <DisplayName userName={displayName} />
