@@ -1,6 +1,6 @@
 .chat-app {
   display: flex;
-  background-color: gray;
+  background-color: #fff;
 }
 
 .main {
@@ -21,4 +21,28 @@
   padding-top: 1rem;
   padding-bottom: 1rem;
   background-color: #fff;
+}
+
+.overlay {
+  position: absolute;
+  background-color: #fff;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.close-btn {
+  width: 2.0rem;
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  color: #616061;
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  text-align: center;
+  right: 5rem;
+  top: 4rem;
+  font-size: 0.8rem;
 }

@@ -13,6 +13,7 @@ import DisplayName from "../presentational/DisplayName/DisplayName";
 import { Route } from "react-router-dom";
 import { withRouter, Switch } from "react-router";
 import ChannelForm from "../presentational/ChannelForm/ChannelForm";
+import SvgClose from "../presentational/Svg/SvgClose";
 
 class Chat extends Component {
   constructor(props) {
@@ -35,7 +36,8 @@ class Chat extends Component {
       displayName: "",
       displayNameInput: "",
       isDisplayNameOpen: true,
-      channelInput: ""
+      channelInput: "",
+      isChannelFormOpen: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -242,11 +244,17 @@ class Chat extends Component {
     const { messageInput, channels, displayName, channelInput } = this.state;
     return (
       <div className={stylesLayout["chat-app"]}>
-        <ChannelForm
-          value={channelInput}
-          onCreateBtnClick={this.createChannel}
-          onChange={this.handleChannelInput}
-        />
+        <div className={stylesLayout.overlay}>
+          <button className={stylesLayout["close-btn"]} type="button">
+            <SvgClose />
+            close
+          </button>
+          <ChannelForm
+            value={channelInput}
+            onCreateBtnClick={this.createChannel}
+            onChange={this.handleChannelInput}
+          />
+        </div>
         {this.renderDisplayNameForm()}
         <Sidebar>
           <DisplayName userName={displayName} />
