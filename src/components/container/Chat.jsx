@@ -37,7 +37,8 @@ class Chat extends Component {
       displayNameInput: "",
       isDisplayNameOpen: true,
       channelInput: "",
-      isChannelFormOpen: false
+      isChannelFormOpen: true,
+      doesChannelNameExist: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -52,6 +53,9 @@ class Chat extends Component {
     this.createChannel = this.createChannel.bind(this);
     this.addMessageToChannel = this.addMessageToChannel.bind(this);
     this.handleChannelInput = this.handleChannelInput.bind(this);
+    this.openChannelForm = this.openChannelForm.bind(this);
+    this.closeChannelForm = this.closeChannelForm.bind(this);
+    this.handleChannelInputBlur = this.handleChannelInputBlur.bind(this);
   }
 
   componentDidMount() {
@@ -120,6 +124,34 @@ class Chat extends Component {
     this.unlistenToHistoryToHistory();
   }
 
+  openChannelForm() {
+    this.setState({
+      isChannelFormOpen: true
+    });
+  }
+
+  closeChannelForm(e) {
+    e.preventDefault();
+
+    this.setState({
+      isChannelFormOpen: false
+    });
+  }
+
+  handleChannelInputBlur() {
+    const { channels, channelInput } = this.state;
+    let doesChannelNameExist = false;
+    if (channels[channelInput]) {
+      doesChannelNameExist = true;
+    } else {
+      doesChannelNameExist = false;
+    }
+
+    this.setState({
+      doesChannelNameExist
+    });
+  }
+
   createChannel() {
     const { displayName, channelInput, channels } = this.state;
 
@@ -134,6 +166,8 @@ class Chat extends Component {
         .then(res => res.json())
         .then(res => console.log(res));
     }
+
+    this.closeChannelForm();
   }
 
   addMessageToChannel(msg) {
@@ -241,20 +275,36 @@ class Chat extends Component {
   }
 
   render() {
-    const { messageInput, channels, displayName, channelInput } = this.state;
+    const {
+      messageInput,
+      channels,
+      displayName,
+      channelInput,
+      isChannelFormOpen
+    } = this.state;
+
+    const $channelForm = isChannelFormOpen ? (
+      <div className={stylesLayout.overlay}>
+        <button
+          className={stylesLayout["close-btn"]}
+          type="button"
+          onClick={this.closeChannelForm}
+        >
+          <SvgClose />
+          close
+        </button>
+        <ChannelForm
+          value={channelInput}
+          onCreateBtnClick={this.createChannel}
+          onChange={this.handleChannelInput}
+          onBlur={this.handleChannelInputBlur}
+        />
+      </div>
+    ) : null;
+
     return (
       <div className={stylesLayout["chat-app"]}>
-        <div className={stylesLayout.overlay}>
-          <button className={stylesLayout["close-btn"]} type="button">
-            <SvgClose />
-            close
-          </button>
-          <ChannelForm
-            value={channelInput}
-            onCreateBtnClick={this.createChannel}
-            onChange={this.handleChannelInput}
-          />
-        </div>
+        {$channelForm}
         {this.renderDisplayNameForm()}
         <Sidebar>
           <DisplayName userName={displayName} />
