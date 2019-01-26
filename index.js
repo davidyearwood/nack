@@ -106,7 +106,7 @@ app.post("/channels", (req, res) => {
   const newChannel = {
     id: currentId + 1,
     name,
-    msg: [],
+    msgs: [],
     creator,
     msgCount: 0
   };
