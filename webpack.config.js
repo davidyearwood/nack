@@ -34,8 +34,13 @@ module.exports = {
       }
     ]
   },
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "/"
+  },
   devServer: {
-    contentBase: "./dist",
+    historyApiFallback: true,
+    contentBase: path.join(__dirname, "/dist"),
     proxy: {
       "/api": {
         target: "http://localhost:3000",
@@ -52,8 +57,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: "./src/index.html",
-      filename: "./index.html"
+      template: "./src/index.html"
     })
   ]
 };
