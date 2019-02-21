@@ -37,7 +37,7 @@ class Chat extends Component {
       displayNameInput: "",
       isDisplayNameOpen: true,
       channelInput: "",
-      isChannelFormOpen: true,
+      isChannelFormOpen: false,
       isChannelFormInvalid: false,
       channelFormErrorMsg: ""
     };
