@@ -1,4 +1,5 @@
 .msg {
+  margin-bottom: calc(1.2em);
 }
 
 .msgs {
@@ -14,17 +15,20 @@
 .msg__sender {
   font-size: 1rem;
   display: inline-block;
+  font-weight: 900;
+  margin: 0;
   margin-right: 0.402em;
-  margin-top: 0;
 }
 
 .msg__text {
   font-size: 1rem;
-  margin-top: 0.402rem;
+  margin: 0;
+  /* margin-top: 0.402rem; */
 }
 
 .msg__time {
-  color: gray;
+  color: #575758;
+  font-size: calc(1em / 1.2);
 }
 
 .l_msg {
