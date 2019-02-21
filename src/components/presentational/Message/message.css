@@ -1,10 +1,17 @@
-.msg {
-  margin-bottom: calc(1.2em);
-}
-
 .msgs {
+  box-sizing: border-box;
+  width: 95%;
   height: 90vh;
   overflow: scroll;
+  margin-left: auto;
+  margin-right: auto;
+  border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  padding: 1.44em;
+}
+
+.msg {
+  margin-bottom: calc(1.2em);
 }
 
 .msg__avatar {
@@ -36,5 +43,5 @@
 }
 
 .l_msg-col-1-3 {
-  margin-right: 1rem;
+  margin-right: 1.2rem;
 }
