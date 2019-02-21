@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Route } from "react-router-dom";
+import { withRouter, Switch } from "react-router";
 import PropTypes from "prop-types";
 import io from "socket.io-client";
 import Messages from "../presentational/Message/Messages";
@@ -10,8 +12,6 @@ import Input from "../presentational/Input/Input";
 import Channels from "../presentational/Channels/Channels";
 import Sidebar from "../presentational/Sidebar/Sidebar";
 import DisplayName from "../presentational/DisplayName/DisplayName";
-import { Route } from "react-router-dom";
-import { withRouter, Switch } from "react-router";
 import ChannelForm from "../presentational/ChannelForm/ChannelForm";
 import SvgClose from "../presentational/Svg/SvgClose";
 
@@ -203,7 +203,7 @@ class Chat extends Component {
       channel.msgs = channel.msgs.slice(channel.msgs.length - LIMIT);
     }
 
-    this.setState({
+    return this.setState({
       channels: {
         ...channels,
         [channel.name]: {

@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.10.1/libexec/bin/yarn.js add css-loader --dev
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.10.1/libexec/bin/yarn.js add --dev react-router
 
 PATH: 
   /Users/dayvod/.rvm/gems/ruby-2.4.2/bin:/Users/dayvod/.rvm/gems/ruby-2.4.2@global/bin:/Users/dayvod/.rvm/rubies/ruby-2.4.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/dayvod/.rvm/gems/ruby-2.4.2/bin:/Users/dayvod/.rvm/gems/ruby-2.4.2@global/bin:/Users/dayvod/.rvm/rubies/ruby-2.4.2/bin:/Users/dayvod/.rvm/bin:/Users/dayvod/.rvm/bin
@@ -35,21 +35,24 @@ npm manifest:
     "license": "ISC",
     "dependencies": {
       "body-parser": "^1.18.3",
+      "date-fns": "^1.30.1",
       "express": "^4.16.4",
+      "history": "^4.7.2",
       "prop-types": "^15.6.2",
       "react": "^16.7.0",
       "react-dom": "^16.7.0",
       "react-router-dom": "^4.3.1",
       "socket.io": "^2.2.0",
-      "socket.io-client": "^2.2.0"
+      "socket.io-client": "^2.2.0",
+      "uniqid": "^5.0.3"
     },
     "devDependencies": {
       "@babel/core": "^7.2.2",
       "@babel/preset-env": "^7.2.3",
       "@babel/preset-react": "^7.0.0",
       "babel-loader": "^8.0.4",
-      "css-loader": "^2.0.2",
-      "eslint": "^5.10.0",
+      "css-loader": "^2.1.0",
+      "eslint": "^5.11.1",
       "eslint-config-airbnb": "^17.1.0",
       "eslint-config-prettier": "^3.3.0",
       "eslint-plugin-import": "^2.14.0",
@@ -60,6 +63,7 @@ npm manifest:
       "html-webpack-plugin": "^3.2.0",
       "jest": "^23.6.0",
       "prettier": "^1.15.3",
+      "style-loader": "^0.23.1",
       "webpack": "^4.28.2",
       "webpack-cli": "^3.1.2",
       "webpack-dev-server": "^3.1.14"
@@ -2114,13 +2118,13 @@ Lockfile:
       randombytes "^2.0.0"
       randomfill "^1.0.3"
   
-  css-loader@^2.0.2:
-    version "2.0.2"
-    resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-2.0.2.tgz#5b02031745ba6d6721bcecad39daaea9804e30d3"
-    integrity sha512-28hdCb5gCuTKUA+R6KzLwgxK6pUfgvrUyMNn7avOUQYFvmc13djru28uG+NF/pRre7Odd6B/kmJErCcpFZZQpQ==
+  css-loader@^2.1.0:
+    version "2.1.0"
+    resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-2.1.0.tgz#42952ac22bca5d076978638e9813abce49b8f0cc"
+    integrity sha512-MoOu+CStsGrSt5K2OeZ89q3Snf+IkxRfAIt9aAKg4piioTrhtP1iEFPu+OVn3Ohz24FO6L+rw9UJxBILiSBw5Q==
     dependencies:
       icss-utils "^4.0.0"
-      loader-utils "^1.0.2"
+      loader-utils "^1.2.1"
       lodash "^4.17.11"
       postcss "^7.0.6"
       postcss-modules-extract-imports "^2.0.0"
@@ -2196,6 +2200,11 @@ Lockfile:
       abab "^2.0.0"
       whatwg-mimetype "^2.2.0"
       whatwg-url "^7.0.0"
+  
+  date-fns@^1.30.1:
+    version "1.30.1"
+    resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
+    integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
   
   date-now@^0.1.4:
     version "0.1.4"
@@ -2776,10 +2785,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#3f3180fb2e291017716acb4c9d6d5b5c34a6a81d"
     integrity sha512-qzm/XxIbxm/FHyH341ZrbnMUpe+5Bocte9xkmFMzPMjRaZMcXww+MpBptFvtU+79L362nqiLhekCxCxDPaUMBQ==
   
-  eslint@^5.10.0:
-    version "5.10.0"
-    resolved "https://registry.yarnpkg.com/eslint/-/eslint-5.10.0.tgz#24adcbe92bf5eb1fc2d2f2b1eebe0c5e0713903a"
-    integrity sha512-HpqzC+BHULKlnPwWae9MaVZ5AXJKpkxCVXQHrFaRw3hbDj26V/9ArYM4Rr/SQ8pi6qUPLXSSXC4RBJlyq2Z2OQ==
+  eslint@^5.11.1:
+    version "5.11.1"
+    resolved "https://registry.yarnpkg.com/eslint/-/eslint-5.11.1.tgz#8deda83db9f354bf9d3f53f9677af7e0e13eadda"
+    integrity sha512-gOKhM8JwlFOc2acbOrkYR05NW8M6DCMSvfcJiBB5NDxRE1gv8kbvxKaC9u69e6ZGEMWXcswA/7eKR229cEIpvg==
     dependencies:
       "@babel/code-frame" "^7.0.0"
       ajv "^6.5.3"
@@ -4835,6 +4844,15 @@ Lockfile:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.2.0.tgz#8194a9bfabc3612e52e556139f67acbf01b267b7"
     integrity sha512-KkQxP+pVgJC6ypy8ePypyhsV/hZeyVlkqiqrxe4pDgCwClbzmr3dGy8LbeSVhmfzYmCpOovdrVs/9chsQXCrLQ==
+    dependencies:
+      big.js "^5.2.2"
+      emojis-list "^2.0.0"
+      json5 "^1.0.1"
+  
+  loader-utils@^1.2.1:
+    version "1.2.3"
+    resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.2.3.tgz#1ff5dc6911c9f0a062531a4c04b609406108c2c7"
+    integrity sha512-fkpz8ejdnEMG3s37wGL07iSBDg99O9D5yflE9RGNH3hRdx9SOwYfnGYdZOUIZitN8E+E2vkq3MUMYMvPYl5ZZA==
     dependencies:
       big.js "^5.2.2"
       emojis-list "^2.0.0"
@@ -7142,6 +7160,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
     integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
   
+  style-loader@^0.23.1:
+    version "0.23.1"
+    resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.23.1.tgz#cb9154606f3e771ab6c4ab637026a1049174d925"
+    integrity sha512-XK+uv9kWwhZMZ1y7mysB+zoihsEj4wneFWAS5qoiLwzW0WzSqMrrsIy+a3zkQJq0ipFtBpX5W3MqyRIBF/WFGg==
+    dependencies:
+      loader-utils "^1.1.0"
+      schema-utils "^1.0.0"
+  
   supports-color@^2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
@@ -7435,6 +7461,11 @@ Lockfile:
       get-value "^2.0.6"
       is-extendable "^0.1.1"
       set-value "^0.4.3"
+  
+  uniqid@^5.0.3:
+    version "5.0.3"
+    resolved "https://registry.yarnpkg.com/uniqid/-/uniqid-5.0.3.tgz#917968310edc868d50df6c44f783f32c7d80fac1"
+    integrity sha512-R2qx3X/LYWSdGRaluio4dYrPXAJACTqyUjuyXHoJLBUOIfmMcnYOyY2d6Y4clZcIz5lK6ZaI0Zzmm0cPfsIqzQ==
   
   unique-filename@^1.1.1:
     version "1.1.1"
