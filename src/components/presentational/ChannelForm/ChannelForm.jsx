@@ -2,7 +2,13 @@ import React from "react";
 import Button from "../Button/Button";
 import styles from "./channelForm.css";
 
-function ChannelForm({ value, onCreateBtnClick, ...attr }) {
+function ChannelForm({
+  value,
+  onCreateBtnClick,
+  isInvalid,
+  errorMsg,
+  ...attr
+}) {
   return (
     <div className={styles["channel-form"]}>
       <h1 className={styles["channel-form__header"]}>Create a Channel</h1>
@@ -12,18 +18,29 @@ function ChannelForm({ value, onCreateBtnClick, ...attr }) {
           className={styles["channel-form__label"]}
         >
           Name
+          {isInvalid ? (
+            <span className={styles["error-msg"]}>{errorMsg}</span>
+          ) : null}
           <input
             type="text"
             placeholder="e.g. l33t club"
             value={value}
             id="channel-form-name-field"
-            className={styles["channel-form__input"]}
+            className={
+              isInvalid
+                ? `${styles["channel-form__input"]} ${styles["is-invalid"]}`
+                : styles["channel-form__input"]
+            }
             {...attr}
           />
         </label>
         <Button
           text="Create Channel"
-          classNames={[styles["channel-form__btn"]]}
+          classNames={
+            isInvalid
+              ? [styles["channel-form__btn"]]
+              : [`${styles["channel-form__btn"]} ${styles["is-valid"]}`]
+          }
           onClick={onCreateBtnClick}
         />
       </form>

@@ -38,7 +38,8 @@ class Chat extends Component {
       isDisplayNameOpen: true,
       channelInput: "",
       isChannelFormOpen: true,
-      doesChannelNameExist: false
+      isChannelFormInvalid: false,
+      channelFormErrorMsg: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -130,9 +131,7 @@ class Chat extends Component {
     });
   }
 
-  closeChannelForm(e) {
-    e.preventDefault();
-
+  closeChannelForm() {
     this.setState({
       isChannelFormOpen: false
     });
@@ -140,22 +139,30 @@ class Chat extends Component {
 
   handleChannelInputBlur() {
     const { channels, channelInput } = this.state;
-    let doesChannelNameExist = false;
+    let isChannelFormInvalid = false;
+    let errorMsg = "";
     if (channels[channelInput]) {
-      doesChannelNameExist = true;
+      isChannelFormInvalid = true;
+      errorMsg = "Looks like the channel already exists.";
     } else {
-      doesChannelNameExist = false;
+      isChannelFormInvalid = false;
     }
 
     this.setState({
-      doesChannelNameExist
+      isChannelFormInvalid,
+      channelFormErrorMsg: errorMsg
     });
   }
 
   createChannel() {
-    const { displayName, channelInput, channels } = this.state;
+    const {
+      displayName,
+      channelInput,
+      channels,
+      isChannelFormInvalid
+    } = this.state;
 
-    if (!channels[channelInput]) {
+    if (!isChannelFormInvalid) {
       fetch("/api/channels", {
         method: "POST",
         headers: {
@@ -164,7 +171,17 @@ class Chat extends Component {
         body: JSON.stringify({ name: channelInput, creator: displayName })
       })
         .then(res => res.json())
-        .then(res => console.log(res));
+        .then(res => {
+          const newChannel = Object.assign({}, res);
+
+          this.setState({
+            channels: {
+              ...channels,
+              [newChannel.name]: newChannel
+            },
+            channelInput: ""
+          });
+        });
     }
 
     this.closeChannelForm();
@@ -280,7 +297,9 @@ class Chat extends Component {
       channels,
       displayName,
       channelInput,
-      isChannelFormOpen
+      isChannelFormOpen,
+      isChannelFormInvalid,
+      channelFormErrorMsg
     } = this.state;
 
     const $channelForm = isChannelFormOpen ? (
@@ -298,6 +317,8 @@ class Chat extends Component {
           onCreateBtnClick={this.createChannel}
           onChange={this.handleChannelInput}
           onBlur={this.handleChannelInputBlur}
+          isInvalid={isChannelFormInvalid}
+          errorMsg={channelFormErrorMsg}
         />
       </div>
     ) : null;

@@ -21,7 +21,7 @@
 }
 
 .channel-form__input.is-invalid {
-  color: #af2b37;
+  border-color: #af2b37;
 }
 
 .channel-form__btn {
@@ -32,11 +32,13 @@
   padding: 1rem;
   font-size: 1.2rem;
   cursor: pointer;  
+  transition: 0.5ms background; 
 }
 
 .channel-form__btn.is-valid {
   background-color: #559965;
   color: #fff;
+  transition: 0.5ms background;
 }
 
 .channel-form__label {
