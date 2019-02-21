@@ -9,9 +9,7 @@
   width: auto;
   flex-basis: 75%;
   flex-grow: 1;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  background: #fff;
+  background: #efefef;
   flex-direction: column;
 }
 
