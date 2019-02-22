@@ -327,10 +327,7 @@ class Chat extends Component {
       <div className={stylesLayout["chat-app"]}>
         {$channelForm}
         {this.renderDisplayNameForm()}
-        <Sidebar>
-          <DisplayName userName={displayName} />
-          {<Channels title="Channels" items={channels} />}
-        </Sidebar>
+        <Sidebar>{<Channels title="Channels" items={channels} />}</Sidebar>
         <main className={stylesLayout.main}>
           <Switch>
             <Route path="/" exact component={this.renderMessages} />
