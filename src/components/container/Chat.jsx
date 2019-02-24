@@ -14,6 +14,7 @@ import Sidebar from "../presentational/Sidebar/Sidebar";
 import DisplayName from "../presentational/DisplayName/DisplayName";
 import ChannelForm from "../presentational/ChannelForm/ChannelForm";
 import SvgClose from "../presentational/Svg/SvgClose";
+import Nav from "../presentational/Nav";
 
 class Chat extends Component {
   constructor(props) {
@@ -299,7 +300,8 @@ class Chat extends Component {
       channelInput,
       isChannelFormOpen,
       isChannelFormInvalid,
-      channelFormErrorMsg
+      channelFormErrorMsg,
+      selectedChannel
     } = this.state;
 
     const $channelForm = isChannelFormOpen ? (
@@ -329,6 +331,7 @@ class Chat extends Component {
         {this.renderDisplayNameForm()}
         <Sidebar>{<Channels title="Channels" items={channels} />}</Sidebar>
         <main className={stylesLayout.main}>
+          <Nav channelName={selectedChannel.name} />
           <Switch>
             <Route path="/" exact component={this.renderMessages} />
             <Route path="/channels/:id" component={this.renderMessages} />
