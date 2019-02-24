@@ -1,13 +1,14 @@
 .msgs {
   box-sizing: border-box;
   width: 95%;
-  height: 100%;
+  height: 80%;
   overflow: scroll;
   margin-left: auto;
   margin-right: auto;
   border-right: 1px solid #ccc;
   border-left: 1px solid #ccc;
   padding: 1.44em;
+  flex-grow: 1;
   background-color: #fff;
 }
 

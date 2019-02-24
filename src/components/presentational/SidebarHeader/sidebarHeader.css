@@ -1,0 +1,17 @@
+.sidebarHeader {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  width: 100%;
+  background-color: transparent;
+  border-bottom: 1px solid #262637;
+  height: 3.583rem;
+}
+
+.username {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #c8c9da;
+  margin: 0;
+  margin-left: 1.2rem;
+}

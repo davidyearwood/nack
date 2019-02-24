@@ -15,6 +15,7 @@ import DisplayName from "../presentational/DisplayName/DisplayName";
 import ChannelForm from "../presentational/ChannelForm/ChannelForm";
 import SvgClose from "../presentational/Svg/SvgClose";
 import SiteHeader from "../presentational/SiteHeader";
+import SidebarHeader from "../presentational/SidebarHeader";
 
 class Chat extends Component {
   constructor(props) {
@@ -329,7 +330,10 @@ class Chat extends Component {
       <div className={stylesLayout["chat-app"]}>
         {$channelForm}
         {this.renderDisplayNameForm()}
-        <Sidebar>{<Channels title="Channels" items={channels} />}</Sidebar>
+        <Sidebar>
+          <SidebarHeader username={displayName} />
+          {<Channels title="Channels" items={channels} />}
+        </Sidebar>
         <main className={stylesLayout.main}>
           <SiteHeader channelName={selectedChannel.name} />
           <Switch>
