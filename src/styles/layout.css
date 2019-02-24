@@ -50,3 +50,9 @@
   top: 4rem;
   font-size: 0.8rem;
 }
+
+.iconBtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}

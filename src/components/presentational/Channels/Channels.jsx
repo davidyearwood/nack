@@ -36,7 +36,6 @@ function ChannelList({ channels, ...attr }) {
 function Channels({ title, items, ...attr }) {
   return (
     <div className={styles.channels}>
-      <ChannelHeader title={title} />
       <ChannelList channels={items} {...attr} />
     </div>
   );

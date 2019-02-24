@@ -16,6 +16,8 @@ import ChannelForm from "../presentational/ChannelForm/ChannelForm";
 import SvgClose from "../presentational/Svg/SvgClose";
 import SiteHeader from "../presentational/SiteHeader";
 import SidebarHeader from "../presentational/SidebarHeader";
+import ChannelHeader from "../presentational/ChannelHeader";
+import PlusIcon from "../presentational/Svg/PlusIcon";
 
 class Chat extends Component {
   constructor(props) {
@@ -332,7 +334,17 @@ class Chat extends Component {
         {this.renderDisplayNameForm()}
         <Sidebar>
           <SidebarHeader username={displayName} />
-          {<Channels title="Channels" items={channels} />}
+          <section>
+            <ChannelHeader title="Channels">
+              <button
+                onClick={this.openChannelForm}
+                className={stylesLayout.iconBtn}
+              >
+                <PlusIcon height={20} width={20} />
+              </button>
+            </ChannelHeader>
+            {<Channels title="Channels" items={channels} />}
+          </section>
         </Sidebar>
         <main className={stylesLayout.main}>
           <SiteHeader channelName={selectedChannel.name} />
