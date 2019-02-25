@@ -345,7 +345,13 @@ class Chat extends Component {
                 <PlusIcon height={15} width={15} />
               </button>
             </ChannelHeader>
-            {<Channels title="Channels" items={channels} />}
+            {
+              <Channels
+                title="Channels"
+                items={channels}
+                active={selectedChannel.name}
+              />
+            }
           </section>
         </Sidebar>
         <main className={stylesLayout.main}>

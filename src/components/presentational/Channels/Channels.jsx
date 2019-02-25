@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import styles from "./channels.css";
+import styles from "./Channels.css";
 
 const ChannelHeader = ({ title }) => (
   <header className={styles["channels-header"]}>
@@ -9,13 +9,17 @@ const ChannelHeader = ({ title }) => (
   </header>
 );
 
-function ChannelList({ channels, ...attr }) {
+function ChannelList({ channels, activeChannel, ...attr }) {
   const channelsNames = Object.keys(channels);
 
   const $items = channelsNames.map(channelName => (
     <li
       key={channels[channelName].id}
-      className={styles["channels-list__item"]}
+      className={
+        channelName === activeChannel
+          ? `${styles["is-active"]} ${styles["channels-list__item"]}`
+          : styles["channels-list__item"]
+      }
     >
       <Link
         to={{
@@ -33,10 +37,10 @@ function ChannelList({ channels, ...attr }) {
   return <ul className={styles["channels-list"]}>{$items}</ul>;
 }
 
-function Channels({ title, items, ...attr }) {
+function Channels({ title, items, active, ...attr }) {
   return (
     <div className={styles.channels}>
-      <ChannelList channels={items} {...attr} />
+      <ChannelList channels={items} {...attr} activeChannel={active} />
     </div>
   );
 }
