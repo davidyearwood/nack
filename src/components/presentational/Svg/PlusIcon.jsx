@@ -1,17 +1,21 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-function PlusIcon({ height, width }) {
+function PlusIcon({ height, width, fill }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 512 512"
+      viewBox="0 0 448 512"
       height={height}
       width={width}
-      fill="#a2a3ba"
+      fill={fill}
     >
-      <path d="m256 8c-137 0-248 111-248 248s111 248 248 248 248-111 248-248-111-248-248-248zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12z" />
+      <path d="m416 208h-144v-144c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144h-144c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-144h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
     </svg>
   );
 }
 
+PlusIcon.defaultProps = {
+  fill: "#a2a3ba"
+};
 export default PlusIcon;

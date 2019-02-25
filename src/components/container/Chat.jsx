@@ -332,15 +332,17 @@ class Chat extends Component {
       <div className={stylesLayout["chat-app"]}>
         {$channelForm}
         {this.renderDisplayNameForm()}
+        <aside />
         <Sidebar>
           <SidebarHeader username={displayName} />
           <section>
             <ChannelHeader title="Channels">
               <button
+                type="submit"
                 onClick={this.openChannelForm}
                 className={stylesLayout.iconBtn}
               >
-                <PlusIcon height={20} width={20} />
+                <PlusIcon height={15} width={15} />
               </button>
             </ChannelHeader>
             {<Channels title="Channels" items={channels} />}
