@@ -20,7 +20,7 @@
 }
 
 .channels-list__item.is-active {
-  border-left: 2px solid #e59087;
+  border-left: 3px solid #e59087;
   background-color: #2e2f43;
 }
 

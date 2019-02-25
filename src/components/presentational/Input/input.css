@@ -5,6 +5,8 @@
   font-size: 1em;
   padding: 0.694em;
   box-sizing: border-box;
+  height: auto;
+  resize: none;
 }
 
 .inputField:focus {

@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import styles from "./input.css";
 
 const Input = ({ label, id, type, value, ...attr }) => (
-  <input
+  <textarea
     aria-label={label}
     type={type}
     className={styles.inputField}
     id={id}
     value={value}
+    row="1"
     required
     {...attr}
   />
