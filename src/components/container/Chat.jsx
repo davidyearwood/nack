@@ -11,13 +11,13 @@ import DisplayNameForm from "../presentational/DisplayNameForm/DisplayNameForm";
 import Input from "../presentational/Input/Input";
 import Channels from "../presentational/Channels/Channels";
 import Sidebar from "../presentational/Sidebar/Sidebar";
-import DisplayName from "../presentational/DisplayName/DisplayName";
 import ChannelForm from "../presentational/ChannelForm/ChannelForm";
 import SvgClose from "../presentational/Svg/SvgClose";
 import SiteHeader from "../presentational/SiteHeader";
 import SidebarHeader from "../presentational/SidebarHeader";
 import ChannelHeader from "../presentational/ChannelHeader";
 import PlusIcon from "../presentational/Svg/PlusIcon";
+import Logo from "../presentational/Logo";
 
 class Chat extends Component {
   constructor(props) {
@@ -334,7 +334,6 @@ class Chat extends Component {
       <div className={stylesLayout["chat-app"]}>
         {$channelForm}
         {this.renderDisplayNameForm()}
-        <aside />
         <Sidebar>
           <SidebarHeader username={displayName} />
           <section>
@@ -355,6 +354,7 @@ class Chat extends Component {
               />
             }
           </section>
+          <Logo height={25} width={25} fill="#9696a1" />
         </Sidebar>
         <main className={stylesLayout.main}>
           <SiteHeader channelName={selectedChannel.name} />

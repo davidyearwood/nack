@@ -1,0 +1,18 @@
+.logo {
+  box-sizing: border-box;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  background-color: #2d2d43;
+  margin-top: auto;
+  padding-left: 1rem;
+  padding-top: 0.579rem;
+  padding-bottom: 0.579rem;
+}
+
+.logoName {
+  color: #9696a1;
+  font-size: 1.44rem;
+  margin: 0;
+  margin-left: 0.482rem;
+}
