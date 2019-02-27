@@ -6,9 +6,10 @@ import styles from "./message.css";
 
 const DayDivider = ({ date }) => (
   <div className={styles.divider}>
-    <h3>{format(date, "dddd, MMMM Do")}</h3>
+    <span className={styles.dividerDate}>{format(date, "dddd, MMMM Do")}</span>
   </div>
 );
+
 function Messages({ msgs }) {
   const msgContainer = React.createRef();
   return (
