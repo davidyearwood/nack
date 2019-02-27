@@ -5,7 +5,8 @@
   width: 100%;
   background-color: transparent;
   border-bottom: 1px solid #262637;
-  height: 3.583rem;
+  height: 3.052rem;
+  flex-wrap: wrap;
 }
 
 .username {
@@ -13,5 +14,4 @@
   font-weight: 400;
   color: #c8c9da;
   margin: 0;
-  margin-left: 1.2rem;
 }

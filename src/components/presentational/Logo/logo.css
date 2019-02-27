@@ -8,11 +8,12 @@
   padding-left: 1rem;
   padding-top: 0.579rem;
   padding-bottom: 0.579rem;
+  align-items: center;
 }
 
 .logoName {
   color: #9696a1;
-  font-size: 1.44rem;
+  font-size: 1.2rem;
   margin: 0;
   margin-left: 0.482rem;
 }

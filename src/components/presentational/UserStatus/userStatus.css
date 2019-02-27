@@ -1,0 +1,19 @@
+/* .status {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  align-items: center;
+  margin-left: 1.2rem;
+}
+
+.text {
+  margin-left: 0.328rem;
+  color: #c8c9da;
+  font-size: 0.8rem;
+} */
+
+.status {
+  margin-left: 1.2rem;
+  margin-right: 0.328rem;
+}
