@@ -244,20 +244,18 @@ class Chat extends Component {
   }
 
   handleSubmit(e) {
-    if (e.which === 13 && !e.shiftKey) {
-      e.preventDefault();
-      const { messageInput, selectedChannel, displayName } = this.state;
-      const message = createMessage(
-        displayName,
-        messageInput,
-        selectedChannel.id,
-        selectedChannel.name
-      );
-      this.socket.emit("chat message", message);
-      this.setState({
-        messageInput: ""
-      });
-    }
+    e.preventDefault();
+    const { messageInput, selectedChannel, displayName } = this.state;
+    const message = createMessage(
+      displayName,
+      messageInput,
+      selectedChannel.id,
+      selectedChannel.name
+    );
+    this.socket.emit("chat message", message);
+    this.setState({
+      messageInput: ""
+    });
   }
 
   handleDisplayNameButtonClick() {
@@ -362,16 +360,19 @@ class Chat extends Component {
             <Route path="/" exact component={this.renderMessages} />
             <Route path="/channels/:id" component={this.renderMessages} />
           </Switch>
-          <form action="" className={stylesLayout["chat-form"]}>
+          <form
+            action=""
+            className={stylesLayout["chat-form"]}
+            onSubmit={this.handleSubmit}
+          >
             <Input
               id="m"
-              type="submit"
+              type="text"
               autoComplete="off"
               placeholder="Type a message"
               label="Send message"
               value={messageInput}
               onChange={this.handleChange}
-              onKeyPress={this.handleSubmit}
             />
           </form>
         </main>

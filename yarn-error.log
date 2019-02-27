@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.10.1/libexec/bin/yarn.js add --dev react-router
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.10.1/libexec/bin/yarn.js add --dev react-testing-library
 
 PATH: 
   /Users/dayvod/.rvm/gems/ruby-2.4.2/bin:/Users/dayvod/.rvm/gems/ruby-2.4.2@global/bin:/Users/dayvod/.rvm/rubies/ruby-2.4.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/dayvod/.rvm/gems/ruby-2.4.2/bin:/Users/dayvod/.rvm/gems/ruby-2.4.2@global/bin:/Users/dayvod/.rvm/rubies/ruby-2.4.2/bin:/Users/dayvod/.rvm/bin:/Users/dayvod/.rvm/bin
@@ -44,7 +44,8 @@ npm manifest:
       "react-router-dom": "^4.3.1",
       "socket.io": "^2.2.0",
       "socket.io-client": "^2.2.0",
-      "uniqid": "^5.0.3"
+      "uniqid": "^5.0.3",
+      "react-router": "^4.3.1"
     },
     "devDependencies": {
       "@babel/core": "^7.2.2",
