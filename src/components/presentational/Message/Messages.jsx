@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { format, isSameDay } from "date-fns";
+import { format, isSameDay, isToday } from "date-fns";
 import Message from "./Message";
 import styles from "./message.css";
 
 const DayDivider = ({ date }) => (
   <div className={styles.divider}>
-    <span className={styles.dividerDate}>{format(date, "dddd, MMMM Do")}</span>
+    <span className={styles.dividerDate}>
+      {isToday(date) ? "Today" : format(date, "dddd, MMMM Do")}
+    </span>
   </div>
 );
 
