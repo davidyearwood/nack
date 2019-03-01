@@ -20,6 +20,15 @@ describe("When a user inputs a channel name that doesn't exist", () => {
 
     expect(input.value).toBe("ninjas-dancing");
   });
+
+  test("It should enable the submit button", () => {
+    const form = render(<ChannelCreator />);
+    const input = form.getByLabelText("Name");
+
+    fireEvent.change(input, { target: { value: "ninjas-dancing" } });
+
+    expect(form.getByText("Create Channel").disabled).not.toBeTruthy();
+  });
 });
 
 describe("When a user inputs a channel name that already exist", () => {
@@ -31,5 +40,15 @@ describe("When a user inputs a channel name that already exist", () => {
     fireEvent.change(input, { target: { value: "javascript" } });
 
     expect(form.queryByText(/Channel name already exists/i)).toBeTruthy();
+  });
+
+  test("It should disable the submit button", () => {
+    const form = render(
+      <ChannelCreator channels={["javascript", "python", "php7"]} />
+    );
+    const input = form.getByLabelText("Name");
+    fireEvent.change(input, { target: { value: "javascript" } });
+
+    expect(form.getByText("Create Channel").disabled).toBeTruthy();
   });
 });
