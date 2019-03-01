@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Button from "../Button";
 import styles from "./channelForm.css";
 
@@ -42,6 +43,7 @@ function ChannelForm({
               : [`${styles["channel-form__btn"]} ${styles["is-valid"]}`]
           }
           onClick={onCreateBtnClick}
+          disabled={isInvalid}
         />
       </form>
     </div>
