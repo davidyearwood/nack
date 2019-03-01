@@ -7,23 +7,46 @@ class ChannelCreator extends Component {
     super(props);
 
     this.state = {
-      input: ""
+      input: "",
+      errorMsg: "",
+      isInvalid: false
     };
 
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e) {
-    this.setState({
-      input: e.target.value
-    });
+    const { channels } = this.props;
+
+    if (!channels.includes(e.target.value)) {
+      this.setState({
+        input: e.target.value,
+        isInvalid: false
+      });
+    } else {
+      this.setState({
+        input: e.target.value,
+        errorMsg: "Channel name already exists",
+        isInvalid: true
+      });
+    }
   }
 
   render() {
-    const { input } = this.state;
+    const { input, errorMsg, isInvalid } = this.state;
     // renders some form
-    return <ChannelForm value={input} onChange={this.handleChange} />;
+    return (
+      <ChannelForm
+        value={input}
+        onChange={this.handleChange}
+        errorMsg={errorMsg}
+        isInvalid={isInvalid}
+      />
+    );
   }
 }
 
+ChannelCreator.defaultProps = {
+  channels: []
+};
 export default ChannelCreator;
