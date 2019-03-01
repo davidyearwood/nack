@@ -3,7 +3,7 @@ import SvgUser from "../Svg/SvgUser";
 import Modal from "../Modal/Modal";
 import styles from "./displayNameForm.css";
 import functional from "../../../styles/functional.css";
-import Button from "../Button/Button";
+import Button from "../Button";
 
 const Header = ({ title }) => (
   <div className={styles.displayName__header}>

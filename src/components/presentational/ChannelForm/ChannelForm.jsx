@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../Button/Button";
+import Button from "../Button";
 import styles from "./channelForm.css";
 
 function ChannelForm({

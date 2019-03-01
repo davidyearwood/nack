@@ -1,0 +1,16 @@
+.container {
+  background-color: #f7f7f7;
+  border-top: 1px solid #ccc;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 1.44rem;
+  padding-bottom: 1.44rem;
+}
+
+.info {
+  font-size: 1.2rem;
+  margin: 0;
+}

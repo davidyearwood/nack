@@ -18,6 +18,7 @@ import SidebarHeader from "../presentational/SidebarHeader";
 import ChannelHeader from "../presentational/ChannelHeader";
 import PlusIcon from "../presentational/Svg/PlusIcon";
 import Logo from "../presentational/Logo";
+import JoinChannel from "../presentational/JoinChannel";
 
 class Chat extends Component {
   constructor(props) {
@@ -306,7 +307,6 @@ class Chat extends Component {
       channelFormErrorMsg,
       selectedChannel
     } = this.state;
-
     const $channelForm = isChannelFormOpen ? (
       <div className={stylesLayout.overlay}>
         <button

@@ -144,6 +144,7 @@ app.post("/channel/:channelId/msg", (req, res) => {
 
 io.on("connection", socket => {
   // listens to client messages
+  console.log(socket);
   socket.on("chat message", msg => {
     // sends an emit message when it receives a msg
     io.emit("chat message", msg);
