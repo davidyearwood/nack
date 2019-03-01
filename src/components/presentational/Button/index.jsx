@@ -2,11 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./button.css";
 
+const joinClassNames = (str, classNames) => classNames.concat(str).join(" ");
+
 function Button({ text, classNames, type, ...attr }) {
   return (
     <button
       type={type}
-      className={`${styles.btn} ${classNames.join(" ")}`}
+      className={joinClassNames(styles.btn, classNames)}
       {...attr}
     >
       {text}
