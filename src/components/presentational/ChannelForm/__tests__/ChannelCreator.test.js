@@ -60,23 +60,19 @@ describe("When a user clicks create channel button", () => {
       () =>
         new Promise((resolve, reject) => {
           resolve({
-            statusCode: 21
+            statusCode: 201,
+            json() {
+              return { statusCode: 201 };
+            }
           });
         })
     );
   });
-  test("It should display a spinner until data is successfully submitted", async () => {
-    // stub response
-    // const resp = {
-    //   statusCode: 201
-    // };
-    // Render the channel creator
+  test("It should display a spinner until response is received", async () => {
     const form = render(
       <ChannelCreator channels={["javascript", "python", "php7"]} />
     );
     const button = form.getByText("Create Channel");
-    // create a mock of fetch request
-    // fetch.mockResolvedValue(resp);
 
     // Click the channel create button
     fireEvent.click(button);
@@ -86,5 +82,32 @@ describe("When a user clicks create channel button", () => {
 
     // test to see if spinner exists
     expect(spinner).toBeTruthy();
+  });
+
+  test("It should clear the input field", async () => {
+    const form = render(
+      <ChannelCreator channels={["javascript", "python", "php7"]} />
+    );
+
+    const button = form.getByText("Create Channel");
+    const input = form.getByLabelText("Name");
+    // Click the channel create button
+    fireEvent.change(input, {
+      target: { value: "ninjas" }
+    });
+
+    // checks to see if input value is set to ninjas
+    expect(input.value).toBe("ninjas");
+
+    fireEvent.click(button);
+
+    // wait for setState to update input value to ""
+    await waitForElement(() => input.value === "");
+
+    // checks to see if spinner is removed
+    expect(form.queryByTestId("spinner")).toBeFalsy();
+
+    // checks to see if input field is cleared
+    expect(input.value).toBe("");
   });
 });

@@ -18,9 +18,29 @@ class ChannelCreator extends Component {
   }
 
   handleClick(e) {
+    const input = this.state;
+    const username = this.props;
+
     this.setState({
       isPushing: true
     });
+
+    fetch("/api/channels", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ name: input, creator: username })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.statusCode === 201) {
+          this.setState({
+            isPushing: false,
+            input: ""
+          });
+        }
+      });
   }
 
   handleChange(e) {
