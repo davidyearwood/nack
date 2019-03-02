@@ -4,6 +4,32 @@ import Button from "../Button";
 import styles from "./channelForm.css";
 import Spinner from "../Spinner";
 
+const ButtonContent = ({ isPushing }) =>
+  isPushing ? <Spinner /> : <React.Fragment>Create Channel</React.Fragment>;
+
+const ErrorMsg = ({ isInvalid, errorMsg }) =>
+  isInvalid ? <span className={styles.errorMsg}>{errorMsg}</span> : null;
+
+const UserInput = ({ isInvalid, value, errorMsg, ...attr }) => {
+  const classNames = isInvalid
+    ? `${styles.input} ${styles.hasError}`
+    : styles.input;
+  return (
+    <label htmlFor="channel-form-name-field" className={styles.channelInput}>
+      Name
+      <ErrorMsg isInvalid={isInvalid} errorMsg={errorMsg} />
+      <input
+        type="text"
+        placeholder="e.g. l33t club"
+        value={value}
+        id="channel-form-name-field"
+        className={classNames}
+        {...attr}
+      />
+    </label>
+  );
+};
+
 function ChannelForm({
   value,
   onCreateBtnClick,
@@ -12,42 +38,26 @@ function ChannelForm({
   isPushing,
   ...attr
 }) {
-  const buttonContent = isPushing ? <Spinner /> : "Create Channel";
+  const buttonClassNames = isInvalid
+    ? [styles.btn]
+    : [`${styles.btn} ${styles.isValid}`];
+
   return (
-    <div className={styles["channel-form"]}>
-      <h1 className={styles["channel-form__header"]}>Create a Channel</h1>
-      <form className={styles["channel-form__form"]}>
-        <label
-          htmlFor="channel-form-name-field"
-          className={styles["channel-form__label"]}
-        >
-          Name
-          {isInvalid ? (
-            <span className={styles["error-msg"]}>{errorMsg}</span>
-          ) : null}
-          <input
-            type="text"
-            placeholder="e.g. l33t club"
-            value={value}
-            id="channel-form-name-field"
-            className={
-              isInvalid
-                ? `${styles["channel-form__input"]} ${styles["is-invalid"]}`
-                : styles["channel-form__input"]
-            }
-            {...attr}
-          />
-        </label>
+    <div className={styles.formContainer}>
+      <h1 className={styles.title}>Create a Channel</h1>
+      <form>
+        <UserInput
+          isInvalid={isInvalid}
+          value={value}
+          {...attr}
+          errorMsg={errorMsg}
+        />
         <Button
-          classNames={
-            isInvalid
-              ? [styles["channel-form__btn"]]
-              : [`${styles["channel-form__btn"]} ${styles["is-valid"]}`]
-          }
+          classNames={buttonClassNames}
           onClick={onCreateBtnClick}
           disabled={isInvalid}
         >
-          {buttonContent}
+          <ButtonContent isPushing={isPushing} />
         </Button>
       </form>
     </div>
@@ -55,6 +65,15 @@ function ChannelForm({
 }
 
 ChannelForm.defaultProps = {
-  isPushing: false
+  isPushing: false,
+  isInvalid: false,
+  errorMsg: ""
 };
+
+ChannelForm.propTypes = {
+  isInvalid: PropTypes.bool,
+  isPushing: PropTypes.bool,
+  errorMsg: PropTypes.string
+};
+
 export default ChannelForm;
