@@ -67,13 +67,16 @@ function ChannelForm({
 ChannelForm.defaultProps = {
   isPushing: false,
   isInvalid: false,
-  errorMsg: ""
+  errorMsg: "",
+  value: ""
 };
 
 ChannelForm.propTypes = {
   isInvalid: PropTypes.bool,
   isPushing: PropTypes.bool,
-  errorMsg: PropTypes.string
+  errorMsg: PropTypes.string,
+  value: PropTypes.string,
+  onCreateBtnClick: PropTypes.func.isRequired
 };
 
 export default ChannelForm;
