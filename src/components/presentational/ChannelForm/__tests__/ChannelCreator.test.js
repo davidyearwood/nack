@@ -12,9 +12,11 @@ import ChannelCreator from "../ChannelCreator";
 
 afterEach(cleanup);
 
+const username = "test-user";
+
 describe("When a user inputs a channel name that doesn't exist", () => {
   test("It should display the user's input", () => {
-    const form = render(<ChannelCreator />);
+    const form = render(<ChannelCreator username={username} />);
     const input = form.getByLabelText("Name");
 
     fireEvent.change(input, { target: { value: "ninjas-dancing" } });
@@ -23,7 +25,7 @@ describe("When a user inputs a channel name that doesn't exist", () => {
   });
 
   test("It should enable the submit button", () => {
-    const form = render(<ChannelCreator />);
+    const form = render(<ChannelCreator username={username} />);
     const input = form.getByLabelText("Name");
 
     fireEvent.change(input, { target: { value: "ninjas-dancing" } });
@@ -35,7 +37,10 @@ describe("When a user inputs a channel name that doesn't exist", () => {
 describe("When a user inputs a channel name that already exist", () => {
   test("It should display an error message", () => {
     const form = render(
-      <ChannelCreator channels={["javascript", "python", "php7"]} />
+      <ChannelCreator
+        channels={["javascript", "python", "php7"]}
+        username={username}
+      />
     );
     const input = form.getByLabelText("Name");
     fireEvent.change(input, { target: { value: "javascript" } });
@@ -45,7 +50,10 @@ describe("When a user inputs a channel name that already exist", () => {
 
   test("It should disable the submit button", () => {
     const form = render(
-      <ChannelCreator channels={["javascript", "python", "php7"]} />
+      <ChannelCreator
+        channels={["javascript", "python", "php7"]}
+        username={username}
+      />
     );
     const input = form.getByLabelText("Name");
     fireEvent.change(input, { target: { value: "javascript" } });
@@ -70,7 +78,10 @@ describe("When a user clicks create channel button", () => {
   });
   test("It should display a spinner until response is received", async () => {
     const form = render(
-      <ChannelCreator channels={["javascript", "python", "php7"]} />
+      <ChannelCreator
+        channels={["javascript", "python", "php7"]}
+        username={username}
+      />
     );
     const button = form.getByText("Create Channel");
 
@@ -86,7 +97,10 @@ describe("When a user clicks create channel button", () => {
 
   test("It should clear the input field", async () => {
     const form = render(
-      <ChannelCreator channels={["javascript", "python", "php7"]} />
+      <ChannelCreator
+        channels={["javascript", "python", "php7"]}
+        username={username}
+      />
     );
 
     const button = form.getByText("Create Channel");

@@ -79,4 +79,10 @@ class ChannelCreator extends Component {
 ChannelCreator.defaultProps = {
   channels: []
 };
+
+ChannelCreator.propTypes = {
+  username: PropTypes.string.isRequired,
+  channels: PropTypes.arrayOf(PropTypes.string)
+};
+
 export default ChannelCreator;
