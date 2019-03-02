@@ -5,14 +5,14 @@ import styles from "./button.css";
 // Helper
 const joinClassNames = (str, classNames) => classNames.concat(str).join(" ");
 
-function Button({ text, classNames, type, ...attr }) {
+function Button({ text, classNames, type, children, ...attr }) {
   return (
     <button
       type={type}
       className={joinClassNames(styles.btn, classNames)}
       {...attr}
     >
-      {text}
+      {children}
     </button>
   );
 }
@@ -23,7 +23,6 @@ Button.defaultProps = {
 };
 
 Button.propTypes = {
-  text: PropTypes.string.isRequired,
   type: PropTypes.string,
   classNames: PropTypes.arrayOf(PropTypes.string)
 };

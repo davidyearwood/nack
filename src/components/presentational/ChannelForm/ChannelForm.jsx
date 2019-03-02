@@ -2,14 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "../Button";
 import styles from "./channelForm.css";
+import Spinner from "../Spinner";
 
 function ChannelForm({
   value,
   onCreateBtnClick,
   isInvalid,
   errorMsg,
+  isPushing,
   ...attr
 }) {
+  const buttonContent = isPushing ? <Spinner /> : "Create Channel";
   return (
     <div className={styles["channel-form"]}>
       <h1 className={styles["channel-form__header"]}>Create a Channel</h1>
@@ -36,7 +39,6 @@ function ChannelForm({
           />
         </label>
         <Button
-          text="Create Channel"
           classNames={
             isInvalid
               ? [styles["channel-form__btn"]]
@@ -44,10 +46,15 @@ function ChannelForm({
           }
           onClick={onCreateBtnClick}
           disabled={isInvalid}
-        />
+        >
+          {buttonContent}
+        </Button>
       </form>
     </div>
   );
 }
 
+ChannelForm.defaultProps = {
+  isPushing: false
+};
 export default ChannelForm;

@@ -3,7 +3,7 @@ import styles from "./spinner.css";
 
 function Spinner() {
   return (
-    <div className={styles["lds-spinner"]}>
+    <div className={styles["lds-spinner"]} data-testid="spinner">
       <div />
       <div />
       <div />

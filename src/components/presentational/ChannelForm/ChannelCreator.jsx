@@ -9,10 +9,18 @@ class ChannelCreator extends Component {
     this.state = {
       input: "",
       errorMsg: "",
-      isInvalid: false
+      isInvalid: false,
+      isPushing: false
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    this.setState({
+      isPushing: true
+    });
   }
 
   handleChange(e) {
@@ -33,7 +41,7 @@ class ChannelCreator extends Component {
   }
 
   render() {
-    const { input, errorMsg, isInvalid } = this.state;
+    const { input, errorMsg, isInvalid, isPushing } = this.state;
     // renders some form
     return (
       <ChannelForm
@@ -41,6 +49,8 @@ class ChannelCreator extends Component {
         onChange={this.handleChange}
         errorMsg={errorMsg}
         isInvalid={isInvalid}
+        isPushing={isPushing}
+        onCreateBtnClick={this.handleClick}
       />
     );
   }

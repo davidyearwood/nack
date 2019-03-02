@@ -3,7 +3,8 @@ import {
   render,
   fireEvent,
   cleanup,
-  waitForElement
+  waitForElement,
+  getByTestId
 } from "react-testing-library";
 import "jest-dom/extend-expect";
 import "../ChannelForm";
@@ -50,5 +51,40 @@ describe("When a user inputs a channel name that already exist", () => {
     fireEvent.change(input, { target: { value: "javascript" } });
 
     expect(form.getByText("Create Channel").disabled).toBeTruthy();
+  });
+});
+
+describe("When a user clicks create channel button", () => {
+  beforeEach(() => {
+    global.fetch = jest.fn(
+      () =>
+        new Promise((resolve, reject) => {
+          resolve({
+            statusCode: 21
+          });
+        })
+    );
+  });
+  test("It should display a spinner until data is successfully submitted", async () => {
+    // stub response
+    // const resp = {
+    //   statusCode: 201
+    // };
+    // Render the channel creator
+    const form = render(
+      <ChannelCreator channels={["javascript", "python", "php7"]} />
+    );
+    const button = form.getByText("Create Channel");
+    // create a mock of fetch request
+    // fetch.mockResolvedValue(resp);
+
+    // Click the channel create button
+    fireEvent.click(button);
+
+    // Wait for the element to change to a spinner
+    const spinner = await waitForElement(() => form.getByTestId("spinner"));
+
+    // test to see if spinner exists
+    expect(spinner).toBeTruthy();
   });
 });
