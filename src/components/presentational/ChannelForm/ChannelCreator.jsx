@@ -33,14 +33,21 @@ class ChannelCreator extends Component {
       body: JSON.stringify({ name: input, creator: username })
     })
       .then(res => res.json())
-      .then(res => {
-        if (res.statusCode === 201) {
-          this.setState({
-            isPushing: false,
-            input: ""
-          });
+      .then(
+        res => {
+          if (res.statusCode === 201) {
+            this.setState({
+              isPushing: false,
+              input: ""
+            });
+          } else {
+            throw new Error(`HTTP Status Code: ${res.statusCode}`);
+          }
+        },
+        error => {
+          console.log(error);
         }
-      });
+      );
   }
 
   handleChange(e) {
