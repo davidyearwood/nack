@@ -1,18 +1,23 @@
-.modalBackdrop {
-  background-color: rgba(0, 0, 0, .5);
-  height: 100vh;
-  position: fixed;
-  width: 100%;
-}
-
 .modal {
   position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 1);
-  border-radius: 3px;
-  padding: 1.2em;
-  max-width: 40rem;
-  width: 85%;
+  background-color: #fff;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.btn {
+  width: 2rem;
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  color: #616061;
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  text-align: center;
+  right: 5rem;
+  top: 4rem;
+  font-size: 0.8rem;
 }
