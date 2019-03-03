@@ -3,8 +3,7 @@ import {
   render,
   fireEvent,
   cleanup,
-  waitForElement,
-  getByTestId
+  waitForElement
 } from "react-testing-library";
 import "jest-dom/extend-expect";
 import "../ChannelForm";
@@ -76,7 +75,7 @@ describe("When a user clicks create channel button", () => {
         })
     );
   });
-  test("It should display a spinner until response is received", async () => {
+  test("It should display a spinner until response received", async () => {
     const form = render(
       <ChannelCreator
         channels={["javascript", "python", "php7"]}
@@ -123,5 +122,31 @@ describe("When a user clicks create channel button", () => {
 
     // checks to see if input field is cleared
     expect(input.value).toBe("");
+  });
+
+  test("It should close the channel form", async () => {
+    const form = render(
+      <ChannelCreator
+        channels={["javascript", "python", "php7"]}
+        username={username}
+      />
+    );
+
+    const button = form.getByText("Create Channel");
+    const input = form.getByLabelText("Name");
+    // Click the channel create button
+    fireEvent.change(input, {
+      target: { value: "ninjas" }
+    });
+
+    // checks to see if input value is set to ninjas
+    expect(input.value).toBe("ninjas");
+
+    fireEvent.click(button);
+
+    // wait for setState to update input value to ""
+    await waitForElement(() => form.queryByText("Create Channel") === null);
+
+    expect(form.queryByText("Create Channel")).toBeNull();
   });
 });

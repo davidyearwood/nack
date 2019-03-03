@@ -1,23 +1,29 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Modal from "../Modal";
 import ChannelForm from "./ChannelForm";
 
+// user clicks
+// spinner starts
+// if success
+// modal window closes
 class ChannelCreator extends Component {
   constructor(props) {
     super(props);
-
+    const { show } = this.props;
     this.state = {
       input: "",
       errorMsg: "",
       isInvalid: false,
-      isPushing: false
+      isPushing: false,
+      show
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(e) {
+  handleClick() {
     const input = this.state;
     const username = this.props;
 
@@ -38,7 +44,8 @@ class ChannelCreator extends Component {
           if (res.statusCode === 201) {
             this.setState({
               isPushing: false,
-              input: ""
+              input: "",
+              show: false
             });
           } else {
             throw new Error(`HTTP Status Code: ${res.statusCode}`);
@@ -68,28 +75,32 @@ class ChannelCreator extends Component {
   }
 
   render() {
-    const { input, errorMsg, isInvalid, isPushing } = this.state;
-    // renders some form
+    const { input, errorMsg, isInvalid, isPushing, show } = this.state;
+
     return (
-      <ChannelForm
-        value={input}
-        onChange={this.handleChange}
-        errorMsg={errorMsg}
-        isInvalid={isInvalid}
-        isPushing={isPushing}
-        onCreateBtnClick={this.handleClick}
-      />
+      <Modal show={show}>
+        <ChannelForm
+          value={input}
+          onChange={this.handleChange}
+          errorMsg={errorMsg}
+          isInvalid={isInvalid}
+          isPushing={isPushing}
+          onCreateBtnClick={this.handleClick}
+        />
+      </Modal>
     );
   }
 }
 
 ChannelCreator.defaultProps = {
+  show: true,
   channels: []
 };
 
 ChannelCreator.propTypes = {
   username: PropTypes.string.isRequired,
-  channels: PropTypes.arrayOf(PropTypes.string)
+  channels: PropTypes.arrayOf(PropTypes.string),
+  show: PropTypes.bool
 };
 
 export default ChannelCreator;
