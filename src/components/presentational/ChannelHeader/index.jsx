@@ -11,9 +11,12 @@ function ChannelHeader({ title, children }) {
   );
 }
 
+ChannelHeader.defaultProps = {
+  children: null
+};
+
 ChannelHeader.propTypes = {
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node
+  title: PropTypes.string.isRequired
 };
 
 export default ChannelHeader;
