@@ -18,6 +18,7 @@ import PlusIcon from "../presentational/Svg/PlusIcon";
 import Logo from "../presentational/Logo";
 import IconButton from "../presentational/IconButton";
 import MessageForm from "../presentational/MessageForm";
+import postChannel from "../../../helper/postChannel";
 
 class Chat extends Component {
   constructor(props) {
@@ -167,13 +168,7 @@ class Chat extends Component {
     } = this.state;
 
     if (!isChannelFormInvalid) {
-      fetch("/api/channels", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name: channelInput, creator: displayName })
-      })
+      postChannel(JSON.stringify({ name: channelInput, creator: displayName }))
         .then(res => res.json())
         .then(res => {
           const newChannel = Object.assign({}, res);
@@ -185,6 +180,8 @@ class Chat extends Component {
             },
             channelInput: ""
           });
+
+          this.socket.emit("new channel", newChannel);
         });
     }
 
