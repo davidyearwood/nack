@@ -1,0 +1,13 @@
+.messageForm {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.833rem;
+  padding-bottom: 0.833rem;
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+  box-shadow: 5px 3px 5px 3px #ccc;
+  width: 100%;
+  margin-top: auto;
+  height: 9%;
+}

@@ -8,17 +8,16 @@ import createMessage from "../../../helper/createMessage";
 import "../../styles/typography.css";
 import stylesLayout from "../../styles/layout.css";
 import DisplayNameForm from "../presentational/DisplayNameForm/DisplayNameForm";
-import Input from "../presentational/Input/Input";
 import Channels from "../presentational/Channels/Channels";
 import Sidebar from "../presentational/Sidebar/Sidebar";
 import ChannelForm from "../presentational/ChannelForm/ChannelForm";
 import SvgClose from "../presentational/Svg/SvgClose";
 import SiteHeader from "../presentational/SiteHeader";
 import SidebarHeader from "../presentational/SidebarHeader";
-import ChannelHeader from "../presentational/ChannelHeader";
 import PlusIcon from "../presentational/Svg/PlusIcon";
 import Logo from "../presentational/Logo";
-import JoinChannel from "../presentational/JoinChannel";
+import IconButton from "../presentational/IconButton";
+import MessageForm from "../presentational/MessageForm";
 
 class Chat extends Component {
   constructor(props) {
@@ -278,6 +277,7 @@ class Chat extends Component {
           onClick={this.handleDisplayNameButtonClick}
           onChange={this.handleDisplayNameInputChange}
           value={displayNameInput}
+          show={isDisplayNameOpen}
         />
       );
     }
@@ -287,13 +287,16 @@ class Chat extends Component {
 
   renderMessages({ match }) {
     const { channels, isLoaded, selectedChannel } = this.state;
-    if (match.path === "/") {
-      return isLoaded ? (
+
+    if (isLoaded) {
+      return match.path === "/" ? (
         <Messages msgs={channels[selectedChannel.name].msgs} />
-      ) : null;
+      ) : (
+        <Messages msgs={channels[match.params.id].msgs} />
+      );
     }
 
-    return isLoaded ? <Messages msgs={channels[match.params.id].msgs} /> : null;
+    return null;
   }
 
   render() {
@@ -329,29 +332,22 @@ class Chat extends Component {
     ) : null;
 
     return (
-      <div className={stylesLayout["chat-app"]}>
+      <div className={stylesLayout.chatApplication}>
         {$channelForm}
         {this.renderDisplayNameForm()}
         <Sidebar>
           <SidebarHeader username={displayName} />
-          <section>
-            <ChannelHeader title="Channels">
-              <button
-                type="submit"
-                onClick={this.openChannelForm}
-                className={stylesLayout.iconBtn}
-              >
-                <PlusIcon height={15} width={15} />
-              </button>
-            </ChannelHeader>
-            {
-              <Channels
-                title="Channels"
-                items={channels}
-                active={selectedChannel.name}
-              />
-            }
-          </section>
+          <Channels
+            items={channels}
+            active={selectedChannel.name}
+            title="Channels"
+          >
+            <IconButton
+              onClick={this.openChannelForm}
+              type="submit"
+              icon={<PlusIcon height={15} width={15} />}
+            />
+          </Channels>
           <Logo height={25} width={25} fill="#9696a1" />
         </Sidebar>
         <main className={stylesLayout.main}>
@@ -360,21 +356,11 @@ class Chat extends Component {
             <Route path="/" exact component={this.renderMessages} />
             <Route path="/channels/:id" component={this.renderMessages} />
           </Switch>
-          <form
-            action=""
-            className={stylesLayout["chat-form"]}
+          <MessageForm
             onSubmit={this.handleSubmit}
-          >
-            <Input
-              id="m"
-              type="text"
-              autoComplete="off"
-              placeholder="Type a message"
-              label="Send message"
-              value={messageInput}
-              onChange={this.handleChange}
-            />
-          </form>
+            value={messageInput}
+            onChange={this.handleChange}
+          />
         </main>
       </div>
     );

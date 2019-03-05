@@ -1,21 +1,28 @@
-.displayName__header {
+.container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
   text-align: center;
 }
 
-.displayName__title {
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.579em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-top: 1.728rem;
+}
+
+.title {
   margin: 0;
   font-weight: 600;
 }
 
-.displayName__input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: .579em;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    margin-top: 1.728rem;
-}
-
-.displayName__text {
+.text {
   text-align: center;
 }

@@ -34,20 +34,30 @@
   text-decoration: none;
 }
 
-.channelLink {
-  color: #ffffff;
-}
-
-.channels-header,
-.header {
-  margin-bottom: 0.833rem;
-}
-
-.channels-header__title,
 .title {
   text-transform: uppercase;
   font-size: 1em;
   margin-bottom: 0;
   margin-left: 1.2rem;
   color: #a2a3ba;
+}
+
+.header {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-left: 1.2rem;
+  padding-right: calc(1.2rem * 1.2);
+  margin-top: 1.2rem;
+  align-items: center;
+  margin-bottom: 0.833rem;
+}
+
+.channelsTitle {
+  text-transform: uppercase;
+  font-size: 0.833rem;
+  margin-bottom: 0;
+  color: #a2a3ba;
+  letter-spacing: 1px;
 }

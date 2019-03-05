@@ -8,6 +8,15 @@ const getClassNames = (channelName, activeChannel) =>
     ? `${styles.active} ${styles.channel}`
     : styles.channel;
 
+function ChannelHeader({ title, children }) {
+  return (
+    <header className={styles.header}>
+      <h1 className={styles.channelsTitle}>{title}</h1>
+      {children}
+    </header>
+  );
+}
+
 function ChannelList({ channels, activeChannel, ...attr }) {
   const channelNames = Object.keys(channels).map(channelName => {
     const key = channels[channelName].id;
@@ -30,11 +39,17 @@ function ChannelList({ channels, activeChannel, ...attr }) {
   return <ul className={styles.channels}>{channelNames}</ul>;
 }
 
-function Channels({ items, active, ...attr }) {
-  return <ChannelList channels={items} {...attr} activeChannel={active} />;
+function Channels({ items, title, active, children, ...attr }) {
+  return (
+    <section>
+      <ChannelHeader title={title}>{children}</ChannelHeader>
+      <ChannelList channels={items} {...attr} activeChannel={active} />
+    </section>
+  );
 }
 
 Channels.propTypes = {
-  active: PropTypes.string.isRequired
+  active: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
 };
 export default Channels;
