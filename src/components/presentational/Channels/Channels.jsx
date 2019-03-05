@@ -34,4 +34,7 @@ function Channels({ items, active, ...attr }) {
   return <ChannelList channels={items} {...attr} activeChannel={active} />;
 }
 
+Channels.propTypes = {
+  active: PropTypes.string.isRequired
+};
 export default Channels;
