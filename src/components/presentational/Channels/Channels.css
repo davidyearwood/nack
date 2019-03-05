@@ -1,9 +1,9 @@
-.channels-list {
+.channels {
   padding-left: 0;
   margin: 0;
 }
 
-.channels-list__item {
+.channel {
   border-left: 2px solid transparent;
   list-style-type: none;
   font-size: 1rem;
@@ -12,37 +12,39 @@
   padding-bottom: 0.482rem;
 }
 
-.channels-list__item:before {
+.channel:before {
   content: "#";
   margin-right: 0.579em;
   margin-left: 1em;
   color: #a2a3ba;
 }
 
-.channels-list__item.is-active {
+.channel.active {
   border-left: 3px solid #e59087;
   background-color: #2e2f43;
 }
 
-.channels-list__item.is-active > .channels-list__link {
+.channel.active > .channelLink {
   color: #ffffff;
 }
 
-.channels-list__link {
+.channelLink {
   text-transform: lowercase;
   color: #a2a3ba;
   text-decoration: none;
 }
 
-.channels-list__link:hover {
+.channelLink {
   color: #ffffff;
 }
 
-.channels-header {
+.channels-header,
+.header {
   margin-bottom: 0.833rem;
 }
 
-.channels-header__title {
+.channels-header__title,
+.title {
   text-transform: uppercase;
   font-size: 1em;
   margin-bottom: 0;

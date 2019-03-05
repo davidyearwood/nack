@@ -3,46 +3,35 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import styles from "./Channels.css";
 
-const ChannelHeader = ({ title }) => (
-  <header className={styles["channels-header"]}>
-    <h1 className={styles["channels-header__title"]}>{title}</h1>
-  </header>
-);
+const getClassNames = (channelName, activeChannel) =>
+  channelName === activeChannel
+    ? `${styles.active} ${styles.channel}`
+    : styles.channel;
 
 function ChannelList({ channels, activeChannel, ...attr }) {
-  const channelsNames = Object.keys(channels);
+  const channelNames = Object.keys(channels).map(channelName => {
+    const key = channels[channelName].id;
+    return (
+      <li key={key} className={getClassNames(channelName, activeChannel)}>
+        <Link
+          to={{
+            pathname: `/channels/${channelName}`,
+            state: { id: channels[channelName].id, name: channelName }
+          }}
+          className={styles.channelLink}
+          {...attr}
+        >
+          {channelName}
+        </Link>
+      </li>
+    );
+  });
 
-  const $items = channelsNames.map(channelName => (
-    <li
-      key={channels[channelName].id}
-      className={
-        channelName === activeChannel
-          ? `${styles["is-active"]} ${styles["channels-list__item"]}`
-          : styles["channels-list__item"]
-      }
-    >
-      <Link
-        to={{
-          pathname: `/channels/${channelName}`,
-          state: { id: channels[channelName].id, name: channelName }
-        }}
-        className={styles["channels-list__link"]}
-        {...attr}
-      >
-        {channelName}
-      </Link>
-    </li>
-  ));
-
-  return <ul className={styles["channels-list"]}>{$items}</ul>;
+  return <ul className={styles.channels}>{channelNames}</ul>;
 }
 
-function Channels({ title, items, active, ...attr }) {
-  return (
-    <div className={styles.channels}>
-      <ChannelList channels={items} {...attr} activeChannel={active} />
-    </div>
-  );
+function Channels({ items, active, ...attr }) {
+  return <ChannelList channels={items} {...attr} activeChannel={active} />;
 }
 
 export default Channels;
