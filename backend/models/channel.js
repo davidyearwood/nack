@@ -2,25 +2,7 @@ const uniqid = require('uniqid');
 
 class Channel {
   constructor(store) {
-    if (store) {
-      this.store = store;
-    } else {
-      this.store = [{
-      id: 1, 
-      name: "General",
-      creator: "NACK",
-      msgCount: 2,
-      msgs: [
-        {
-          id: 1,
-          timestamp: "2018-20-12T13:37:27+00:00",
-          sender: "NACK",
-          channelId: 1,
-          msg: "Welcome to Nack!"
-        }
-      ]
-    }];
-    }
+    this.store = store;
   }
   
   all() {
@@ -52,5 +34,6 @@ class Channel {
     return this.getChannel(id) !== undefined ? true : false; 
   }
 }
+
 
 module.exports = Channel;

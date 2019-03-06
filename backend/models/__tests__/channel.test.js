@@ -1,9 +1,7 @@
 const Channel = require("../channel");
 
-test("It should retrieve all available channels", () => {
-  const channel = new Channel(); 
-  
-  const expected = [{
+
+const store = [{
       id: 1, 
       name: "General",
       creator: "NACK",
@@ -18,19 +16,23 @@ test("It should retrieve all available channels", () => {
         }
       ]
     }];
+    
+test("It should retrieve all available channels", () => {
+  const channel = new Channel(store); 
+  
   expect(channel.all()).toHaveLength(1);
-  expect(channel.all()).toEqual(expected);
+  expect(channel.all()).toEqual(store);
 });
 
 test("It should add new channel", () => {
-  const channel = new Channel(); 
+  const channel = new Channel(store); 
   
   expect(channel.addChannel("test-channel", "tester").name).toBe("test-channel");
   expect(channel.all()).toHaveLength(2);
 })
 
 test("It should retrieve a channel", () => {
-  const channel = new Channel(); 
+  const channel = new Channel(store); 
   expect(channel.getChannel(1)).toEqual({
       id: 1, 
       name: "General",
@@ -49,7 +51,13 @@ test("It should retrieve a channel", () => {
 });
 
 test("It should know if channel exists", () => {
-  const channel = new Channel(); 
+  const channel = new Channel(store); 
   
   expect(channel.hasChannel(1)).toBeTruthy(); 
+});
+
+test("It should have the same values as the store that was passed", () => {
+ const channel = new Channel(store);
+
+ expect(channel.all()).toEqual(store);
 })
