@@ -58,7 +58,7 @@ app.get("/channels/:id", (req, res) => {
     return res.status(404).json({ error: "Channel not found" });
   }
 
-  return res.json(getChannel);
+  return res.json(getChannel(req.params.id));
 });
 
 app.get("/channels/:channelId/msg", (req, res) => {
