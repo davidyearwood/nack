@@ -96,6 +96,17 @@ class Chat extends Component {
       this.addMessageToChannel(msg);
     });
 
+    this.socket.on("new channel", channel => {
+      const { channels } = this.state;
+
+      this.setState({
+        channels: {
+          ...channels,
+          [channel.name]: channel
+        }
+      });
+    });
+
     // check to see if local storage has a display name already
     const displayName = localStorage.getItem("displayName");
     if (displayName) {
@@ -227,9 +238,7 @@ class Chat extends Component {
   }
 
   handleChannelInput(e) {
-    this.setState({
-      channelInput: e.target.value
-    });
+    this.hc(e, "channelInput");
   }
 
   handleChange(e) {

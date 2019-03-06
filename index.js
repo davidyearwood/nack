@@ -19,6 +19,7 @@ function getChannel(id) {
 
 function addMessageToChannel(channel, msg) {
   channel.msgs.push(msg);
+  channel.msgCount += 1;
   const LIMIT = 100;
 
   if (channel.msgs.length > LIMIT) {
@@ -144,13 +145,20 @@ app.post("/channel/:channelId/msg", (req, res) => {
 
 io.on("connection", socket => {
   // listens to client messages
-  console.log(socket);
   socket.on("chat message", msg => {
     // sends an emit message when it receives a msg
     io.emit("chat message", msg);
     // adds to the db
     const channel = getChannel(msg.channelId);
     addMessageToChannel(channel, msg);
+  });
+
+  socket.on("new channel", channel => {
+    const c = getChannel(channel.id);
+    // check to see if channel exists
+    if (c) {
+      socket.broadcast.emit("new channel", c);
+    }
   });
 });
 
