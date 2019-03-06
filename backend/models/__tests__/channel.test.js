@@ -19,6 +19,7 @@ test("It should retrieve all available channels", () => {
       ]
     }];
   expect(channel.all()).toHaveLength(1);
+  expect(channel.all()).toEqual(expected);
 });
 
 test("It should add new channel", () => {
