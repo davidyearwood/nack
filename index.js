@@ -5,7 +5,7 @@ const io = require("socket.io")(server);
 const compareAsc = require("date-fns/compare_asc");
 const channels = require("./db/ChannelData");
 
-const port = 3000;
+const port = process.env.PORT;
 
 let currentId = channels.length;
 
