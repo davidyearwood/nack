@@ -6,6 +6,7 @@ const compareAsc = require("date-fns/compare_asc");
 const channels = require("./db/ChannelData");
 
 const port = 3000;
+
 let currentId = channels.length;
 
 app.use(bodyParser.json());
@@ -143,8 +144,10 @@ app.post("/channel/:channelId/msg", (req, res) => {
 // a message is sent
 // get the channel
 // store the message into the channel
-
+let usersConnected = 0;
 io.on("connection", socket => {
+  usersConnected += 1;
+  console.log(usersConnected);
   // listens to client messages
   socket.on("chat message", msg => {
     // sends an emit message when it receives a msg
