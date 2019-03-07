@@ -6,12 +6,12 @@ const router = express.Router();
 router.get("/channels", ChannelsController.channelList);
 
 router.get("/channels/:id", ChannelsController.channel);
-router.get("/channels/:channelId/msg", ChannelsController.channelMessages);
+router.get("/channels/:id/msgs", ChannelsController.channelMessages);
 router.get(
-  "/channels/:channelId/msg/:msgId",
+  "/channels/:channelId/msgs/:msgId",
   ChannelsController.channelMessage
 );
 router.post("/channels", ChannelsController.addChannel);
-router.post("/channel/:channelId/msg", ChannelsController.addMessage);
+router.post("/channel/:channelId/msgs", ChannelsController.addMessage);
 
 module.exports = router;

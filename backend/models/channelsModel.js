@@ -26,7 +26,7 @@ class ChannelsModel {
   }
 
   getChannel(id) {
-    return this.all().find(channel => channel.id === id);
+    return this.all().find(channel => channel.id.toString() === id);
   }
 
   getChannelByName(name) {

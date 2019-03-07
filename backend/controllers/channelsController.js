@@ -14,15 +14,14 @@ exports.channelList = function channelList(req, res) {
 // retrieve channel
 exports.channel = function channel(req, res) {
   const { id } = req.params;
-
   if (!validator.isAlphanumeric(id)) {
-    return res.status(404).json({ error: "Resource not found" });
+    return res.status(404).json({ error: "Not valid ID" });
   }
 
-  const c = ChannelsModel.getChannel(req.params.id);
+  const c = ChannelsModel.getChannel(id);
 
   if (!c) {
-    return res.status(404).json({ error: "Resource not found" });
+    return res.status(404).json({ error: "Channel doesn't exist" });
   }
 
   return res.json(c);
@@ -47,25 +46,25 @@ exports.channelMessages = function channelMessages(req, res) {
 
 // retrieve's a single message from channel
 exports.channelMessage = function channelMessage(req, res) {
-  const { channelId, messageId } = req.params;
+  const { channelId, msgId } = req.params;
 
   if (
     !validator.isAlphanumeric(channelId) ||
-    !validator.isAlphanumeric(messageId)
+    !validator.isAlphanumeric(msgId)
   ) {
-    return res.status(404).json({ error: "Resource not found" });
+    return res.status(404).json({ error: "Invalid ID" });
   }
 
-  const channel = ChannelsModel.getChannel(req.params.channelId);
+  const channel = ChannelsModel.getChannel(channelId);
 
   if (!channel) {
-    return res.status(404).json({ error: "Resource not found" });
+    return res.status(404).json({ error: "Channel not found" });
   }
 
-  const message = channel.msgs.find(msg => msg.id === req.params.messageId);
+  const message = channel.msgs.find(msg => msg.id.toString() === msgId);
 
   if (!message) {
-    return res.status(404).json({ error: "Resource not found" });
+    return res.status(404).json({ error: "Message not found" });
   }
 
   return res.json(message);
@@ -74,8 +73,8 @@ exports.channelMessage = function channelMessage(req, res) {
 // create a new channel
 exports.addChannel = function addChannel(req, res) {
   const { name, creator } = req.body;
-
-  if (name || creator) {
+  console.log(req.body);
+  if (!name || !creator) {
     return res.status(500).json({ error: "Internal Server Error." });
   }
 
@@ -87,7 +86,7 @@ exports.addChannel = function addChannel(req, res) {
 
   const newChannel = ChannelsModel.addChannel(
     validator.escape(name),
-    validator(creator)
+    validator.escape(creator)
   );
 
   return res.status(201).json({ data: newChannel });
