@@ -14,7 +14,7 @@ exports.channelList = function channelList(req, res) {
 // retrieve channel
 exports.channel = function channel(req, res) {
   const { id } = req.params;
-  if (!validator.isAlphanumeric(id)) {
+  if (!validator.isAlphanumeric(id.toString())) {
     return res.status(404).json({ error: "Not valid ID" });
   }
 
