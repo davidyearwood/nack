@@ -73,7 +73,7 @@ exports.channelMessage = function channelMessage(req, res) {
 // create a new channel
 exports.addChannel = function addChannel(req, res) {
   const { name, creator } = req.body;
-  console.log(req.body);
+
   if (!name || !creator) {
     return res.status(500).json({ error: "Internal Server Error." });
   }
