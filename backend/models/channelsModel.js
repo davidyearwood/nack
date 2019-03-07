@@ -28,6 +28,10 @@ class ChannelsModel {
     return this.all().find(channel => channel.id === id);
   }
 
+  getChannelByName(name) {
+    return this.all().find(channel => channel.name === name);
+  }
+
   hasChannel(id) {
     return this.getChannel(id) !== undefined;
   }
@@ -51,7 +55,7 @@ class ChannelsModel {
     );
 
     channel.msgs.push(message);
-
+    channel.msgCount += 1;
     return message;
   }
 }

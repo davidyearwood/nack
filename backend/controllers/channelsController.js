@@ -1,12 +1,12 @@
 const validator = require("validator");
-const Channel = require("../models/channel");
+const Channel = require("../models/channelsModel");
 const store = require("../store");
 
-const ChannelModel = new Channel(store);
+const ChannelsModel = new Channel(store);
 
 // returns a list of all the channels
 exports.channelList = function channelList(req, res) {
-  const channels = ChannelModel.all();
+  const channels = ChannelsModel.all();
 
   return res.json(channels);
 };
@@ -19,7 +19,7 @@ exports.channel = function channel(req, res) {
     return res.status(404).json({ error: "Resource not found" });
   }
 
-  const c = ChannelModel.getChannel(req.params.id);
+  const c = ChannelsModel.getChannel(req.params.id);
 
   if (!c) {
     return res.status(404).json({ error: "Resource not found" });
@@ -36,7 +36,7 @@ exports.channelMessages = function channelMessages(req, res) {
     return res.status(404).json({ error: "Resource not found" });
   }
 
-  const channel = ChannelModel.getChannel(id);
+  const channel = ChannelsModel.getChannel(id);
 
   if (!channel) {
     return res.status(404).json({ error: "Resource not found" });
@@ -56,7 +56,7 @@ exports.channelMessage = function channelMessage(req, res) {
     return res.status(404).json({ error: "Resource not found" });
   }
 
-  const channel = ChannelModel.getChannel(req.params.channelId);
+  const channel = ChannelsModel.getChannel(req.params.channelId);
 
   if (!channel) {
     return res.status(404).json({ error: "Resource not found" });
@@ -71,4 +71,44 @@ exports.channelMessage = function channelMessage(req, res) {
   return res.json(message);
 };
 
-exports.createMessage = function createMessage() {};
+// create a new channel
+exports.addChannel = function addChannel(req, res) {
+  const { name, creator } = req.body;
+
+  if (name || creator) {
+    return res.status(500).json({ error: "Internal Server Error." });
+  }
+
+  if (ChannelsModel.getChannelByName(name)) {
+    return res.status(409).json({
+      error: "The channel you attempted to create already exists."
+    });
+  }
+
+  const newChannel = ChannelsModel.addChannel(
+    validator.escape(name),
+    validator(creator)
+  );
+
+  return res.status(201).json({ data: newChannel });
+};
+
+// create a new message
+exports.addMessage = function addMessage(req, res) {
+  const { channelId } = req.params;
+  const channel = ChannelsModel.getChannel(channelId);
+
+  if (!channel) {
+    return res.status(404).json({ error: "Channel doesn't exist" });
+  }
+
+  const { sender, msg } = req.body;
+
+  const message = ChannelsModel.addMessage({
+    sender: validator.escape(sender),
+    msg: validator.escape(msg),
+    channelId
+  });
+
+  return res.status(201).json(message);
+};
