@@ -1,8 +1,9 @@
 const uniqid = require("uniqid");
 
 class ChannelsModel {
-  constructor(store) {
+  constructor(store, limit = 100) {
     this.store = store;
+    this.LIMIT = limit;
   }
 
   all() {
@@ -53,6 +54,11 @@ class ChannelsModel {
         timestamp: new Date().toString()
       }
     );
+
+    if (channel.msgs >= this.LIMIT) {
+      channel.msgs.shift();
+      channel.msgCount -= 1;
+    }
 
     channel.msgs.push(message);
     channel.msgCount += 1;
