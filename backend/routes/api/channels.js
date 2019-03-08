@@ -12,6 +12,6 @@ router.get(
   ChannelsController.channelMessage
 );
 router.post("/channels", ChannelsController.addChannel);
-router.post("/channel/:channelId/msgs", ChannelsController.addMessage);
+router.post("/msgs", ChannelsController.addMessage);
 
 module.exports = router;

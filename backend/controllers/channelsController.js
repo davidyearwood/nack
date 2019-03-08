@@ -94,7 +94,7 @@ exports.addChannel = function addChannel(req, res) {
 
 // create a new message
 exports.addMessage = function addMessage(req, res) {
-  const { channelId } = req.params;
+  const { channelId } = req.body;
   const channel = ChannelsModel.getChannel(channelId);
 
   if (!channel) {
