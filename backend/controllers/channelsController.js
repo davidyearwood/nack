@@ -7,7 +7,6 @@ const ChannelsModel = new Channel(store);
 // returns a list of all the channels
 exports.channelList = function channelList(req, res) {
   const channels = ChannelsModel.all();
-
   return res.json(channels);
 };
 
@@ -31,7 +30,7 @@ exports.channel = function channel(req, res) {
 exports.channelMessages = function channelMessages(req, res) {
   const { id } = req.params;
 
-  if (!validator.isAlphanumeric(id)) {
+  if (!validator.isAlphanumeric(id.toString())) {
     return res.status(404).json({ error: "Resource not found" });
   }
 
@@ -94,14 +93,12 @@ exports.addChannel = function addChannel(req, res) {
 
 // create a new message
 exports.addMessage = function addMessage(req, res) {
-  const { channelId } = req.body;
+  const { channelId, sender, msg } = req.body;
   const channel = ChannelsModel.getChannel(channelId);
 
   if (!channel) {
     return res.status(404).json({ error: "Channel doesn't exist" });
   }
-
-  const { sender, msg } = req.body;
 
   const message = ChannelsModel.addMessage({
     sender: validator.escape(sender),
@@ -109,5 +106,5 @@ exports.addMessage = function addMessage(req, res) {
     channelId
   });
 
-  return res.status(201).json(message);
+  return res.status(201).json({ data: message });
 };

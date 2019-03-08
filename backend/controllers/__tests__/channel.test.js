@@ -1,12 +1,14 @@
 const ChannelsController = require("../channelsController");
+const ChannelsModel = require("../../models/channelsModel");
+
+jest.mock("../../models/channelsModel");
 
 let store;
-
 const res = {};
 const req = {};
 
-function initStore() {
-  return [
+beforeEach(() => {
+  store = [
     {
       id: 1,
       name: "General",
@@ -38,9 +40,6 @@ function initStore() {
       ]
     }
   ];
-}
-beforeEach(() => {
-  store = initStore();
   res.json = jest.fn(data => JSON.stringify(data));
   res.status = jest.fn(status => {
     res.status = status;
@@ -49,14 +48,30 @@ beforeEach(() => {
   // res.status.mockReturnValue(res);
 });
 
-afterEach(() => {
-  store = {};
-});
 describe("channelList()", () => {
   test("It should convert store to a json string representation", () => {
     expect(ChannelsController.channelList(req, res)).toBe(
       JSON.stringify(store)
     );
+  });
+});
+
+describe("channelMessages()", () => {
+  test("It should retrieve all messages inside specified channel", () => {
+    req.params = {};
+    req.params.id = 1;
+    const actual = ChannelsController.channelMessages(req, res);
+    const expected = JSON.stringify([
+      {
+        id: 1,
+        timestamp: "2018-20-12T13:37:27+00:00",
+        sender: "test",
+        channelId: 1,
+        msg: "Welcome to Nack!"
+      }
+    ]);
+
+    expect(actual).toBe(expected);
   });
 });
 
@@ -144,5 +159,44 @@ describe("addChannel()", () => {
     expect(JSON.parse(actual).error).toBe(
       "The channel you attempted to create already exists."
     );
+  });
+});
+
+describe("addMessage()", () => {
+  test("It should respond w/ 201 on success", () => {
+    req.body = {
+      channelId: 1,
+      sender: "tester",
+      msg: "this is a test!"
+    };
+
+    const actual = ChannelsController.addMessage(req, res);
+
+    expect(res.status).toBe(201);
+  });
+
+  test("It should respond w/ created message", () => {
+    req.body = {
+      channelId: 1,
+      sender: "tester",
+      msg: "this is a test!"
+    };
+
+    const actual = ChannelsController.addMessage(req, res);
+
+    expect(JSON.parse(actual).data.sender).toBe("tester");
+  });
+
+  test("It should respond w/ status code 404 and error msg if channel doesn't exist", () => {
+    req.body = {
+      channelId: 122124214,
+      sender: "tester",
+      msg: "this is a test!"
+    };
+
+    const actual = ChannelsController.addMessage(req, res);
+
+    expect(res.status).toBe(404);
+    expect(JSON.parse(actual).error).toBe("Channel doesn't exist");
   });
 });
