@@ -17,9 +17,10 @@ app.use(channelApiRoutes);
 
 io.on("connection", socket => {
   socket.on("chat message", msg => {
-    io.emit("chat message", msg);
     const message = ChannelsModelInstance.addMessage(msg);
-    if (!message) {
+    if (message) {
+      io.emit("chat message", message);
+    } else {
       // This would normally be sent to a logging service of some sort
       console.log("Channel doesn't exist");
     }

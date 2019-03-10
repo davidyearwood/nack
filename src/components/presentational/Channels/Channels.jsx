@@ -18,19 +18,20 @@ function ChannelHeader({ title, children }) {
 }
 
 function ChannelList({ channels, activeChannel, ...attr }) {
-  const channelNames = Object.keys(channels).map(channelName => {
-    const key = channels[channelName].id;
+  // channels { [id] }
+  const channelNames = Object.keys(channels).map(channelId => {
+    const key = channels[channelId].id;
     return (
-      <li key={key} className={getClassNames(channelName, activeChannel)}>
+      <li key={key} className={getClassNames(channelId, activeChannel)}>
         <Link
           to={{
-            pathname: `/channels/${channelName}`,
-            state: { id: channels[channelName].id, name: channelName }
+            pathname: `/channels/${channelId}`,
+            state: { id: channelId, name: channels[channelId].name }
           }}
           className={styles.channelLink}
           {...attr}
         >
-          {channelName}
+          {channels[channelId].name}
         </Link>
       </li>
     );

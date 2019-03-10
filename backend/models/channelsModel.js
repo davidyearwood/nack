@@ -1,4 +1,5 @@
 const uniqid = require("uniqid");
+const format = require("date-fns/format");
 
 class ChannelsModel {
   constructor(store, limit = 100) {
@@ -38,7 +39,7 @@ class ChannelsModel {
   }
 
   addMessage(message) {
-    const { channelId, sender, msg } = message;
+    const { channelId, sender, msg, name } = message;
     const channel = this.getChannel(channelId);
 
     if (!channel) {
@@ -49,10 +50,10 @@ class ChannelsModel {
       {},
       {
         id: uniqid(),
-        channelId
+        channelId,
         sender,
         msg,
-        timestamp: new Date().toString()
+        timestamp: new Date().toISOString()
       }
     );
 

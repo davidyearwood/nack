@@ -27,10 +27,7 @@ class Chat extends Component {
     this.socket = io(this.endpoint);
     const lastChannelSelected = JSON.parse(
       localStorage.getItem("lastChannelSelected")
-    ) || {
-      name: "JavaScript",
-      id: "1"
-    };
+    );
     this.state = {
       selectedChannel: lastChannelSelected,
       isFetching: false,
@@ -89,7 +86,30 @@ class Chat extends Component {
           });
         },
         error => console.log(error)
-      );
+      )
+      .then(() => {
+        // change url path
+        const { selectedChannel, channels } = this.state;
+        if (selectedChannel.name) {
+          this.changeUrlPath(`/channels/${selectedChannel.id}`, {
+            id: selectedChannel.id,
+            name: selectedChannel.name
+          });
+        } else {
+          const firstChannel = Object.keys(channels)[0];
+          this.changeUrlPath(`channels/${firstChannel.id}`, {
+            id: firstChannel.id,
+            name: firstChannel.name
+          });
+          // add selected channel
+          this.setState({
+            selectedChannel: {
+              name: firstChannel.name,
+              id: firstChannel.id
+            }
+          });
+        }
+      });
 
     // Add messages to the state
     this.socket.on("chat message", msg => {
@@ -115,13 +135,6 @@ class Chat extends Component {
         isDisplayNameOpen: false
       });
     }
-
-    // Change Url path
-    // const { selectedChannel } = this.state;
-    // this.changeUrlPath(`/channels/${selectedChannel.name}`, {
-    //   id: selectedChannel.id,
-    //   name: selectedChannel.name
-    // });
 
     // update selected channel when the route changes
     const { history } = this.props;
@@ -303,14 +316,9 @@ class Chat extends Component {
   renderMessages({ match }) {
     const { channels, isLoaded, selectedChannel } = this.state;
 
+    const channelId = match.path === "/" ? selectedChannel.id : match.params.id;
     if (isLoaded) {
-      // return match.path === "/" ? (
-      //   <Messages msgs={channels[selectedChannel.name].msgs} />
-      // ) : (
-      {
-        /* <Messages msgs={channels[match.params.id].msgs} />; */
-      }
-      // );
+      return <Messages msgs={channels[channelId].msgs} />;
     }
 
     return null;
