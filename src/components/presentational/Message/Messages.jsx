@@ -23,7 +23,7 @@ function Messages({ msgs }) {
       }
     >
       {msgs.map((msg, index) => (
-        <React.Fragment>
+        <React.Fragment key={`${msg.id}_${Date.parse(msg.timestamp)}`}>
           {index > 0 &&
           isSameDay(
             new Date(msg.timestamp),
