@@ -156,9 +156,7 @@ describe("addChannel()", () => {
 
     const actual = ChannelsController.addChannel(req, res);
     expect(res.status).toBe(409);
-    expect(JSON.parse(actual).error).toBe(
-      "The channel you attempted to create already exists."
-    );
+    expect(JSON.parse(actual).error).toBe("Channel already exists.");
   });
 });
 

@@ -117,11 +117,11 @@ class Chat extends Component {
     }
 
     // Change Url path
-    const { selectedChannel } = this.state;
-    this.changeUrlPath(`/channels/${selectedChannel.name}`, {
-      id: selectedChannel.id,
-      name: selectedChannel.name
-    });
+    // const { selectedChannel } = this.state;
+    // this.changeUrlPath(`/channels/${selectedChannel.name}`, {
+    //   id: selectedChannel.id,
+    //   name: selectedChannel.name
+    // });
 
     // update selected channel when the route changes
     const { history } = this.props;
@@ -138,7 +138,7 @@ class Chat extends Component {
   }
 
   componentWillUnmount() {
-    this.unlistenToHistoryToHistory();
+    this.unlistenToHistory();
   }
 
   openChannelForm() {
@@ -180,23 +180,35 @@ class Chat extends Component {
 
     if (!isChannelFormInvalid) {
       postChannel(JSON.stringify({ name: channelInput, creator: displayName }))
-        .then(res => res.json())
-        .then(res => {
-          const newChannel = Object.assign({}, res);
+        .then(
+          res => {
+            if (res.status === 201) {
+              return res.json();
+            }
 
-          this.setState({
-            channels: {
-              ...channels,
-              [newChannel.name]: newChannel
-            },
-            channelInput: ""
-          });
+            throw new Error(`Status Code ${res.status}`);
+          },
+          error => console.log(error)
+        )
+        .then(
+          res => {
+            console.log(res);
+            const newChannel = Object.assign({}, res.data);
 
-          this.socket.emit("new channel", newChannel);
-        });
+            this.setState({
+              channels: {
+                ...channels,
+                [newChannel.name]: newChannel
+              },
+              channelInput: ""
+            });
+
+            this.socket.emit("new channel", newChannel);
+            this.closeChannelForm();
+          },
+          error => console.log(error)
+        );
     }
-
-    this.closeChannelForm();
   }
 
   addMessageToChannel(msg) {
@@ -212,7 +224,7 @@ class Chat extends Component {
 
     channel.msgs.push(msg);
     if (channel.msgs.length > LIMIT) {
-      channel.msgs = channel.msgs.slice(channel.msgs.length - LIMIT);
+      channel.msgs.shift();
     }
 
     return this.setState({
@@ -230,23 +242,22 @@ class Chat extends Component {
     history.replace(path, state);
   }
 
-  // this can be refactor
-  hc(e, key) {
+  _hc(e, key) {
     this.setState({
       [key]: e.target.value
     });
   }
 
   handleChannelInput(e) {
-    this.hc(e, "channelInput");
+    this._hc(e, "channelInput");
   }
 
   handleChange(e) {
-    this.hc(e, "messageInput");
+    this._hc(e, "messageInput");
   }
 
   handleDisplayNameInputChange(e) {
-    this.hc(e, "displayNameInput");
+    this._hc(e, "displayNameInput");
   }
 
   handleSubmit(e) {
@@ -295,11 +306,13 @@ class Chat extends Component {
     const { channels, isLoaded, selectedChannel } = this.state;
 
     if (isLoaded) {
-      return match.path === "/" ? (
-        <Messages msgs={channels[selectedChannel.name].msgs} />
-      ) : (
-        <Messages msgs={channels[match.params.id].msgs} />
-      );
+      // return match.path === "/" ? (
+      //   <Messages msgs={channels[selectedChannel.name].msgs} />
+      // ) : (
+      {
+        /* <Messages msgs={channels[match.params.id].msgs} />; */
+      }
+      // );
     }
 
     return null;

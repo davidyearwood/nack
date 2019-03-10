@@ -79,13 +79,13 @@ exports.addChannel = function addChannel(req, res) {
 
   if (ChannelsModel.getChannelByName(name)) {
     return res.status(409).json({
-      error: "The channel you attempted to create already exists."
+      error: "Channel already exists."
     });
   }
 
   const newChannel = ChannelsModel.addChannel(
-    validator.escape(name),
-    validator.escape(creator)
+    validator.escape(name.toLowerCase()),
+    validator.escape(creator.toLowerCase())
   );
 
   return res.status(201).json({ data: newChannel });

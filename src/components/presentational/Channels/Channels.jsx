@@ -48,8 +48,12 @@ function Channels({ items, title, active, children, ...attr }) {
   );
 }
 
+Channels.defaultProps = {
+  active: ""
+};
+
 Channels.propTypes = {
-  active: PropTypes.string.isRequired,
+  active: PropTypes.string,
   title: PropTypes.string.isRequired
 };
 export default Channels;
