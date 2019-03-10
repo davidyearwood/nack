@@ -1,13 +1,10 @@
 import uniqid from "uniqid";
 
-function createMessage(sender, msg, channelId, name) {
+function createMessage(sender, msg, channelId) {
   return {
-    id: uniqid(),
     sender,
     msg,
-    channelId,
-    name,
-    timestamp: new Date().toString()
+    channelId
   };
 }
 

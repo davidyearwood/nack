@@ -48,7 +48,8 @@ class ChannelsModel {
     message = Object.assign(
       {},
       {
-        channelId: uniqid(),
+        id: uniqid(),
+        channelId
         sender,
         msg,
         timestamp: new Date().toString()

@@ -74,7 +74,7 @@ class Chat extends Component {
           const channels = result.reduce(
             (acc, cv) =>
               Object.assign(acc, {
-                [cv.name]: {
+                [cv.id]: {
                   ...cv,
                   isFetching: false,
                   hasError: null
@@ -102,7 +102,7 @@ class Chat extends Component {
       this.setState({
         channels: {
           ...channels,
-          [channel.name]: channel
+          [channel.id]: channel
         }
       });
     });
@@ -192,13 +192,12 @@ class Chat extends Component {
         )
         .then(
           res => {
-            console.log(res);
             const newChannel = Object.assign({}, res.data);
 
             this.setState({
               channels: {
                 ...channels,
-                [newChannel.name]: newChannel
+                [newChannel.id]: newChannel
               },
               channelInput: ""
             });
@@ -214,7 +213,7 @@ class Chat extends Component {
   addMessageToChannel(msg) {
     const LIMIT = 100;
     const { channels } = this.state;
-    const channel = channels[msg.name];
+    const channel = channels[msg.channelId];
 
     if (!channel) {
       return this.setState({
@@ -230,7 +229,7 @@ class Chat extends Component {
     return this.setState({
       channels: {
         ...channels,
-        [channel.name]: {
+        [channel.id]: {
           ...channel
         }
       }
@@ -266,8 +265,7 @@ class Chat extends Component {
     const message = createMessage(
       displayName,
       messageInput,
-      selectedChannel.id,
-      selectedChannel.name
+      selectedChannel.id
     );
     this.socket.emit("chat message", message);
     this.setState({
