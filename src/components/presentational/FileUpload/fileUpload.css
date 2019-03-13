@@ -1,0 +1,27 @@
+.inputFile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.label {
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.text {
+  flex-basis: 100%;
+  flex-grow: 1;
+  text-align: center;
+  font-size: 0.694em;
+}
+
+.container {
+  position: absolute;
+  right: 4%;
+}

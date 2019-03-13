@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./messageForm.css";
 import Input from "../Input";
+import FileUpload from "../FileUpload";
 
-function MessageForm({ onSubmit, value, onChange }) {
+function MessageForm({ onSubmit, value, onChange, onFileChange }) {
   return (
     <form action="" className={styles.messageForm} onSubmit={onSubmit}>
       <Input
@@ -15,6 +16,7 @@ function MessageForm({ onSubmit, value, onChange }) {
         value={value}
         onChange={onChange}
       />
+      <FileUpload onChange={onFileChange} />
     </form>
   );
 }
@@ -22,7 +24,8 @@ function MessageForm({ onSubmit, value, onChange }) {
 MessageForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  onFileChange: PropTypes.func.isRequired
 };
 
 export default MessageForm;

@@ -59,6 +59,7 @@ class Chat extends Component {
     this.openChannelForm = this.openChannelForm.bind(this);
     this.closeChannelForm = this.closeChannelForm.bind(this);
     this.handleChannelInputBlur = this.handleChannelInputBlur.bind(this);
+    this.handleFileUpload = this.handleFileUpload.bind(this);
   }
 
   componentDidMount() {
@@ -127,6 +128,19 @@ class Chat extends Component {
       });
     });
 
+    this.socket.on("uploadFile", file => {
+      console.log(file.src + file.data);
+
+      // const fr = new FileReader();
+
+      // fr.addEventListener("loadend", () => {
+      //   console.log("file upload");
+      //   console.log(fr.result);
+      // });
+
+      // fr.readAsArrayBuffer(fileApi);
+    });
+
     // check to see if local storage has a display name already
     const displayName = localStorage.getItem("displayName");
     if (displayName) {
@@ -181,6 +195,21 @@ class Chat extends Component {
       isChannelFormInvalid,
       channelFormErrorMsg: errorMsg
     });
+  }
+
+  handleFileUpload(e) {
+    const file = e.target.files[0];
+    const fr = new FileReader();
+    fr.addEventListener("loadend", () => {
+      this.socket.emit("uploadfile", {
+        data: fr.result,
+        type: file.type,
+        name: file.name,
+        lastModifiedDate: file.lastModifiedDate
+      });
+    });
+
+    fr.readAsArrayBuffer(file);
   }
 
   createChannel() {
@@ -385,6 +414,7 @@ class Chat extends Component {
             onSubmit={this.handleSubmit}
             value={messageInput}
             onChange={this.handleChange}
+            onFileChange={this.handleFileUpload}
           />
         </main>
       </div>
