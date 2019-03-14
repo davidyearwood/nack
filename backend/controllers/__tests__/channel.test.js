@@ -165,7 +165,8 @@ describe("addMessage()", () => {
     req.body = {
       channelId: 1,
       sender: "tester",
-      msg: "this is a test!"
+      msg: "this is a test!",
+      type: "text"
     };
 
     const actual = ChannelsController.addMessage(req, res);
@@ -177,7 +178,8 @@ describe("addMessage()", () => {
     req.body = {
       channelId: 1,
       sender: "tester",
-      msg: "this is a test!"
+      msg: "this is a test!",
+      type: "text"
     };
 
     const actual = ChannelsController.addMessage(req, res);
@@ -196,5 +198,18 @@ describe("addMessage()", () => {
 
     expect(res.status).toBe(404);
     expect(JSON.parse(actual).error).toBe("Channel doesn't exist");
+  });
+
+  test("It should respond w/ 500 code if type isn't allowed", () => {
+    req.body = {
+      channelId: 1,
+      sender: "tester",
+      msg: "stuff",
+      type: "cat!"
+    };
+
+    const actual = ChannelsController.addMessage(req, res);
+
+    expect(res.status).toBe(500);
   });
 });

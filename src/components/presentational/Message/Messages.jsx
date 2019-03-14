@@ -38,6 +38,7 @@ function Messages({ msgs }) {
             time={format(msg.timestamp, "MMM D, YYYY HH:mm A")}
             sender={msg.sender}
             alt=""
+            type={msg.type}
           />
         </React.Fragment>
       ))}

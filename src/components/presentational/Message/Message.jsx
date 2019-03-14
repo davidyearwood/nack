@@ -22,11 +22,19 @@ const MessageLayout = ({ LeftSide, RightSide }) => (
   </div>
 );
 
-function Message({ src, alt, sender, time, text }) {
+const MessageImg = ({ src }) => (
+  <img src={src} className={styles.msgImg} alt="" />
+);
+
+function Message({ src, alt, sender, time, text, type }) {
   const content = (
     <React.Fragment>
       <MessageHeader sender={sender} time={time} />
-      <MessageText text={text} />
+      {type === "image" ? (
+        <MessageImg src={text} />
+      ) : (
+        <MessageText text={text} />
+      )}
     </React.Fragment>
   );
 

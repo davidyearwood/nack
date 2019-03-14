@@ -13,7 +13,7 @@ function FileUpload({ onChange }) {
         id="fileUpload"
         type="file"
         className={styles.inputFile}
-        aria-label="Upload an image"
+        aria-label="Upload an image, jpeg and png only"
         onChange={onChange}
       />
     </span>

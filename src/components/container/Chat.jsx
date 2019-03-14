@@ -129,15 +129,11 @@ class Chat extends Component {
     });
 
     this.socket.on("uploadFile", file => {
-      console.log(file.src + file.data);
-
       // const fr = new FileReader();
-
       // fr.addEventListener("loadend", () => {
       //   console.log("file upload");
       //   console.log(fr.result);
       // });
-
       // fr.readAsArrayBuffer(fileApi);
     });
 
@@ -198,15 +194,24 @@ class Chat extends Component {
   }
 
   handleFileUpload(e) {
+    const { messageInput, selectedChannel, displayName } = this.state;
     const file = e.target.files[0];
     const fr = new FileReader();
+    const FILE_SIZE_LIMIT = 5000000;
+    if (file.size > FILE_SIZE_LIMIT) {
+      console.log(`Exceeded ${FILE_SIZE_LIMIT}`);
+      return false;
+    }
+
     fr.addEventListener("loadend", () => {
-      this.socket.emit("uploadfile", {
-        data: fr.result,
-        type: file.type,
-        name: file.name,
-        lastModifiedDate: file.lastModifiedDate
-      });
+      const message = createMessage(
+        displayName,
+        fr.result,
+        selectedChannel.id,
+        "image"
+      );
+      console.log(file);
+      this.socket.emit("chat message", message);
     });
 
     fr.readAsArrayBuffer(file);
@@ -307,7 +312,8 @@ class Chat extends Component {
     const message = createMessage(
       displayName,
       messageInput,
-      selectedChannel.id
+      selectedChannel.id,
+      "text"
     );
     this.socket.emit("chat message", message);
     this.setState({

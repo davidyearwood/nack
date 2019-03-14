@@ -1,10 +1,11 @@
 import uniqid from "uniqid";
 
-function createMessage(sender, msg, channelId) {
+function createMessage(sender, msg, channelId, type = "text") {
   return {
     sender,
     msg,
-    channelId
+    channelId,
+    type
   };
 }
 

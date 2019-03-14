@@ -39,7 +39,7 @@ class ChannelsModel {
   }
 
   addMessage(message) {
-    const { channelId, sender, msg, name } = message;
+    const { channelId, sender, msg, name, type } = message;
     const channel = this.getChannel(channelId);
 
     if (!channel) {
@@ -53,6 +53,7 @@ class ChannelsModel {
         channelId,
         sender,
         msg,
+        type,
         timestamp: new Date().toISOString()
       }
     );

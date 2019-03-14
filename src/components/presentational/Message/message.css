@@ -81,3 +81,8 @@
 .dividerDate:after {
   margin-left: 0.402rem;
 }
+
+.msgImg {
+  width: 100%;
+  max-width: 200px;
+}

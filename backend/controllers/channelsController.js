@@ -1,6 +1,7 @@
 const validator = require("validator");
 const Channel = require("../models/channelsModel");
 const store = require("../store");
+const isMessageTypeAllowed = require("../utils/isMessageTypeAllowed");
 
 const ChannelsModel = new Channel(store);
 
@@ -93,16 +94,21 @@ exports.addChannel = function addChannel(req, res) {
 
 // create a new message
 exports.addMessage = function addMessage(req, res) {
-  const { channelId, sender, msg } = req.body;
+  const { channelId, sender, msg, type } = req.body;
   const channel = ChannelsModel.getChannel(channelId);
 
   if (!channel) {
     return res.status(404).json({ error: "Channel doesn't exist" });
   }
 
+  if (!isMessageTypeAllowed(type)) {
+    return res.status(500).json({ error: "Message type isn't allowed." });
+  }
+
   const message = ChannelsModel.addMessage({
     sender: validator.escape(sender),
     msg: validator.escape(msg),
+    type,
     channelId
   });
 
