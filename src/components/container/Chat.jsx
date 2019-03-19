@@ -21,6 +21,9 @@ import MessageForm from "../presentational/MessageForm";
 import postChannel from "../../../helper/postChannel";
 
 const Loading = () => <div>Retrieving channels! Hang tight.</div>;
+function isEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}
 class Chat extends Component {
   constructor(props) {
     super(props);
@@ -96,9 +99,10 @@ class Chat extends Component {
       .then(channels => {
         // 1. I want to check to see if the selectedChannel state has values that are not null
         // 2. I want to check to see if there's a selected channel stored inside of the user's local storage
-        // 3. If both failed, then set the user's selectedChannel to the first one retrieved among the list
-        //    of channels.
-        let selectedChannel = localStorage.getItem("lastChannelSelected");
+        // 3. If both failed, then set the user's selectedChannel to the first one retrieved among the list of channels.
+        let selectedChannel = JSON.parse(
+          localStorage.getItem("lastChannelSelected")
+        );
 
         if (!selectedChannel) {
           // set state to this and be done with it.
@@ -108,10 +112,12 @@ class Chat extends Component {
           console.log(firstChannelId);
         }
 
-        this.changeUrlPath(`/channels/${selectedChannel.id}`, {
-          id: selectedChannel.id,
-          name: selectedChannel.name
-        });
+        if (selectedChannel) {
+          this.changeUrlPath(`/channels/${selectedChannel.id}`, {
+            id: selectedChannel.id,
+            name: selectedChannel.name
+          });
+        }
 
         // add selected channel
         this.setState({
@@ -161,13 +167,18 @@ class Chat extends Component {
     const { history } = this.props;
     this.unlistenToHistory = history.listen(location => {
       const { id, name } = location.state;
-      this.setState({
-        selectedChannel: {
-          id,
-          name
-        }
-      });
-      localStorage.setItem("lastChannelSelected", JSON.stringify({ id, name }));
+      if (id && name) {
+        this.setState({
+          selectedChannel: {
+            id,
+            name
+          }
+        });
+        localStorage.setItem(
+          "lastChannelSelected",
+          JSON.stringify({ id, name })
+        );
+      }
     });
   }
 
@@ -364,6 +375,7 @@ class Chat extends Component {
     const { channels, isLoaded, selectedChannel } = this.state;
 
     const channelId = match.path === "/" ? selectedChannel.id : match.params.id;
+
     if (isLoaded) {
       return <Messages msgs={channels[channelId].msgs} />;
     }
