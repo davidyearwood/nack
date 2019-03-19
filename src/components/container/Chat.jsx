@@ -20,16 +20,19 @@ import IconButton from "../presentational/IconButton";
 import MessageForm from "../presentational/MessageForm";
 import postChannel from "../../../helper/postChannel";
 
+const Loading = () => <div>Retrieving channels! Hang tight.</div>;
 class Chat extends Component {
   constructor(props) {
     super(props);
     this.endpoint = "http://localhost:3000";
     this.socket = io(this.endpoint);
-    const lastChannelSelected = JSON.parse(
-      localStorage.getItem("lastChannelSelected")
-    );
+    // selectedChannel { id: String, name: String }
     this.state = {
-      selectedChannel: lastChannelSelected,
+      selectedChannel: {
+        id: "",
+        name: ""
+      },
+      loading: true,
       isFetching: false,
       hasError: null,
       isLoaded: false,
@@ -85,31 +88,39 @@ class Chat extends Component {
             isLoaded: true,
             channels
           });
+
+          return channels;
         },
         error => console.log(error)
       )
-      .then(() => {
-        // change url path
-        const { selectedChannel, channels } = this.state;
-        if (selectedChannel.name) {
-          this.changeUrlPath(`/channels/${selectedChannel.id}`, {
-            id: selectedChannel.id,
-            name: selectedChannel.name
-          });
-        } else {
-          const firstChannel = Object.keys(channels)[0];
-          this.changeUrlPath(`channels/${firstChannel.id}`, {
-            id: firstChannel.id,
-            name: firstChannel.name
-          });
-          // add selected channel
-          this.setState({
-            selectedChannel: {
-              name: firstChannel.name,
-              id: firstChannel.id
-            }
-          });
+      .then(channels => {
+        // 1. I want to check to see if the selectedChannel state has values that are not null
+        // 2. I want to check to see if there's a selected channel stored inside of the user's local storage
+        // 3. If both failed, then set the user's selectedChannel to the first one retrieved among the list
+        //    of channels.
+        let selectedChannel = localStorage.getItem("lastChannelSelected");
+
+        if (!selectedChannel) {
+          // set state to this and be done with it.
+          const firstChannelId = Object.keys(channels)[0]; // retrieve the first channel ID
+          selectedChannel = channels[firstChannelId];
+
+          console.log(firstChannelId);
         }
+
+        this.changeUrlPath(`/channels/${selectedChannel.id}`, {
+          id: selectedChannel.id,
+          name: selectedChannel.name
+        });
+
+        // add selected channel
+        this.setState({
+          selectedChannel: {
+            name: selectedChannel.name,
+            id: selectedChannel.id
+          },
+          loading: false
+        });
       });
 
     // Add messages to the state
@@ -210,11 +221,12 @@ class Chat extends Component {
         selectedChannel.id,
         "image"
       );
-      console.log(file);
       this.socket.emit("chat message", message);
     });
 
     fr.readAsArrayBuffer(file);
+
+    return true;
   }
 
   createChannel() {
@@ -368,33 +380,45 @@ class Chat extends Component {
       isChannelFormOpen,
       isChannelFormInvalid,
       channelFormErrorMsg,
-      selectedChannel
+      selectedChannel,
+      isLoaded,
+      loading,
+      isDisplayNameOpen
     } = this.state;
-    const $channelForm = isChannelFormOpen ? (
-      <div className={stylesLayout.overlay}>
-        <button
-          className={stylesLayout["close-btn"]}
-          type="button"
-          onClick={this.closeChannelForm}
-        >
-          <SvgClose />
-          close
-        </button>
-        <ChannelForm
-          value={channelInput}
-          onCreateBtnClick={this.createChannel}
-          onChange={this.handleChannelInput}
-          onBlur={this.handleChannelInputBlur}
-          isInvalid={isChannelFormInvalid}
-          errorMsg={channelFormErrorMsg}
-        />
-      </div>
-    ) : null;
+
+    if (loading) {
+      return <Loading />;
+    }
+
+    if (isDisplayNameOpen) {
+      return this.renderDisplayNameForm();
+    }
+
+    if (isChannelFormOpen) {
+      return (
+        <div className={stylesLayout.overlay}>
+          <button
+            className={stylesLayout["close-btn"]}
+            type="button"
+            onClick={this.closeChannelForm}
+          >
+            <SvgClose />
+            close
+          </button>
+          <ChannelForm
+            value={channelInput}
+            onCreateBtnClick={this.createChannel}
+            onChange={this.handleChannelInput}
+            onBlur={this.handleChannelInputBlur}
+            isInvalid={isChannelFormInvalid}
+            errorMsg={channelFormErrorMsg}
+          />
+        </div>
+      );
+    }
 
     return (
       <div className={stylesLayout.chatApplication}>
-        {$channelForm}
-        {this.renderDisplayNameForm()}
         <Sidebar>
           <SidebarHeader username={displayName} />
           <Channels
