@@ -1,0 +1,22 @@
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.bg {
+  background: #222232;
+  height: 100vh;
+  width: 100%;
+}
+
+.title {
+  margin-top: 1.2em;
+  flex-basis: 100%;
+  width: 100%;
+  color: #ccc;
+  font-size: 1.728em;
+  text-align: center;
+  font-weight: 300;
+}

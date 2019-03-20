@@ -19,6 +19,7 @@ import Logo from "../presentational/Logo";
 import IconButton from "../presentational/IconButton";
 import MessageForm from "../presentational/MessageForm";
 import postChannel from "../../../helper/postChannel";
+import LoadingWindow from "../presentational/LoadingWindow";
 
 const Loading = () => <div>Retrieving channels! Hang tight.</div>;
 function isEmpty(obj) {
@@ -399,7 +400,7 @@ class Chat extends Component {
     } = this.state;
 
     if (loading) {
-      return <Loading />;
+      return <LoadingWindow />;
     }
 
     if (isDisplayNameOpen) {
