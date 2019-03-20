@@ -20,6 +20,7 @@ import IconButton from "../presentational/IconButton";
 import MessageForm from "../presentational/MessageForm";
 import postChannel from "../../../helper/postChannel";
 import LoadingWindow from "../presentational/LoadingWindow";
+import getLoadingScreenMessage from "../../../helper/getLoadingScreenMessage";
 
 const Loading = () => <div>Retrieving channels! Hang tight.</div>;
 function isEmpty(obj) {
@@ -400,7 +401,7 @@ class Chat extends Component {
     } = this.state;
 
     if (loading) {
-      return <LoadingWindow />;
+      return <LoadingWindow message={getLoadingScreenMessage()} />;
     }
 
     if (isDisplayNameOpen) {
